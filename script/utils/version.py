@@ -9,12 +9,12 @@ import re
 from typing import Tuple, Union, Optional
 
 # Version as a string (PEP 440 compliant, Semantic Versioning 2.0.0)
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 
 # Version components
 MAJOR = 0
 MINOR = 1
-PATCH = 2
+PATCH = 3
 
 # Additional version metadata
 VERSION_SUFFIX = ""  # e.g., "-alpha.1", "-beta.2", "-rc.1"

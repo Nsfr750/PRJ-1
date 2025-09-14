@@ -1,20 +1,32 @@
 {
   "project_categories": {
-    "X:\\GitHub\\EmailDuplicateCleaner": "data",
-    "X:\\GitHub\\OpenPGP": "desktop",
-    "X:\\GitHub\\Nidec_CommanderCDE": "devops",
-    "X:\\GitHub\\CDE550-sim": "devops",
+    "X:\\GitHub\\credit_card_stripe_parser": "security",
+    "X:\\GitHub\\MSR605": "security",
+    "X:\\GitHub\\OpenPGP": "security",
+    "X:\\GitHub\\PySnoop": "security",
+    "X:\\GitHub\\NFC": "security",
+    "X:\\GitHub\\pass_mgr": "security",
+    "X:\\GitHub\\weather": "tool",
     "X:\\GitHub\\raspy_utility": "tool",
-    "X:\\GitHub\\nsfr750.github.io": "web",
-    "X:\\GitHub\\Onvif": "desktop",
-    "X:\\Privato\\POS Data Extractor": "data",
-    "X:\\Privato\\POS": "data",
-    "X:\\Privato\\SysInfo": "system",
-    "X:\\Privato\\web_weather": "web",
-    "X:\\Privato\\MSVC": "system",
-    "X:\\Privato\\STL_to_G-Code": "devops"
+    "X:\\GitHub\\Onvif": "tool",
+    "X:\\GitHub\\3DViewer": "tool",
+    "X:\\GitHub\\EmailDuplicateCleaner": "tool",
+    "X:\\GitHub\\Images-Deduplicator": "tool",
+    "X:\\GitHub\\3D_Filament_Manager": "tool",
+    "X:\\GitHub\\Nidec_CommanderCDE": "tool",
+    "X:\\GitHub\\CDE550-sim": "tool",
+    "X:\\GitHub\\PDF_finder": "tool",
+    "X:\\GitHub\\benchmark": "tool",
+    "X:\\GitHub\\NeuralNetworkApp": "tool",
+    "X:\\GitHub\\PRJ-1": "devops"
   },
-  "custom_categories": {},
+  "custom_categories": {
+    "security": {
+      "name": "Security",
+      "description": "Custom category: Security",
+      "keywords": []
+    }
+  },
   "predefined_categories": {
     "web": {
       "name": "Web",
@@ -152,5 +164,5 @@
       "keywords": []
     }
   },
-  "last_updated": "2025-09-14T23:46:57.954217"
+  "last_updated": "2025-09-15T00:31:55.864222"
 }

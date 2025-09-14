@@ -7,17 +7,21 @@ Provides a browsable interface for projects found in the GitHub folder.
 import os
 import sys
 import subprocess
+import json
+import gc
+import weakref
 from pathlib import Path
 from datetime import datetime
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional, Set
 
-from PySide6.QtCore import Qt, QThread, Signal, QUrl
-from PySide6.QtGui import QFont, QIcon, QDesktopServices
+from PySide6.QtCore import Qt, QThread, Signal, QUrl, QSettings, QTimer, QSize, QSortFilterProxyModel
+from PySide6.QtGui import QFont, QIcon, QDesktopServices, QPalette, QColor, QKeySequence, QShortcut
 from PySide6.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QGridLayout, QLabel, 
     QLineEdit, QPushButton, QComboBox, QTableWidget, QTableWidgetItem,
     QProgressBar, QDialogButtonBox, QMessageBox, QHeaderView, QFrame,
-    QSplitter, QTextBrowser, QGroupBox, QFileDialog, QListWidget, QCheckBox, QListWidgetItem
+    QSplitter, QTextBrowser, QGroupBox, QFileDialog, QListWidget, QCheckBox, QListWidgetItem,
+    QScrollArea, QWidget, QSizePolicy
 )
 
 from ..project_scanner import ProjectScanner
@@ -51,14 +55,37 @@ class ProjectBrowserDialog(QDialog):
     
     def __init__(self, parent=None):
         super().__init__(parent)
+        
+        # Memory optimization attributes
+        self._max_visible_projects = 1000  # Limit visible projects
+        self._project_cache = weakref.WeakValueDictionary()  # Weak reference cache
+        self._table_items_cache = {}  # Cache for table items
+        self._memory_cleanup_timer = QTimer()
+        self._memory_cleanup_timer.timeout.connect(self._cleanup_memory)
+        self._memory_cleanup_timer.start(30000)  # Cleanup every 30 seconds
+        
+        # UI responsiveness attributes
+        self._lazy_load_batch_size = 50  # Number of projects to load at once
+        self._lazy_load_delay = 10  # Milliseconds between batches
+        self._lazy_load_timer = QTimer()
+        self._lazy_load_timer.timeout.connect(self._lazy_load_next_batch)
+        self._current_lazy_load_row = 0
+        self._is_lazy_loading = False
+        self._ui_update_queue = []
+        self._ui_update_timer = QTimer()
+        self._ui_update_timer.timeout.connect(self._process_ui_update_queue)
+        self._ui_update_timer.start(100)  # Process UI updates every 100ms
+        
+        # Initialize scanner
         self.scanner = ProjectScanner()
         self.projects: List[Dict[str, Any]] = []
         self.filtered_projects: List[Dict[str, Any]] = []
-        self.current_project: Dict[str, Any] = None
+        self.current_project: Optional[Dict[str, Any]] = None
         
-        self.setWindowTitle("Project Browser")
-        self.setMinimumSize(1200, 800)
+        # Set up UI
+        self.setup_modern_styling()
         self.setup_ui()
+        self.setup_keyboard_shortcuts()
         
         # Initialize recent projects list
         self.update_recent_projects_list()
@@ -78,13 +105,428 @@ class ProjectBrowserDialog(QDialog):
         
         super().closeEvent(event)
     
+    def setup_modern_styling(self):
+        """Set up dark theme styling for the application."""
+        # Set application style
+        self.setStyleSheet("""
+            QDialog {
+                background-color: #2b2b2b;
+                color: #e0e0e0;
+            }
+            QGroupBox {
+                font-weight: bold;
+                border: 2px solid #444444;
+                border-radius: 8px;
+                margin-top: 10px;
+                padding-top: 10px;
+                background-color: #3c3c3c;
+                color: #e0e0e0;
+            }
+            QGroupBox::title {
+                subcontrol-origin: margin;
+                left: 10px;
+                padding: 0 5px 0 5px;
+                color: #ffffff;
+            }
+            QPushButton {
+                background-color: #007acc;
+                color: white;
+                border: none;
+                border-radius: 6px;
+                padding: 8px 16px;
+                font-weight: bold;
+                min-width: 80px;
+            }
+            QPushButton:hover {
+                background-color: #005a9e;
+            }
+            QPushButton:pressed {
+                background-color: #004578;
+            }
+            QPushButton:disabled {
+                background-color: #555555;
+                color: #888888;
+            }
+            QPushButton[class="primary"] {
+                background-color: #28a745;
+                color: white;
+                font-weight: bold;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 6px;
+            }
+            QPushButton[class="primary"]:hover {
+                background-color: #218838;
+            }
+            QPushButton[class="primary"]:pressed {
+                background-color: #1e7e34;
+            }
+            QPushButton[class="danger"] {
+                background-color: #dc3545;
+                color: white;
+                font-weight: bold;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 6px;
+            }
+            QPushButton[class="danger"]:hover {
+                background-color: #c82333;
+            }
+            QPushButton[class="danger"]:pressed {
+                background-color: #bd2130;
+            }
+            QPushButton[class="info"] {
+                background-color: #17a2b8;
+                color: white;
+                font-weight: bold;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 6px;
+            }
+            QPushButton[class="info"]:hover {
+                background-color: #138496;
+            }
+            QPushButton[class="info"]:pressed {
+                background-color: #117a8b;
+            }
+            QPushButton[class="warning"] {
+                background-color: #ffc107;
+                color: #212529;
+                font-weight: bold;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 6px;
+            }
+            QPushButton[class="warning"]:hover {
+                background-color: #e0a800;
+            }
+            QPushButton[class="warning"]:pressed {
+                background-color: #d39e00;
+            }
+            QPushButton[class="success"] {
+                background-color: #28a745;
+                color: white;
+                font-weight: bold;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 6px;
+            }
+            QPushButton[class="success"]:hover {
+                background-color: #218838;
+            }
+            QPushButton[class="success"]:pressed {
+                background-color: #1e7e34;
+            }
+            QLineEdit {
+                border: 2px solid #555555;
+                border-radius: 6px;
+                padding: 8px;
+                background-color: #3c3c3c;
+                color: #e0e0e0;
+                selection-background-color: #007acc;
+                selection-color: white;
+            }
+            QLineEdit:focus {
+                border-color: #007acc;
+            }
+            QComboBox {
+                border: 2px solid #555555;
+                border-radius: 6px;
+                padding: 6px;
+                background-color: #3c3c3c;
+                color: #e0e0e0;
+                min-width: 100px;
+            }
+            QComboBox:focus {
+                border-color: #007acc;
+            }
+            QComboBox::drop-down {
+                border: none;
+                width: 20px;
+            }
+            QComboBox::down-arrow {
+                image: none;
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-top: 5px solid #e0e0e0;
+            }
+            QComboBox QAbstractItemView {
+                background-color: #3c3c3c;
+                color: #e0e0e0;
+                border: 2px solid #555555;
+                selection-background-color: #007acc;
+                selection-color: white;
+            }
+            QTableWidget {
+                border: 2px solid #555555;
+                border-radius: 8px;
+                background-color: #3c3c3c;
+                alternate-background-color: #444444;
+                gridline-color: #555555;
+                color: #e0e0e0;
+            }
+            QTableWidget::item {
+                padding: 8px;
+                border-bottom: 1px solid #555555;
+            }
+            QTableWidget::item:selected {
+                background-color: #007acc;
+                color: white;
+            }
+            QHeaderView::section {
+                background-color: #4a4a4a;
+                padding: 8px;
+                border: 1px solid #555555;
+                font-weight: bold;
+                color: #ffffff;
+            }
+            QProgressBar {
+                border: 2px solid #555555;
+                border-radius: 6px;
+                text-align: center;
+                background-color: #3c3c3c;
+                color: #e0e0e0;
+            }
+            QProgressBar::chunk {
+                background-color: #007acc;
+                border-radius: 4px;
+            }
+            QLabel {
+                color: #e0e0e0;
+            }
+            QListWidget {
+                border: 2px solid #555555;
+                border-radius: 8px;
+                background-color: #3c3c3c;
+                color: #e0e0e0;
+            }
+            QListWidget::item {
+                padding: 6px;
+                border-bottom: 1px solid #555555;
+            }
+            QListWidget::item:selected {
+                background-color: #007acc;
+                color: white;
+            }
+            QTextBrowser {
+                border: 2px solid #555555;
+                border-radius: 8px;
+                background-color: #3c3c3c;
+                color: #e0e0e0;
+                padding: 10px;
+            }
+            QTextBrowser::selected {
+                background-color: #007acc;
+                color: white;
+            }
+            QCheckBox {
+                color: #e0e0e0;
+            }
+            QCheckBox::indicator {
+                width: 18px;
+                height: 18px;
+                border: 2px solid #555555;
+                border-radius: 4px;
+                background-color: #3c3c3c;
+            }
+            QCheckBox::indicator:checked {
+                background-color: #007acc;
+                border-color: #007acc;
+            }
+            QCheckBox::indicator:hover {
+                border-color: #007acc;
+            }
+            QScrollBar:vertical {
+                border: none;
+                background: #3c3c3c;
+                width: 12px;
+                margin: 0px;
+            }
+            QScrollBar::handle:vertical {
+                background: #666666;
+                min-height: 20px;
+                border-radius: 6px;
+            }
+            QScrollBar::handle:vertical:hover {
+                background: #777777;
+            }
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+                height: 0px;
+            }
+            QScrollBar:horizontal {
+                border: none;
+                background: #3c3c3c;
+                height: 12px;
+                margin: 0px;
+            }
+            QScrollBar::handle:horizontal {
+                background: #666666;
+                min-width: 20px;
+                border-radius: 6px;
+            }
+            QScrollBar::handle:horizontal:hover {
+                background: #777777;
+            }
+            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+                width: 0px;
+            }
+        """)
+        
+        # Set modern font
+        font = QFont("Segoe UI", 10)
+        self.setFont(font)
+        
+        # Set window icon if available
+        try:
+            icon_path = Path(__file__).parent.parent.parent / "assets" / "logo.png"
+            if icon_path.exists():
+                self.setWindowIcon(QIcon(str(icon_path)))
+        except Exception:
+            pass
+    
+    def setup_keyboard_shortcuts(self):
+        """Set up keyboard shortcuts for common actions."""
+        # Search shortcuts
+        search_shortcut = QShortcut(QKeySequence("Ctrl+F"), self)
+        search_shortcut.activated.connect(self.focus_search_box)
+        
+        adv_search_shortcut = QShortcut(QKeySequence("Ctrl+Shift+F"), self)
+        adv_search_shortcut.activated.connect(self.show_advanced_search)
+        
+        # Scan shortcuts
+        scan_shortcut = QShortcut(QKeySequence("F5"), self)
+        scan_shortcut.activated.connect(self.scan_projects)
+        
+        # Navigation shortcuts
+        dashboard_shortcut = QShortcut(QKeySequence("Ctrl+D"), self)
+        dashboard_shortcut.activated.connect(self.show_dashboard)
+        
+        # Project selection shortcuts
+        select_all_shortcut = QShortcut(QKeySequence("Ctrl+A"), self)
+        select_all_shortcut.activated.connect(self.select_all_projects)
+        
+        select_none_shortcut = QShortcut(QKeySequence("Ctrl+Shift+A"), self)
+        select_none_shortcut.activated.connect(self.select_none_projects)
+        
+        # Project action shortcuts
+        open_shortcut = QShortcut(QKeySequence("Enter"), self)
+        open_shortcut.activated.connect(self.open_project_folder)
+        
+        open_shortcut_alt = QShortcut(QKeySequence("Ctrl+O"), self)
+        open_shortcut_alt.activated.connect(self.open_project_folder)
+        
+        favorite_shortcut = QShortcut(QKeySequence("Ctrl+*"), self)
+        favorite_shortcut.activated.connect(self.toggle_favorite_project)
+        
+        favorite_shortcut_alt = QShortcut(QKeySequence("F2"), self)
+        favorite_shortcut_alt.activated.connect(self.toggle_favorite_project)
+        
+        # Batch operation shortcuts
+        batch_open_shortcut = QShortcut(QKeySequence("Ctrl+Enter"), self)
+        batch_open_shortcut.activated.connect(self.batch_open_projects)
+        
+        batch_favorite_shortcut = QShortcut(QKeySequence("Ctrl+Shift+F"), self)
+        batch_favorite_shortcut.activated.connect(self.batch_toggle_favorite)
+        
+        # Export shortcuts
+        export_shortcut = QShortcut(QKeySequence("Ctrl+E"), self)
+        export_shortcut.activated.connect(self.export_to_markdown)
+        
+        # Window management shortcuts
+        close_shortcut = QShortcut(QKeySequence("Escape"), self)
+        close_shortcut.activated.connect(self.close)
+        
+        # Help shortcut
+        help_shortcut = QShortcut(QKeySequence("F1"), self)
+        help_shortcut.activated.connect(self.show_help)
+        
+        # Filter shortcuts
+        clear_filter_shortcut = QShortcut(QKeySequence("Ctrl+R"), self)
+        clear_filter_shortcut.activated.connect(self.clear_filters)
+        
+        # Browse directory shortcut
+        browse_shortcut = QShortcut(QKeySequence("Ctrl+B"), self)
+        browse_shortcut.activated.connect(self.browse_directory)
+        
+        # Notes shortcuts
+        edit_notes_shortcut = QShortcut(QKeySequence("Ctrl+N"), self)
+        edit_notes_shortcut.activated.connect(self.edit_notes)
+    
+    def clear_filters(self):
+        """Clear all search and filter fields."""
+        self.search_box.clear()
+        self.language_combo.setCurrentIndex(0)
+        self.category_combo.setCurrentIndex(0)
+        self.tag_filter_box.clear()
+        self.favorite_combo.setCurrentIndex(0)
+        self.filter_projects()
+    
+    def show_help(self):
+        """Show keyboard shortcuts help."""
+        help_text = """<h2>Keyboard Shortcuts</h2>
+        <h3>Search & Navigation</h3>
+        <ul>
+        <li><b>Ctrl+F</b> - Focus search box</li>
+        <li><b>Ctrl+Shift+F</b> - Advanced search</li>
+        <li><b>Ctrl+R</b> - Clear all filters</li>
+        <li><b>Ctrl+B</b> - Browse directory</li>
+        </ul>
+        
+        <h3>Project Actions</h3>
+        <ul>
+        <li><b>Enter</b> or <b>Ctrl+O</b> - Open selected project</li>
+        <li><b>Ctrl+*</b> or <b>F2</b> - Toggle favorite</li>
+        <li><b>Ctrl+N</b> - Edit project notes</li>
+        </ul>
+        
+        <h3>Selection & Batch Operations</h3>
+        <ul>
+        <li><b>Ctrl+A</b> - Select all projects</li>
+        <li><b>Ctrl+Shift+A</b> - Select none</li>
+        <li><b>Ctrl+Enter</b> - Open selected projects</li>
+        <li><b>Ctrl+Shift+F</b> - Toggle favorite for selected</li>
+        </ul>
+        
+        <h3>System Actions</h3>
+        <ul>
+        <li><b>F5</b> - Start/refresh scan</li>
+        <li><b>Ctrl+D</b> - Show dashboard</li>
+        <li><b>Ctrl+E</b> - Export to markdown</li>
+        <li><b>F1</b> - Show this help</li>
+        <li><b>Escape</b> - Close window</li>
+        </ul>
+        """
+        
+        msg = QMessageBox(self)
+        msg.setWindowTitle("Keyboard Shortcuts")
+        msg.setTextFormat(Qt.RichText)
+        msg.setText(help_text)
+        msg.exec_()
+    
+    def focus_search_box(self):
+        """Focus the search box."""
+        self.search_box.setFocus()
+        self.search_box.selectAll()
+    
     def setup_ui(self):
         """Set up the user interface."""
         layout = QVBoxLayout(self)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
+        
+        # Create custom title bar with window controls
+        title_bar = self.create_title_bar()
+        layout.addWidget(title_bar)
+        
+        # Create content widget with margins
+        content_widget = QWidget()
+        content_layout = QVBoxLayout(content_widget)
+        content_layout.setContentsMargins(10, 10, 10, 10)
+        content_layout.setSpacing(10)
         
         # Create splitter for resizable panels
         splitter = QSplitter(Qt.Horizontal)
-        layout.addWidget(splitter)
+        content_layout.addWidget(splitter)
         
         # Left panel - Project list
         left_panel = self.create_left_panel()
@@ -99,7 +541,91 @@ class ProjectBrowserDialog(QDialog):
         
         # Bottom buttons
         button_box = self.create_button_box()
-        layout.addWidget(button_box)
+        content_layout.addWidget(button_box)
+        
+        # Add content widget to main layout
+        layout.addWidget(content_widget)
+        
+        # Set window flags for custom title bar
+        self.setWindowFlags(Qt.Dialog | Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint | Qt.WindowMaximizeButtonHint)
+        self.setWindowTitle("PRJ-1 - Project Browser")
+    
+    def create_title_bar(self) -> QFrame:
+        """Create custom title bar with window controls."""
+        title_bar = QFrame()
+        title_bar.setObjectName("titleBar")
+        title_bar.setFixedHeight(40)
+        title_bar.setStyleSheet("""
+            QFrame#titleBar {
+                background-color: #1e1e1e;
+                border-bottom: 1px solid #444444;
+            }
+            QPushButton {
+                background-color: transparent;
+                border: none;
+                color: #e0e0e0;
+                padding: 8px;
+                border-radius: 4px;
+                font-size: 16px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #3a3a3a;
+            }
+            QPushButton:pressed {
+                background-color: #4a4a4a;
+            }
+            QLabel#titleLabel {
+                color: #ffffff;
+                font-size: 14px;
+                font-weight: bold;
+                padding: 8px;
+            }
+        """)
+        
+        layout = QHBoxLayout(title_bar)
+        layout.setContentsMargins(10, 0, 10, 0)
+        
+        # Title label
+        title_label = QLabel("PRJ-1 - Project Browser")
+        title_label.setObjectName("titleLabel")
+        layout.addWidget(title_label)
+        
+        layout.addStretch()
+        
+        # Minimize button
+        self.minimize_button = QPushButton("−")
+        self.minimize_button.setFixedSize(30, 30)
+        self.minimize_button.setToolTip("Minimize")
+        self.minimize_button.clicked.connect(self.showMinimized)
+        layout.addWidget(self.minimize_button)
+        
+        # Maximize/Restore button
+        self.maximize_button = QPushButton("□")
+        self.maximize_button.setFixedSize(30, 30)
+        self.maximize_button.setToolTip("Maximize")
+        self.maximize_button.clicked.connect(self.toggle_maximize_restore)
+        layout.addWidget(self.maximize_button)
+        
+        # Close button
+        self.close_button = QPushButton("×")
+        self.close_button.setFixedSize(30, 30)
+        self.close_button.setToolTip("Close")
+        self.close_button.clicked.connect(self.close)
+        layout.addWidget(self.close_button)
+        
+        return title_bar
+    
+    def toggle_maximize_restore(self):
+        """Toggle between maximized and normal window state."""
+        if self.isMaximized():
+            self.showNormal()
+            self.maximize_button.setText("□")
+            self.maximize_button.setToolTip("Maximize")
+        else:
+            self.showMaximized()
+            self.maximize_button.setText("❐")
+            self.maximize_button.setToolTip("Restore")
     
     def create_left_panel(self) -> QFrame:
         """Create the left panel with project list and controls."""
@@ -191,38 +717,33 @@ class ProjectBrowserDialog(QDialog):
         # Scan control buttons
         scan_buttons_layout = QHBoxLayout()
         
-        self.start_scan_button = QPushButton("Start Scan")
+        self.start_scan_button = QPushButton("▶ Start Scan")
         self.start_scan_button.clicked.connect(self.start_scanning)
-        # Style start button: green background with white text
-        self.start_scan_button.setStyleSheet("background-color: #4CAF50; color: white; font-weight: bold; padding: 5px 15px; border: none; border-radius: 3px;")
+        self.start_scan_button.setProperty("class", "primary")
         scan_buttons_layout.addWidget(self.start_scan_button)
         
-        self.stop_scan_button = QPushButton("Stop Scan")
+        self.stop_scan_button = QPushButton("⏹ Stop Scan")
         self.stop_scan_button.clicked.connect(self.stop_scanning)
         self.stop_scan_button.setEnabled(False)  # Disabled initially
-        # Style stop button: red background with white text
-        self.stop_scan_button.setStyleSheet("background-color: #f44336; color: white; font-weight: bold; padding: 5px 15px; border: none; border-radius: 3px;")
+        self.stop_scan_button.setProperty("class", "danger")
         scan_buttons_layout.addWidget(self.stop_scan_button)
         
         # Export button
-        self.export_button = QPushButton("Export")
+        self.export_button = QPushButton("📊 Export")
         self.export_button.clicked.connect(self.export_to_markdown)
-        # Style export button: blue background with white text
-        self.export_button.setStyleSheet("background-color: #2196F3; color: white; font-weight: bold; padding: 5px 15px; border: none; border-radius: 3px;")
+        self.export_button.setProperty("class", "info")
         scan_buttons_layout.addWidget(self.export_button)
         
         # Dashboard button
-        self.dashboard_button = QPushButton("Dashboard")
+        self.dashboard_button = QPushButton("📈 Dashboard")
         self.dashboard_button.clicked.connect(self.show_dashboard)
-        # Style dashboard button: purple background with white text
-        self.dashboard_button.setStyleSheet("background-color: #9C27B0; color: white; font-weight: bold; padding: 5px 15px; border: none; border-radius: 3px;")
+        self.dashboard_button.setProperty("class", "warning")
         scan_buttons_layout.addWidget(self.dashboard_button)
         
         # Advanced search button
-        self.advanced_search_button = QPushButton("Advanced Search")
+        self.advanced_search_button = QPushButton("🔍 Advanced Search")
         self.advanced_search_button.clicked.connect(self.show_advanced_search)
-        # Style advanced search button: teal background with white text
-        self.advanced_search_button.setStyleSheet("background-color: #009688; color: white; font-weight: bold; padding: 5px 15px; border: none; border-radius: 3px;")
+        self.advanced_search_button.setProperty("class", "success")
         scan_buttons_layout.addWidget(self.advanced_search_button)
         
         controls_layout.addLayout(scan_buttons_layout, 7, 0, 1, 2)
@@ -231,33 +752,39 @@ class ProjectBrowserDialog(QDialog):
         batch_layout = QHBoxLayout()
         
         # Select all/none buttons
-        self.select_all_button = QPushButton("Select All")
+        self.select_all_button = QPushButton("☑ Select All")
         self.select_all_button.clicked.connect(self.select_all_projects)
-        self.select_all_button.setMaximumWidth(80)
+        self.select_all_button.setProperty("class", "info")
+        self.select_all_button.setMaximumWidth(120)
         batch_layout.addWidget(self.select_all_button)
         
-        self.select_none_button = QPushButton("Select None")
+        self.select_none_button = QPushButton("☐ Select None")
         self.select_none_button.clicked.connect(self.select_none_projects)
-        self.select_none_button.setMaximumWidth(80)
+        self.select_none_button.setProperty("class", "info")
+        self.select_none_button.setMaximumWidth(120)
         batch_layout.addWidget(self.select_none_button)
         
         batch_layout.addWidget(QLabel("|"))
         
         # Batch operation buttons
-        self.batch_open_button = QPushButton("Open Selected")
+        self.batch_open_button = QPushButton("📂 Open Selected")
         self.batch_open_button.clicked.connect(self.batch_open_projects)
+        self.batch_open_button.setProperty("class", "primary")
         batch_layout.addWidget(self.batch_open_button)
         
-        self.batch_favorite_button = QPushButton("Toggle Favorite")
+        self.batch_favorite_button = QPushButton("⭐ Toggle Favorite")
         self.batch_favorite_button.clicked.connect(self.batch_toggle_favorite)
+        self.batch_favorite_button.setProperty("class", "warning")
         batch_layout.addWidget(self.batch_favorite_button)
         
-        self.batch_tag_button = QPushButton("Add Tags")
+        self.batch_tag_button = QPushButton("🏷️ Add Tags")
         self.batch_tag_button.clicked.connect(self.batch_add_tags)
+        self.batch_tag_button.setProperty("class", "success")
         batch_layout.addWidget(self.batch_tag_button)
         
-        self.batch_category_button = QPushButton("Set Category")
+        self.batch_category_button = QPushButton("📁 Set Category")
         self.batch_category_button.clicked.connect(self.batch_set_category)
+        self.batch_category_button.setProperty("class", "primary")
         batch_layout.addWidget(self.batch_category_button)
         
         batch_layout.addStretch()
@@ -279,19 +806,40 @@ class ProjectBrowserDialog(QDialog):
         self.project_table = QTableWidget()
         self.project_table.setColumnCount(11)
         self.project_table.setHorizontalHeaderLabels([
-            "", "Name", "Language", "Version", "Category", "Tags", "Size", "Modified", "Git", "Notes", "Favorite"
+            "☑", "📁 Name", "🐍 Language", "📦 Version", "📂 Category", "🏷️ Tags", "📏 Size", "📅 Modified", "🔀 Git", "📝 Notes", "⭐ Favorite"
         ])
+        
+        # Set table properties for better appearance
         self.project_table.setSelectionBehavior(QTableWidget.SelectRows)
         self.project_table.setSelectionMode(QTableWidget.ExtendedSelection)
-        self.project_table.itemSelectionChanged.connect(self.on_project_selected)
-        self.project_table.itemDoubleClicked.connect(self.on_project_double_clicked)
+        self.project_table.setAlternatingRowColors(True)
+        self.project_table.setShowGrid(True)
+        self.project_table.verticalHeader().setVisible(False)
+        self.project_table.horizontalHeader().setStretchLastSection(False)
+        
+        # Set column widths for better readability
+        self.project_table.setColumnWidth(0, 30)   # Checkbox
+        self.project_table.setColumnWidth(1, 200)  # Name
+        self.project_table.setColumnWidth(2, 100)  # Language
+        self.project_table.setColumnWidth(3, 80)   # Version
+        self.project_table.setColumnWidth(4, 100)  # Category
+        self.project_table.setColumnWidth(5, 150)  # Tags
+        self.project_table.setColumnWidth(6, 80)   # Size
+        self.project_table.setColumnWidth(7, 120)  # Modified
+        self.project_table.setColumnWidth(8, 50)   # Git
+        self.project_table.setColumnWidth(9, 50)   # Notes
+        self.project_table.setColumnWidth(10, 60)  # Favorite
+        
+        # Enable sorting
+        self.project_table.setSortingEnabled(True)
+        
+        # Connect signals
+        self.project_table.itemClicked.connect(self.on_project_selected)
+        self.project_table.itemSelectionChanged.connect(self.on_project_selection_changed)
         self.project_table.setContextMenuPolicy(Qt.CustomContextMenu)
         self.project_table.customContextMenuRequested.connect(self.show_context_menu)
         
-        # Enable batch selection with checkboxes
-        self.project_table.setColumnWidth(0, 30)  # Checkbox column
-        
-        # Set column widths
+        # Set column resize modes for better layout
         header = self.project_table.horizontalHeader()
         header.setSectionResizeMode(1, QHeaderView.Stretch)  # Name column
         header.setSectionResizeMode(2, QHeaderView.ResizeToContents)  # Language
@@ -700,10 +1248,38 @@ class ProjectBrowserDialog(QDialog):
         self.start_scanning()
     
     def on_scan_finished(self, projects: List[Dict[str, Any]]):
-        """Handle completion of project scanning."""
-        self.projects = projects
-        self.filtered_projects = projects
+        """Handle completion of project scanning with memory optimization."""
+        # Clear existing data and caches
+        self.projects.clear()
+        self.filtered_projects.clear()
+        self._table_items_cache.clear()
+        self._project_cache.clear()
         
+        # Store projects with memory optimization
+        self.projects = projects
+        
+        # Optimize project data for memory usage
+        for project in self.projects:
+            # Convert datetime objects to strings for storage
+            if isinstance(project.get('modified'), datetime):
+                project['modified_str'] = project['modified'].strftime("%Y-%m-%d %H:%M")
+            
+            # Limit tags to prevent memory bloat
+            if 'tags' in project and len(project['tags']) > 10:
+                project['tags'] = project['tags'][:10]
+            
+            # Truncate long descriptions
+            if 'description' in project and len(project['description']) > 200:
+                project['description'] = project['description'][:200] + '...'
+            
+            # Truncate long notes
+            if 'note' in project and len(project['note']) > 500:
+                project['note'] = project['note'][:500] + '...'
+        
+        # Apply initial filter
+        self.filter_projects()
+        
+        # Update UI components
         self.progress_bar.setVisible(False)
         self.start_scan_button.setEnabled(True)
         self.stop_scan_button.setEnabled(False)
@@ -717,7 +1293,19 @@ class ProjectBrowserDialog(QDialog):
         # Populate project table
         self.populate_project_table()
         
-        self.status_label.setText(f"Found {len(projects)} projects")
+        # Force garbage collection after loading projects
+        gc.collect()
+        
+        # Update status with memory info
+        total_projects = len(projects)
+        visible_projects = min(len(self.filtered_projects), self._max_visible_projects)
+        if total_projects > self._max_visible_projects:
+            self.status_label.setText(
+                f"Loaded {total_projects} projects, showing {visible_projects} "
+                f"(limited for memory/performance)"
+            )
+        else:
+            self.status_label.setText(f"Found {total_projects} projects")
     
     def update_language_combo(self):
         """Update the language filter combo box."""
@@ -757,73 +1345,282 @@ class ProjectBrowserDialog(QDialog):
         if index >= 0:
             self.category_combo.setCurrentIndex(index)
     
-    def populate_project_table(self):
-        """Populate the project table with filtered projects."""
-        self.project_table.setRowCount(len(self.filtered_projects))
+    def _cleanup_memory(self):
+        """Clean up memory to prevent memory bloat."""
+        try:
+            # Clear table items cache if it's too large
+            if len(self._table_items_cache) > 5000:
+                self._table_items_cache.clear()
+            
+            # Force garbage collection
+            gc.collect()
+            
+            # Optimize filtered projects list if too large
+            if len(self.filtered_projects) > self._max_visible_projects:
+                self.filtered_projects = self.filtered_projects[:self._max_visible_projects]
+                self.status_label.setText(f"Showing first {self._max_visible_projects} projects (filtered)")
+        except Exception as e:
+            print(f"Memory cleanup error: {e}")
+    
+    def _lazy_load_next_batch(self):
+        """Load the next batch of projects for lazy loading."""
+        if not self._is_lazy_loading:
+            self._lazy_load_timer.stop()
+            return
         
-        for row, project in enumerate(self.filtered_projects):
+        try:
+            # Calculate batch range
+            start_row = self._current_lazy_load_row
+            end_row = min(start_row + self._lazy_load_batch_size, len(self.filtered_projects))
+            
+            if start_row >= len(self.filtered_projects):
+                # Finished loading all projects
+                self._is_lazy_loading = False
+                self._lazy_load_timer.stop()
+                self.status_label.setText(f"Loaded {len(self.filtered_projects)} projects")
+                return
+            
+            # Load current batch
+            self._load_project_batch(start_row, end_row)
+            
+            # Update progress
+            self._current_lazy_load_row = end_row
+            progress = int((end_row / len(self.filtered_projects)) * 100)
+            self.status_label.setText(f"Loading projects... {progress}%")
+            
+            # Schedule next batch
+            self._lazy_load_timer.start(self._lazy_load_delay)
+            
+        except Exception as e:
+            print(f"Lazy loading error: {e}")
+            self._is_lazy_loading = False
+            self._lazy_load_timer.stop()
+    
+    def _load_project_batch(self, start_row: int, end_row: int):
+        """Load a batch of projects into the table."""
+        visible_projects = self.filtered_projects[:self._max_visible_projects]
+        
+        for row in range(start_row, min(end_row, len(visible_projects))):
+            project = visible_projects[row]
+            
+            # Use cached items when possible
+            cache_key = f"{project['path']}_{row}"
+            
             # Checkbox for batch selection
-            checkbox_item = QTableWidgetItem()
-            checkbox_item.setFlags(checkbox_item.flags() | Qt.ItemIsUserCheckable)
-            checkbox_item.setCheckState(Qt.Unchecked)
+            if cache_key not in self._table_items_cache:
+                checkbox_item = QTableWidgetItem()
+                checkbox_item.setFlags(checkbox_item.flags() | Qt.ItemIsUserCheckable)
+                checkbox_item.setCheckState(Qt.Unchecked)
+                self._table_items_cache[cache_key + '_checkbox'] = checkbox_item
+            else:
+                checkbox_item = self._table_items_cache[cache_key + '_checkbox']
+            
             self.project_table.setItem(row, 0, checkbox_item)
             
-            # Name
-            name_item = QTableWidgetItem(project['name'])
-            name_item.setData(Qt.UserRole, project)  # Store full project data
+            # Name (with minimized data storage)
+            if cache_key not in self._table_items_cache:
+                name_item = QTableWidgetItem(project['name'])
+                # Store only essential data, not full project dict
+                minimal_data = {
+                    'path': project['path'],
+                    'name': project['name']
+                }
+                name_item.setData(Qt.UserRole, minimal_data)
+                self._table_items_cache[cache_key + '_name'] = name_item
+            else:
+                name_item = self._table_items_cache[cache_key + '_name']
+            
             self.project_table.setItem(row, 1, name_item)
             
             # Language
-            lang_item = QTableWidgetItem(project['language'])
+            if cache_key not in self._table_items_cache:
+                lang_item = QTableWidgetItem(project['language'])
+                self._table_items_cache[cache_key + '_lang'] = lang_item
+            else:
+                lang_item = self._table_items_cache[cache_key + '_lang']
+            
             self.project_table.setItem(row, 2, lang_item)
             
             # Version
-            version_item = QTableWidgetItem(project['version'])
+            if cache_key not in self._table_items_cache:
+                version_item = QTableWidgetItem(project['version'])
+                self._table_items_cache[cache_key + '_version'] = version_item
+            else:
+                version_item = self._table_items_cache[cache_key + '_version']
+            
             self.project_table.setItem(row, 3, version_item)
             
             # Category
             category_text = project.get('category', 'None') or 'None'
-            category_item = QTableWidgetItem(category_text)
+            if cache_key not in self._table_items_cache:
+                category_item = QTableWidgetItem(category_text)
+                self._table_items_cache[cache_key + '_category'] = category_item
+            else:
+                category_item = self._table_items_cache[cache_key + '_category']
+            
             self.project_table.setItem(row, 4, category_item)
             
             # Tags
             tags = project.get('tags', [])
-            tags_text = ', '.join(tags) if tags else 'None'
-            tags_item = QTableWidgetItem(tags_text)
+            tags_text = ', '.join(tags[:5]) if tags else 'None'  # Limit to 5 tags
+            if len(tags) > 5:
+                tags_text += '...'
+            
+            if cache_key not in self._table_items_cache:
+                tags_item = QTableWidgetItem(tags_text)
+                self._table_items_cache[cache_key + '_tags'] = tags_item
+            else:
+                tags_item = self._table_items_cache[cache_key + '_tags']
+            
             self.project_table.setItem(row, 5, tags_item)
             
             # Size
             size_text = self.format_size(project['size'])
-            size_item = QTableWidgetItem(size_text)
+            if cache_key not in self._table_items_cache:
+                size_item = QTableWidgetItem(size_text)
+                self._table_items_cache[cache_key + '_size'] = size_item
+            else:
+                size_item = self._table_items_cache[cache_key + '_size']
+            
             self.project_table.setItem(row, 6, size_item)
             
             # Modified
-            modified_text = project['modified'].strftime("%Y-%m-%d %H:%M")
-            modified_item = QTableWidgetItem(modified_text)
+            modified_text = project.get('modified_str', project['modified'].strftime("%Y-%m-%d %H:%M") if isinstance(project.get('modified'), datetime) else "Unknown")
+            if cache_key not in self._table_items_cache:
+                modified_item = QTableWidgetItem(modified_text)
+                self._table_items_cache[cache_key + '_modified'] = modified_item
+            else:
+                modified_item = self._table_items_cache[cache_key + '_modified']
+            
             self.project_table.setItem(row, 7, modified_item)
             
             # Git status
             git_text = "✓" if project['has_git'] else "✗"
-            git_item = QTableWidgetItem(git_text)
-            git_item.setTextAlignment(Qt.AlignCenter)
+            if cache_key not in self._table_items_cache:
+                git_item = QTableWidgetItem(git_text)
+                git_item.setTextAlignment(Qt.AlignCenter)
+                self._table_items_cache[cache_key + '_git'] = git_item
+            else:
+                git_item = self._table_items_cache[cache_key + '_git']
+            
             self.project_table.setItem(row, 8, git_item)
             
             # Notes
             note = project.get('note', '')
             note_text = "✓" if note else "✗"
-            note_item = QTableWidgetItem(note_text)
-            note_item.setTextAlignment(Qt.AlignCenter)
-            note_item.setToolTip(note[:100] + "..." if len(note) > 100 else note or "No notes")
+            if cache_key not in self._table_items_cache:
+                note_item = QTableWidgetItem(note_text)
+                note_item.setTextAlignment(Qt.AlignCenter)
+                note_item.setToolTip(note[:50] + "..." if len(note) > 50 else note or "No notes")
+                self._table_items_cache[cache_key + '_note'] = note_item
+            else:
+                note_item = self._table_items_cache[cache_key + '_note']
+            
             self.project_table.setItem(row, 9, note_item)
             
             # Favorite status
             is_favorite = project.get('is_favorite', False)
             favorite_text = "★" if is_favorite else "☆"
-            favorite_item = QTableWidgetItem(favorite_text)
-            favorite_item.setTextAlignment(Qt.AlignCenter)
-            favorite_item.setForeground(Qt.yellow if is_favorite else Qt.gray)
-            favorite_item.setToolTip("Favorite project" if is_favorite else "Not a favorite")
+            if cache_key not in self._table_items_cache:
+                favorite_item = QTableWidgetItem(favorite_text)
+                favorite_item.setTextAlignment(Qt.AlignCenter)
+                favorite_item.setForeground(QColor(255, 215, 0) if is_favorite else QColor(128, 128, 128))
+                favorite_item.setToolTip("Favorite project" if is_favorite else "Not a favorite")
+                self._table_items_cache[cache_key + '_favorite'] = favorite_item
+            else:
+                favorite_item = self._table_items_cache[cache_key + '_favorite']
+            
             self.project_table.setItem(row, 10, favorite_item)
+    
+    def _process_ui_update_queue(self):
+        """Process queued UI updates to improve responsiveness."""
+        if not self._ui_update_queue:
+            return
+        
+        # Process a batch of updates
+        batch_size = 5  # Process 5 updates at a time
+        processed_updates = []
+        
+        for _ in range(min(batch_size, len(self._ui_update_queue))):
+            if self._ui_update_queue:
+                update_func = self._ui_update_queue.pop(0)
+                try:
+                    update_func()
+                    processed_updates.append(update_func)
+                except Exception as e:
+                    print(f"UI update error: {e}")
+        
+        # If there are still updates, schedule next processing
+        if self._ui_update_queue:
+            self._ui_update_timer.start(50)  # Process next batch in 50ms
+    
+    def queue_ui_update(self, update_func):
+        """Queue a UI update for processing."""
+        self._ui_update_queue.append(update_func)
+        if not self._ui_update_timer.isActive():
+            self._ui_update_timer.start(50)
+    
+    def populate_project_table(self):
+        """Populate the project table with filtered projects using lazy loading."""
+        # Stop any existing lazy loading
+        self._is_lazy_loading = False
+        self._lazy_load_timer.stop()
+        
+        # Limit the number of visible projects for performance
+        visible_projects = self.filtered_projects[:self._max_visible_projects]
+        
+        # Clear table efficiently
+        self.project_table.setRowCount(0)
+        self.project_table.setRowCount(len(visible_projects))
+        
+        # Clear cache if it's too large
+        if len(self._table_items_cache) > 2000:
+            self._table_items_cache.clear()
+        
+        # If we have a small number of projects, load them all at once
+        if len(visible_projects) <= 100:
+            self._load_project_batch(0, len(visible_projects))
+            self.status_label.setText(f"Loaded {len(visible_projects)} projects")
+        else:
+            # Start lazy loading for large datasets
+            self._is_lazy_loading = True
+            self._current_lazy_load_row = 0
+            self.status_label.setText(f"Loading {len(visible_projects)} projects...")
+            
+            # Load first batch immediately
+            self._load_project_batch(0, min(self._lazy_load_batch_size, len(visible_projects)))
+            self._current_lazy_load_row = min(self._lazy_load_batch_size, len(visible_projects))
+            
+            # Schedule remaining batches
+            if self._current_lazy_load_row < len(visible_projects):
+                self._lazy_load_timer.start(self._lazy_load_delay)
+        
+        # Update status if we're limiting projects
+        if len(self.filtered_projects) > self._max_visible_projects:
+            self.status_label.setText(
+                f"Showing {len(visible_projects)} of {len(self.filtered_projects)} projects "
+                f"(limited for performance)"
+            )
+        elif len(visible_projects) <= 100:
+            self.status_label.setText(f"Found {len(self.filtered_projects)} projects")
+    
+    def closeEvent(self, event):
+        """Handle dialog close event with proper cleanup."""
+        # Stop all timers
+        self._memory_cleanup_timer.stop()
+        self._lazy_load_timer.stop()
+        self._ui_update_timer.stop()
+        
+        # Clear caches
+        self._table_items_cache.clear()
+        self._project_cache.clear()
+        self._ui_update_queue.clear()
+        
+        # Force garbage collection
+        gc.collect()
+        
+        # Call parent close event
+        super().closeEvent(event)
     
     def format_size(self, size_bytes: int) -> str:
         """Format size in bytes to human readable format."""
@@ -839,31 +1636,47 @@ class ProjectBrowserDialog(QDialog):
         return f"{size_bytes:.1f} {size_names[i]}"
     
     def filter_projects(self):
-        """Filter projects based on search text, language, category, tags, and favorites."""
+        """Filter projects based on search text, language, category, tags, and favorites (optimized)."""
         search_text = self.search_box.text().strip()
         language = self.language_combo.currentText()
         category = self.category_combo.currentText()
         tag_filter_text = self.tag_filter_box.text().strip()
         favorite_filter = self.favorite_combo.currentText()
         
-        # Start with all projects
-        filtered = self.projects
+        # Early return if no filters applied
+        if (not search_text and language == "All" and category == "All" and 
+            not tag_filter_text and favorite_filter == "All"):
+            self.filtered_projects = self.projects
+            self.populate_project_table()
+            self.status_label.setText(f"Showing {len(self.projects)} projects")
+            return
         
-        # Filter by search text
-        if search_text:
-            search_lower = search_text.lower()
-            filtered = [p for p in filtered if (
-                search_lower in p['name'].lower() or
-                (p.get('description') and search_lower in p['description'].lower())
-            )]
+        # Start with all projects but limit initial set for performance
+        filtered = self.projects[:]
         
-        # Filter by language
+        # Apply filters in order of most restrictive first for performance
+        
+        # Filter by favorites (usually most restrictive)
+        if favorite_filter == "Favorites Only":
+            filtered = [p for p in filtered if p.get('is_favorite', False)]
+        elif favorite_filter == "Non-Favorites Only":
+            filtered = [p for p in filtered if not p.get('is_favorite', False)]
+        
+        # Filter by language (often restrictive)
         if language != "All":
             filtered = [p for p in filtered if p['language'] == language]
         
         # Filter by category
         if category != "All":
             filtered = [p for p in filtered if p.get('category') == category]
+        
+        # Filter by search text (most expensive, do last)
+        if search_text:
+            search_lower = search_text.lower()
+            filtered = [p for p in filtered if (
+                search_lower in p['name'].lower() or
+                (p.get('description') and search_lower in p['description'].lower())
+            )]
         
         # Filter by tags
         if tag_filter_text:
@@ -875,16 +1688,18 @@ class ProjectBrowserDialog(QDialog):
                     any(filter_tag in [project_tag.lower() for project_tag in p['tags']] for filter_tag in filter_tags)
                 )]
         
-        # Filter by favorites
-        if favorite_filter == "Favorites Only":
-            filtered = [p for p in filtered if p.get('is_favorite', False)]
-        elif favorite_filter == "Non-Favorites Only":
-            filtered = [p for p in filtered if not p.get('is_favorite', False)]
-        
-        self.filtered_projects = filtered
-        self.populate_project_table()
-        
-        self.status_label.setText(f"Showing {len(self.filtered_projects)} of {len(self.projects)} projects")
+        # Limit filtered results for performance
+        if len(filtered) > self._max_visible_projects:
+            self.filtered_projects = filtered[:self._max_visible_projects]
+            self.populate_project_table()
+            self.status_label.setText(
+                f"Showing {len(self.filtered_projects)} of {len(filtered)} matching projects "
+                f"(limited for performance)"
+            )
+        else:
+            self.filtered_projects = filtered
+            self.populate_project_table()
+            self.status_label.setText(f"Showing {len(self.filtered_projects)} of {len(self.projects)} projects")
     
     def on_project_selected(self):
         """Handle project selection in the table."""
@@ -895,7 +1710,7 @@ class ProjectBrowserDialog(QDialog):
         # Get the selected row
         row = selected_items[0].row()
         name_item = self.project_table.item(row, 1)  # Name is now in column 1
-        self.current_project = name_item.data(Qt.UserRole)
+        self.current_project = name_item.data(Qt.UserRole) if name_item else None
         
         # Track project access for recent projects
         if self.current_project and self.current_project.get('path'):
@@ -915,6 +1730,30 @@ class ProjectBrowserDialog(QDialog):
         self.favorite_button.setEnabled(True)
         self.update_favorite_button()
     
+    def on_project_selection_changed(self):
+        """Handle project selection changes in the table."""
+        # This method is called when the selection changes
+        # We can use it to update UI elements that depend on selection state
+        selected_items = self.project_table.selectedItems()
+        has_selection = len(selected_items) > 0
+        
+        # Update button states based on selection
+        self.open_folder_button.setEnabled(has_selection)
+        self.open_terminal_button.setEnabled(has_selection)
+        self.open_editor_button.setEnabled(has_selection)
+        self.manage_tags_button.setEnabled(has_selection)
+        self.set_category_button.setEnabled(has_selection)
+        self.edit_notes_button.setEnabled(has_selection)
+        self.clear_notes_button.setEnabled(has_selection)
+        self.favorite_button.setEnabled(has_selection)
+        
+        # If there's a selection, update the current project and details
+        if has_selection:
+            self.on_project_selected()
+        else:
+            self.current_project = None
+            self.update_project_details()
+    
     def on_project_double_clicked(self, item):
         """Handle double-click on a project."""
         self.on_project_selected()
@@ -923,27 +1762,50 @@ class ProjectBrowserDialog(QDialog):
     def update_project_details(self):
         """Update the project details panel with current project info."""
         if not self.current_project:
+            # Clear all labels when no project is selected
+            self.name_label.setText('No project selected')
+            self.path_label.setText('')
+            self.language_label.setText('')
+            self.version_label.setText('')
+            self.size_label.setText('')
+            self.modified_label.setText('')
+            self.git_label.setText('')
+            self.description_text.setText('Select a project to view details')
+            self.readme_label.setText('')
+            self.requirements_label.setText('')
+            self.setup_label.setText('')
+            self.main_file_label.setText('')
+            self.category_label.setText('')
+            self.tags_label.setText('')
+            self.notes_text.setText('')
             return
         
         project = self.current_project
         
-        # Update labels
-        self.name_label.setText(project['name'])
-        self.path_label.setText(project['path'])
-        self.language_label.setText(project['language'])
-        self.version_label.setText(project['version'])
-        self.size_label.setText(self.format_size(project['size']))
-        self.modified_label.setText(project['modified'].strftime("%Y-%m-%d %H:%M:%S"))
-        self.git_label.setText("Yes" if project['has_git'] else "No")
+        # Update labels with default values for missing keys
+        self.name_label.setText(project.get('name', 'Unknown'))
+        self.path_label.setText(project.get('path', ''))
+        self.language_label.setText(project.get('language', 'Unknown'))
+        self.version_label.setText(project.get('version', 'N/A'))
+        self.size_label.setText(self.format_size(project.get('size', 0)))
+        
+        # Handle modified date safely
+        modified = project.get('modified')
+        if modified:
+            self.modified_label.setText(modified.strftime("%Y-%m-%d %H:%M:%S"))
+        else:
+            self.modified_label.setText('N/A')
+        
+        self.git_label.setText("Yes" if project.get('has_git', False) else "No")
         
         # Update description
-        self.description_text.setText(project['description'] or "No description available")
+        self.description_text.setText(project.get('description', '') or "No description available")
         
         # Update file info
-        self.readme_label.setText("✓" if project['has_readme'] else "✗")
-        self.requirements_label.setText("✓" if project['has_requirements'] else "✗")
-        self.setup_label.setText("✓" if project['has_setup'] else "✗")
-        self.main_file_label.setText(project['main_file'] or "None")
+        self.readme_label.setText("✓" if project.get('has_readme', False) else "✗")
+        self.requirements_label.setText("✓" if project.get('has_requirements', False) else "✗")
+        self.setup_label.setText("✓" if project.get('has_setup', False) else "✗")
+        self.main_file_label.setText(project.get('main_file', '') or "None")
         
         # Update category and tags
         self.category_label.setText(project.get('category', 'None') or 'None')
@@ -1233,13 +2095,41 @@ class ProjectBrowserDialog(QDialog):
             category = None
         
         try:
-            self.scanner.tag_manager.set_project_category(project_path, category)
+            if category:
+                # Check if category exists (predefined or custom)
+                all_categories = self.scanner.tag_manager.get_all_categories()
+                if category not in all_categories:
+                    # Add as custom category
+                    # Use the category name as both key and display name
+                    category_key = category.lower().replace(" ", "_").replace("-", "_")
+                    success = self.scanner.tag_manager.add_custom_category(
+                        key=category_key,
+                        name=category,
+                        description=f"Custom category: {category}",
+                        keywords=[]
+                    )
+                    if not success:
+                        QMessageBox.warning(dialog, "Error", f"Could not create custom category '{category}'")
+                        return
+                    # Use the category key for setting
+                    category = category_key
+                
+                # Set the category
+                success = self.scanner.tag_manager.set_project_category(project_path, category)
+                if not success:
+                    QMessageBox.warning(dialog, "Error", f"Could not set category '{category}'")
+                    return
+            else:
+                # Set to None (remove category)
+                self.scanner.tag_manager.set_project_category(project_path, None)
+            
             # Refresh current project data
             self.current_project['category'] = self.scanner.tag_manager.get_project_category(project_path)
             # Update UI
             self.update_project_details()
             self.populate_project_table()
-            QMessageBox.information(dialog, "Success", f"Category set to '{category or 'None'}'")
+            display_category = self.scanner.tag_manager.get_all_categories().get(category, {}).get('name', category) if category else 'None'
+            QMessageBox.information(dialog, "Success", f"Category set to '{display_category}'")
             dialog.accept()
         except Exception as e:
             QMessageBox.warning(dialog, "Error", f"Could not set category: {str(e)}")
@@ -1334,13 +2224,20 @@ class ProjectBrowserDialog(QDialog):
             except Exception as e:
                 QMessageBox.warning(self, "Error", f"Could not clear notes: {str(e)}")
     
+    def toggle_favorite_project(self):
+        """Toggle favorite status for the current project (keyboard shortcut handler)."""
+        self.toggle_favorite()
+    
     def toggle_favorite(self):
         """Toggle project favorite status."""
         if not self.current_project:
             return
         
         try:
-            project_path = self.current_project['path']
+            project_path = self.current_project.get('path')
+            if not project_path:
+                return
+                
             is_favorite = self.current_project.get('is_favorite', False)
             
             # Toggle favorite status
@@ -1364,7 +2261,10 @@ class ProjectBrowserDialog(QDialog):
         if not self.current_project:
             return
         
-        project_path = self.current_project['path']
+        project_path = self.current_project.get('path')
+        if not project_path:
+            return
+        
         is_favorite = self.scanner.tag_manager.is_favorite_project(project_path)
         
         if is_favorite:
@@ -1501,7 +2401,7 @@ class ProjectBrowserDialog(QDialog):
     def display_search_results(self, results: List[Dict[str, Any]]):
         """Display search results in the project table."""
         self.projects = results
-        self.update_project_table()
+        self.populate_project_table()
         self.status_label.setText(f"Showing {len(results)} search results")
     
     def select_all_projects(self):
@@ -1560,7 +2460,7 @@ class ProjectBrowserDialog(QDialog):
                 self.scanner.tag_manager.set_favorite(project_path, not current_favorite)
                 project['is_favorite'] = not current_favorite
         
-        self.update_project_table()
+        self.populate_project_table()
         QMessageBox.information(self, "Success", f"Updated favorite status for {len(selected_projects)} projects.")
     
     def batch_add_tags(self):
@@ -1590,7 +2490,7 @@ class ProjectBrowserDialog(QDialog):
                     self.scanner.tag_manager.add_tags(project_path, existing_tags)
                     project['tags'] = existing_tags
             
-            self.update_project_table()
+            self.populate_project_table()
             QMessageBox.information(self, "Success", f"Added tags to {len(selected_projects)} projects.")
     
     def batch_set_category(self):
@@ -1601,8 +2501,8 @@ class ProjectBrowserDialog(QDialog):
             return
         
         # Get available categories
-        all_projects = self.scanner.get_projects()
-        categories = sorted(set(p.get('category', 'Uncategorized') for p in all_projects))
+        all_categories_dict = self.scanner.tag_manager.get_all_categories()
+        categories = ["None"] + list(all_categories_dict.keys())
         
         # Create category selection dialog
         dialog = QDialog(self)
@@ -1627,14 +2527,50 @@ class ProjectBrowserDialog(QDialog):
         if dialog.exec() == QDialog.Accepted:
             selected_category = category_combo.currentText()
             
-            for project in selected_projects:
-                project_path = project.get('path', '')
-                if project_path:
-                    self.scanner.tag_manager.set_category(project_path, selected_category)
-                    project['category'] = selected_category
+            if selected_category == "None":
+                selected_category = None
             
-            self.update_project_table()
-            QMessageBox.information(self, "Success", f"Set category for {len(selected_projects)} projects.")
+            try:
+                if selected_category:
+                    # Check if category exists (predefined or custom)
+                    if selected_category not in all_categories_dict:
+                        # Add as custom category
+                        category_key = selected_category.lower().replace(" ", "_").replace("-", "_")
+                        success = self.scanner.tag_manager.add_custom_category(
+                            key=category_key,
+                            name=selected_category,
+                            description=f"Custom category: {selected_category}",
+                            keywords=[]
+                        )
+                        if not success:
+                            QMessageBox.warning(self, "Error", f"Could not create custom category '{selected_category}'")
+                            return
+                        # Use the category key for setting
+                        selected_category = category_key
+                    
+                    # Set the category for all selected projects
+                    for project in selected_projects:
+                        project_path = project.get('path', '')
+                        if project_path:
+                            success = self.scanner.tag_manager.set_project_category(project_path, selected_category)
+                            if success:
+                                project['category'] = selected_category
+                            else:
+                                QMessageBox.warning(self, "Error", f"Could not set category for project: {project.get('name', 'Unknown')}")
+                                return
+                else:
+                    # Set to None (remove category)
+                    for project in selected_projects:
+                        project_path = project.get('path', '')
+                        if project_path:
+                            self.scanner.tag_manager.set_project_category(project_path, None)
+                            project['category'] = None
+                
+                self.populate_project_table()
+                display_category = all_categories_dict.get(selected_category, {}).get('name', selected_category) if selected_category else 'None'
+                QMessageBox.information(self, "Success", f"Set category to '{display_category}' for {len(selected_projects)} projects.")
+            except Exception as e:
+                QMessageBox.warning(self, "Error", f"Could not set category: {str(e)}")
     
     def show_context_menu(self, position):
         """Show context menu for batch operations."""

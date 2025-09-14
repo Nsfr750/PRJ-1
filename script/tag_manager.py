@@ -562,3 +562,14 @@ class TagManager:
     def get_recent_project_count(self) -> int:
         """Get the number of recent projects."""
         return len(self.recent_projects)
+    
+    def track_project_access(self, project_path: str, project_name: str = None, project_data: Dict[str, Any] = None) -> bool:
+        """Track when a project is accessed for recent projects list."""
+        if not project_path:
+            return False
+        
+        # If project name not provided, try to extract from path
+        if project_name is None:
+            project_name = Path(project_path).name
+        
+        return self.add_recent_project(project_path, project_name, project_data)

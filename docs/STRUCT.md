@@ -10,31 +10,52 @@ PRJ-1 is organized into a modular structure that separates concerns and promotes
 
 ```text
 PRJ-1/
-├── main.py                 # Application entry point
-├── requirements.txt        # Python dependencies
-├── README.md              # This file
-├── data/                  # Persistent data storage
-│   └── projects.json      # Scanned project data
-├── script/                # Application modules
-│   ├── project_scanner.py # Project scanning logic
-│   ├── ui/                # User interface components
-│   │   ├── menu.py        # Application menu
-│   │   ├── project_browser.py # Project browser dialog
-│   │   ├── about.py       # About dialog
-│   │   ├── help.py        # Help dialog
-│   │   ├── sponsor.py     # Sponsor dialog
-│   │   └── view_log.py    # Log viewer
-│   ├── lang/              # Language management
-│   │   ├── lang_mgr.py    # Language manager
-│   │   └── translations.py # Translation strings
-│   └── utils/             # Utility modules
-│       ├── logger.py      # Logging configuration
-│       ├── updates.py     # Update checking
-│       └── version.py     # Version information
-├── assets/                # Application assets
-├── config/                # Configuration files
-├── docs/                  # Documentation
-└── logs/                  # Application logs
+├── main.py                     # Application entry point
+├── requirements.txt            # Python dependencies
+├── README.md                   # Project documentation
+├── CHANGELOG.md                # Version history
+├── LICENSE                     # GPL v3.0 license
+├── nuitka_compiler.py          # Standalone executable compiler
+├── data/                       # Persistent data storage
+│   ├── projects.json           # Scanned project data
+│   ├── categories.json         # Project categories
+│   ├── favorites.json          # Favorite projects
+│   ├── notes.json              # Project notes
+│   ├── tags.json               # Project tags
+│   └── recent.json             # Recent projects
+├── script/                     # Application modules
+│   ├── __init__.py             # Package initialization
+│   ├── ui/                     # User interface components
+│   │   ├── __init__.py         # UI package initialization
+│   │   ├── menu.py             # Application menu
+│   │   ├── project_browser.py  # Main project browser dialog
+│   │   ├── about.py            # About dialog
+│   │   ├── help.py             # Help dialog
+│   │   ├── sponsor.py          # Sponsor dialog
+│   │   ├── view_log.py         # Log viewer
+│   │   ├── advanced_search.py  # Advanced search dialog
+│   │   └── dashboard.py        # Project statistics dashboard
+│   ├── lang/                   # Language management
+│   │   ├── __init__.py         # Language package initialization
+│   │   ├── lang_mgr.py         # Language manager
+│   │   └── translations.py     # Translation strings
+│   └── utils/                  # Utility modules
+│       ├── __init__.py         # Utils package initialization
+│       ├── logger.py           # Logging configuration
+│       ├── updates.py          # Update checking
+│       └── version.py          # Version information
+├── assets/                     # Application assets
+│   ├── icon.ico                # Application icon
+│   ├── logo.png                # Application logo
+│   └── background.png          # Background images
+├── docs/                       # Documentation
+│   ├── ROADMAP.md              # Development roadmap
+│   ├── SECURITY.md             # Security policy
+│   └── STRUCT.md               # This file
+├── logs/                       # Application logs
+└── .github/                    # GitHub configuration
+    ├── CODEOWNERS              # Code ownership rules
+    └── FUNDING.yml             # Funding configuration
 ```
 
 ### Root Files

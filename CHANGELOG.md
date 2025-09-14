@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.3] - 2025-09-15
+
+### Added (0.1.3)
+
+- Custom title bar with window control buttons (minimize, maximize/restore, close)
+- Window state management with maximize/restore toggle functionality
+- Enhanced UI styling with consistent dark theme across title bar and main interface
+- Improved window layout with proper margins and spacing
+- Interactive window control buttons with hover effects and tooltips
+- Responsive title bar design that adapts to window state changes
+
+### Changed (0.1.3)
+
+- Restructured main layout to accommodate custom title bar
+- Updated window flags to support custom title bar functionality
+- Enhanced styling system with title bar specific CSS rules
+- Improved layout management with content widget separation
+- Updated button styling for window controls with consistent theme
+
+### Fixed (0.1.3)
+
+- Fixed KeyError: 'language' errors in project details display
+- Fixed NoneType object is not subscriptable errors in project selection
+- Enhanced error handling for missing project data with safe dictionary access
+- Improved null checking in project selection and favorite management
+- Added default values for all project fields to prevent display errors
+- Enhanced robustness of UI updates when no project is selected
+
 ## [0.1.2] - 2025-09-14
 
 ### Added (0.1.2)

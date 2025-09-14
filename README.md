@@ -40,6 +40,16 @@ A comprehensive project management application that scans, browses, and manages 
 - **Dynamic Translation**: Language can be changed on-the-fly
 - **Localized UI**: All interface elements are translated
 
+### 🎨 User Interface
+
+- **Custom Title Bar**: Professional title bar with window control buttons
+- **Window Management**: Minimize, maximize/restore, and close functionality
+- **Dark Theme**: Consistent dark theme across entire interface
+- **Responsive Design**: Adaptive layout with proper margins and spacing
+- **Interactive Controls**: Hover effects and tooltips for better UX
+- **Error-Free Interface**: Robust error handling prevents crashes and display issues
+- **Graceful Degradation**: Handles missing or incomplete project data gracefully
+
 ### 🛠️ Additional Tools
 
 - **Log Viewer**: Browse and filter application logs
@@ -69,6 +79,16 @@ pip install -r requirements.txt
 ```bash
 python main.py
 ```
+
+## Recent Bug Fixes
+
+### Version 0.1.3 (2025-09-15)
+
+- **Fixed KeyError: 'language' errors**: Enhanced error handling for missing project data with safe dictionary access
+- **Fixed NoneType object is not subscriptable errors**: Improved null checking in project selection and favorite management
+- **Enhanced robustness**: Added default values for all project fields to prevent display errors
+- **Improved UI stability**: Enhanced robustness of UI updates when no project is selected
+- **Better error handling**: Comprehensive error prevention throughout the application
 
 ## Dependencies
 

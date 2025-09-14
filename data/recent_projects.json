@@ -1,17 +1,65 @@
 {
   "recent_projects": [
     {
+      "path": "X:\\GitHub\\MSR605",
+      "name": "MSR605",
+      "accessed_at": "2025-09-15T00:31:49.063301",
+      "project_data": {}
+    },
+    {
+      "path": "X:\\GitHub\\Images-Deduplicator",
+      "name": "Images-Deduplicator",
+      "accessed_at": "2025-09-15T00:31:48.359658",
+      "project_data": {}
+    },
+    {
       "path": "X:\\GitHub\\EmailDuplicateCleaner",
       "name": "EmailDuplicateCleaner",
-      "accessed_at": "2025-09-14T23:46:57.954217",
-      "project_data": {
-        "category": "data",
-        "description": "📧 Email Duplicate Cleaner",
-        "has_git": true,
-        "has_readme": true,
-        "has_requirements": true,
-        "has_setup": false,
-        "is_favorite": false,
-        "language": "Python",
-        "main_file": null,
-        "modified": 
+      "accessed_at": "2025-09-15T00:31:45.639271",
+      "project_data": {}
+    },
+    {
+      "path": "X:\\GitHub\\pass_mgr",
+      "name": "pass_mgr",
+      "accessed_at": "2025-09-15T00:31:38.999772",
+      "project_data": {}
+    },
+    {
+      "path": "X:\\GitHub\\3DViewer",
+      "name": "3DViewer",
+      "accessed_at": "2025-09-15T00:31:31.847399",
+      "project_data": {}
+    },
+    {
+      "path": "X:\\GitHub\\benchmark",
+      "name": "benchmark",
+      "accessed_at": "2025-09-15T00:30:45.399566",
+      "project_data": {}
+    },
+    {
+      "path": "X:\\GitHub\\PDF_finder",
+      "name": "PDF_finder",
+      "accessed_at": "2025-09-15T00:30:27.519186",
+      "project_data": {}
+    },
+    {
+      "path": "X:\\GitHub\\CDE550-sim",
+      "name": "CDE550-sim",
+      "accessed_at": "2025-09-15T00:30:21.855111",
+      "project_data": {}
+    },
+    {
+      "path": "X:\\GitHub\\raspy_utility",
+      "name": "raspy_utility",
+      "accessed_at": "2025-09-15T00:29:49.175800",
+      "project_data": {}
+    },
+    {
+      "path": "X:\\GitHub\\credit_card_stripe_parser",
+      "name": "credit_card_stripe_parser",
+      "accessed_at": "2025-09-15T00:28:40.224041",
+      "project_data": {}
+    }
+  ],
+  "last_updated": "2025-09-15T00:31:55.864222"
+}

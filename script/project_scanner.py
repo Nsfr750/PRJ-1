@@ -6,9 +6,13 @@ Scans the X:\\GitHub folder for projects and provides browsing functionality.
 
 import os
 import json
+import threading
+import time
 from pathlib import Path
 from datetime import datetime
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Set
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from functools import lru_cache
 
 from .tag_manager import TagManager
 
@@ -21,6 +25,11 @@ class ProjectScanner:
         self.data_path = Path(data_path)
         self.projects: List[Dict[str, Any]] = []
         self.last_scan: Optional[datetime] = None
+        
+        # Performance optimization: caching and threading
+        self._project_cache: Dict[str, Dict[str, Any]] = {}
+        self._scan_lock = threading.Lock()
+        self._max_workers = min(8, os.cpu_count() or 4)  # Limit concurrent operations
         
         # Initialize tag manager
         self.tag_manager = TagManager(data_path)
@@ -57,25 +66,190 @@ class ProjectScanner:
         """
         return str(self.github_path)
     
-    def scan_projects(self) -> List[Dict[str, Any]]:
-        """Scan the GitHub folder for projects."""
-        self.projects = []
+    def scan_projects(self, force_refresh: bool = False) -> List[Dict[str, Any]]:
+        """Scan the GitHub folder for projects with performance optimizations."""
+        start_time = time.time()
         
-        if not self.github_path.exists():
-            print(f"GitHub path not found: {self.github_path}")
+        with self._scan_lock:
+            # Check if we can use cached data
+            if not force_refresh and self._can_use_cache():
+                print("Using cached project data")
+                return self.projects
+            
+            self.projects = []
+            
+            if not self.github_path.exists():
+                print(f"GitHub path not found: {self.github_path}")
+                return self.projects
+            
+            # Get all project directories first (fast operation)
+            project_dirs = [
+                item for item in self.github_path.iterdir() 
+                if item.is_dir() and not item.name.startswith('.')
+            ]
+            
+            print(f"Found {len(project_dirs)} potential project directories")
+            
+            # Use ThreadPoolExecutor for parallel processing
+            with ThreadPoolExecutor(max_workers=self._max_workers) as executor:
+                # Submit all project analysis tasks
+                future_to_path = {
+                    executor.submit(self._analyze_project_cached, project_path): project_path
+                    for project_path in project_dirs
+                }
+                
+                # Collect results as they complete
+                for future in as_completed(future_to_path):
+                    project_path = future_to_path[future]
+                    try:
+                        project_info = future.result()
+                        if project_info:
+                            self.projects.append(project_info)
+                    except Exception as e:
+                        print(f"Error analyzing project {project_path}: {e}")
+                        continue
+            
+            self.last_scan = datetime.now()
+            
+            # Save the scanned data
+            self.save_projects()
+            
+            # Update cache
+            self._update_cache()
+            
+            elapsed_time = time.time() - start_time
+            print(f"Scanned {len(self.projects)} projects in {elapsed_time:.2f} seconds")
+            
             return self.projects
+    
+    def _can_use_cache(self) -> bool:
+        """Check if cached data is still valid."""
+        if not self.last_scan:
+            return False
         
-        # Scan all directories in the GitHub folder
+        # Cache is valid for 1 hour
+        cache_age = (datetime.now() - self.last_scan).total_seconds()
+        return cache_age < 3600  # 1 hour
+    
+    def _analyze_project_cached(self, project_path: Path) -> Optional[Dict[str, Any]]:
+        """Analyze project with caching support."""
+        cache_key = str(project_path)
+        
+        # Check cache first
+        if cache_key in self._project_cache:
+            cached_project = self._project_cache[cache_key]
+            # Check if project was modified since last scan
+            try:
+                last_modified = datetime.fromtimestamp(project_path.stat().st_mtime)
+                if cached_project.get('last_modified') == last_modified:
+                    return cached_project['data']
+            except OSError:
+                pass
+        
+        # Analyze project
+        project_info = self._analyze_project(project_path)
+        
+        if project_info:
+            # Update cache
+            try:
+                last_modified = datetime.fromtimestamp(project_path.stat().st_mtime)
+                self._project_cache[cache_key] = {
+                    'data': project_info,
+                    'last_modified': last_modified
+                }
+            except OSError:
+                pass
+        
+        return project_info
+    
+    def _update_cache(self):
+        """Clean up old cache entries to prevent memory bloat."""
+        # Keep only the most recent 1000 projects in cache
+        if len(self._project_cache) > 1000:
+            # Sort by last modified and keep newest
+            sorted_items = sorted(
+                self._project_cache.items(), 
+                key=lambda x: x[1].get('last_modified', datetime.min),
+                reverse=True
+            )
+            self._project_cache = dict(sorted_items[:1000])
+    
+    def scan_projects_fast(self) -> List[Dict[str, Any]]:
+        """Fast scan that only checks for new/modified projects."""
+        if not self.last_scan:
+            # First scan, do full scan
+            return self.scan_projects()
+        
+        start_time = time.time()
+        updated_projects = []
+        
+        # Get current project paths
+        current_paths = set()
         for item in self.github_path.iterdir():
             if item.is_dir() and not item.name.startswith('.'):
-                project_info = self._analyze_project(item)
-                if project_info:
-                    self.projects.append(project_info)
+                current_paths.add(str(item))
+        
+        # Get existing project paths
+        existing_paths = {p['path'] for p in self.projects}
+        
+        # Find new projects
+        new_paths = current_paths - existing_paths
+        
+        # Find modified projects (check modification time)
+        modified_projects = []
+        for project in self.projects:
+            try:
+                project_path = Path(project['path'])
+                if project_path.exists():
+                    last_modified = datetime.fromtimestamp(project_path.stat().st_mtime)
+                    if last_modified > self.last_scan:
+                        modified_projects.append(project_path)
+            except OSError:
+                continue
+        
+        # Remove deleted projects
+        deleted_paths = existing_paths - current_paths
+        self.projects = [p for p in self.projects if p['path'] not in deleted_paths]
+        
+        # Scan new and modified projects
+        projects_to_scan = [Path(p) for p in new_paths] + modified_projects
+        
+        if projects_to_scan:
+            with ThreadPoolExecutor(max_workers=self._max_workers) as executor:
+                future_to_path = {
+                    executor.submit(self._analyze_project_cached, project_path): project_path
+                    for project_path in projects_to_scan
+                }
+                
+                for future in as_completed(future_to_path):
+                    project_path = future_to_path[future]
+                    try:
+                        project_info = future.result()
+                        if project_info:
+                            # Update existing project or add new one
+                            project_path_str = str(project_path)
+                            existing_project = next(
+                                (p for p in self.projects if p['path'] == project_path_str), 
+                                None
+                            )
+                            
+                            if existing_project:
+                                # Update existing project
+                                existing_project.update(project_info)
+                            else:
+                                # Add new project
+                                self.projects.append(project_info)
+                            
+                            updated_projects.append(project_info)
+                    except Exception as e:
+                        print(f"Error analyzing project {project_path}: {e}")
+                        continue
         
         self.last_scan = datetime.now()
-        
-        # Save the scanned data
         self.save_projects()
+        
+        elapsed_time = time.time() - start_time
+        print(f"Fast scan completed in {elapsed_time:.2f} seconds, updated {len(updated_projects)} projects")
         
         return self.projects
     
@@ -166,7 +340,7 @@ class ProjectScanner:
             project_info = {
                 'name': project_path.name,
                 'path': str(project_path),
-                'size': self._get_folder_size(project_path),
+                'size': self._get_folder_size(str(project_path)),
                 'modified': datetime.fromtimestamp(project_path.stat().st_mtime),
                 'has_git': (project_path / '.git').exists(),
                 'has_readme': False,
@@ -361,15 +535,37 @@ class ProjectScanner:
         
         return 'Unknown'
     
-    def _get_folder_size(self, path: Path) -> int:
-        """Calculate the total size of a folder in bytes."""
+    @lru_cache(maxsize=1000)
+    def _get_folder_size(self, path_str: str) -> int:
+        """Calculate the total size of a folder in bytes with optimizations."""
+        path = Path(path_str)
         try:
             total_size = 0
+            file_count = 0
+            max_files = 1000  # Limit files to scan for performance
+            
             for dirpath, dirnames, filenames in os.walk(path):
+                # Skip common directories that are usually large
+                dirnames[:] = [d for d in dirnames if d not in {
+                    'node_modules', '.git', '__pycache__', 'venv', 'env',
+                    '.venv', 'virtualenv', 'target', 'build', 'dist', 'out'
+                }]
+                
                 for filename in filenames:
+                    if file_count >= max_files:
+                        break
+                        
                     file_path = os.path.join(dirpath, filename)
-                    if os.path.exists(file_path):
-                        total_size += os.path.getsize(file_path)
+                    try:
+                        if os.path.exists(file_path):
+                            total_size += os.path.getsize(file_path)
+                            file_count += 1
+                    except (OSError, IOError):
+                        continue
+                
+                if file_count >= max_files:
+                    break
+            
             return total_size
         except (OSError, IOError):
             return 0

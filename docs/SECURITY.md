@@ -11,6 +11,30 @@ This document outlines the security policy and reporting procedures for PRJ-1 - 
 | 0.1.x   | ✅ Yes             |
 | < 0.1.0 | ❌ No              |
 
+## Security Features (v0.1.3)
+
+### 🔒 Data Protection
+
+- **Local Data Storage**: All project data is stored locally in JSON format
+- **No Remote Data Transmission**: No data is sent to external servers without explicit user consent
+- **File Access Control**: Application only accesses files in user-specified directories
+- **Configuration Security**: Sensitive configuration data is stored securely
+
+### 🛡️ Application Security
+
+- **Input Validation**: All user inputs are validated and sanitized
+- **Error Handling**: Comprehensive error handling prevents information leakage
+- **Safe File Operations**: All file operations include proper error checking
+- **Memory Management**: Enhanced memory management prevents buffer overflow issues
+- **Null Safety**: Robust null checking prevents crashes and security vulnerabilities
+
+### 🔐 Dependency Security
+
+- **Regular Updates**: Dependencies are regularly updated for security patches
+- **Vulnerability Scanning**: Automated scanning for known vulnerabilities
+- **Minimal Dependencies**: Only essential dependencies are included
+- **Source Verification**: All dependencies are from trusted sources
+
 ## Reporting a Vulnerability
 
 ### 🚨 Security Vulnerability Reporting
