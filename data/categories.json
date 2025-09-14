@@ -1,0 +1,156 @@
+{
+  "project_categories": {
+    "X:\\GitHub\\EmailDuplicateCleaner": "data",
+    "X:\\GitHub\\OpenPGP": "desktop",
+    "X:\\GitHub\\Nidec_CommanderCDE": "devops",
+    "X:\\GitHub\\CDE550-sim": "devops",
+    "X:\\GitHub\\raspy_utility": "tool",
+    "X:\\GitHub\\nsfr750.github.io": "web",
+    "X:\\GitHub\\Onvif": "desktop",
+    "X:\\Privato\\POS Data Extractor": "data",
+    "X:\\Privato\\POS": "data",
+    "X:\\Privato\\SysInfo": "system",
+    "X:\\Privato\\web_weather": "web",
+    "X:\\Privato\\MSVC": "system",
+    "X:\\Privato\\STL_to_G-Code": "devops"
+  },
+  "custom_categories": {},
+  "predefined_categories": {
+    "web": {
+      "name": "Web",
+      "description": "Web applications and websites",
+      "keywords": [
+        "web",
+        "website",
+        "http",
+        "html",
+        "css",
+        "javascript",
+        "react",
+        "vue",
+        "angular",
+        "django",
+        "flask",
+        "fastapi"
+      ]
+    },
+    "desktop": {
+      "name": "Desktop",
+      "description": "Desktop applications",
+      "keywords": [
+        "desktop",
+        "gui",
+        "pyside",
+        "pyqt",
+        "tkinter",
+        "wx",
+        "electron",
+        "winforms",
+        "wpf"
+      ]
+    },
+    "mobile": {
+      "name": "Mobile",
+      "description": "Mobile applications",
+      "keywords": [
+        "mobile",
+        "android",
+        "ios",
+        "flutter",
+        "react-native",
+        "kotlin",
+        "swift",
+        "cordova"
+      ]
+    },
+    "library": {
+      "name": "Library",
+      "description": "Libraries and frameworks",
+      "keywords": [
+        "library",
+        "framework",
+        "sdk",
+        "api",
+        "package",
+        "module",
+        "lib"
+      ]
+    },
+    "tool": {
+      "name": "Tool",
+      "description": "Command-line tools and utilities",
+      "keywords": [
+        "tool",
+        "utility",
+        "cli",
+        "script",
+        "automation",
+        "batch",
+        "shell"
+      ]
+    },
+    "game": {
+      "name": "Game",
+      "description": "Games and game development",
+      "keywords": [
+        "game",
+        "pygame",
+        "unity",
+        "unreal",
+        "godot",
+        "engine",
+        "gaming"
+      ]
+    },
+    "data": {
+      "name": "Data",
+      "description": "Data science and machine learning",
+      "keywords": [
+        "data",
+        "ml",
+        "ai",
+        "machine",
+        "learning",
+        "pandas",
+        "numpy",
+        "tensorflow",
+        "pytorch",
+        "scikit"
+      ]
+    },
+    "devops": {
+      "name": "DevOps",
+      "description": "DevOps and infrastructure",
+      "keywords": [
+        "devops",
+        "docker",
+        "kubernetes",
+        "ci",
+        "cd",
+        "jenkins",
+        "github-actions",
+        "terraform"
+      ]
+    },
+    "system": {
+      "name": "System",
+      "description": "System programming and low-level tools",
+      "keywords": [
+        "system",
+        "kernel",
+        "driver",
+        "embedded",
+        "firmware",
+        "os",
+        "operating",
+        "system"
+      ]
+    },
+    "other": {
+      "name": "Other",
+      "description": "Other project types",
+      "keywords": []
+    }
+  },
+  "last_updated": "2025-09-14T23:46:57.954217"
+}

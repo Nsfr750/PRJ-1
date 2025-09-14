@@ -1,0 +1,17 @@
+{
+  "recent_projects": [
+    {
+      "path": "X:\\GitHub\\EmailDuplicateCleaner",
+      "name": "EmailDuplicateCleaner",
+      "accessed_at": "2025-09-14T23:46:57.954217",
+      "project_data": {
+        "category": "data",
+        "description": "📧 Email Duplicate Cleaner",
+        "has_git": true,
+        "has_readme": true,
+        "has_requirements": true,
+        "has_setup": false,
+        "is_favorite": false,
+        "language": "Python",
+        "main_file": null,
+        "modified": 

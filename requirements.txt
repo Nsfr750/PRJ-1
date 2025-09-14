@@ -13,6 +13,9 @@ qrcode>=7.3.0
 # Image processing (Wand - Python binding for ImageMagick)
 Wand>=0.6.0
 
+# Charts and graphs for statistics dashboard
+matplotlib>=3.5.0
+
 # Build and compilation tools
 Nuitka>=2.7.14
 ordered-set>=4.1.0

@@ -10,6 +10,8 @@ from pathlib import Path
 from datetime import datetime
 from typing import List, Dict, Any, Optional
 
+from .tag_manager import TagManager
+
 
 class ProjectScanner:
     """Scans and manages project information from GitHub folder."""
@@ -19,6 +21,9 @@ class ProjectScanner:
         self.data_path = Path(data_path)
         self.projects: List[Dict[str, Any]] = []
         self.last_scan: Optional[datetime] = None
+        
+        # Initialize tag manager
+        self.tag_manager = TagManager(data_path)
         
         # Ensure data directory exists
         self.data_path.mkdir(exist_ok=True)
@@ -170,7 +175,11 @@ class ProjectScanner:
                 'main_file': None,
                 'description': '',
                 'language': 'Unknown',
-                'version': 'Unknown'
+                'version': 'Unknown',
+                'tags': [],
+                'category': None,
+                'note': '',
+                'is_favorite': False
             }
             
             # Check for common files
@@ -262,20 +271,28 @@ class ProjectScanner:
                         project_info['detected_languages'].add('Text/Config')
             
             # Determine primary language from detected languages
-            if 'detected_languages' in project_info and project_info['detected_languages']:
-                project_info['language'] = self._determine_primary_language(project_info['detected_languages'])
-            else:
-                project_info['language'] = 'Unknown'
-            
-            # Clean up temporary field
             if 'detected_languages' in project_info:
+                project_info['language'] = self._determine_primary_language(project_info['detected_languages'])
+                # Remove temporary field
                 del project_info['detected_languages']
             
-            # Try to extract version from setup files or version files
+            # Extract version
             project_info['version'] = self._extract_version(project_path)
             
-            return project_info
+            # Load tags, category, notes, and favorites from tag manager
+            project_info['tags'] = self.tag_manager.get_project_tags(str(project_path))
+            project_info['category'] = self.tag_manager.get_project_category(str(project_path))
+            project_info['note'] = self.tag_manager.get_project_note(str(project_path))
+            project_info['is_favorite'] = self.tag_manager.is_favorite_project(str(project_path))
             
+            # Auto-suggest category if not set
+            if not project_info['category']:
+                suggested_category = self.tag_manager.suggest_category_for_project(project_info)
+                if suggested_category:
+                    project_info['category'] = suggested_category
+                    self.tag_manager.set_project_category(str(project_path), suggested_category)
+            
+            return project_info
         except Exception as e:
             print(f"Error analyzing project {project_path}: {e}")
             return None
