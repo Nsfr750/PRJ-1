@@ -119,9 +119,24 @@ class NuitkaCompiler:
                 "--copyright=© Copyright 2025 Nsfr750 - All rights reserved",
             ])
             
-            # Always use MinGW64 for compilation
-            print("✓ Using --mingw64 for compilation")
-            options.append("--mingw64")  # Download MinGW64 automatically for compilation
+            # Check Python version for MinGW64 compatibility
+            python_version = sys.version_info
+            if python_version.major == 3 and python_version.minor == 13:
+                print("❌ Python 3.13 detected: MinGW64 is not supported with Python 3.13")
+                print("❌ Nuitka error: 'non-MSVC is not currently supported with Python 3.13'")
+                print("\n💡 Solutions:")
+                print("   1. Use Python 3.12 instead (recommended)")
+                print("   2. Install Visual Studio Build Tools with Windows SDK and use --msvc=latest")
+                print("   3. Wait for Nuitka to add MinGW64 support back for Python 3.13")
+                print("\n🔧 To fix this issue:")
+                print("   - Install Python 3.12: https://www.python.org/downloads/")
+                print("   - Create a new virtual environment with Python 3.12")
+                print("   - Install dependencies: pip install -r requirements.txt")
+                print("   - Run compilation again")
+                return None
+            else:
+                print("✓ Using --mingw64 for compilation")
+                options.append("--mingw64")  # Download MinGW64 automatically for compilation
         elif self.is_macos:
             # macOS-specific options
             options.extend([
@@ -141,7 +156,13 @@ class NuitkaCompiler:
         """Build the Nuitka compilation command."""
         cmd = self.nuitka_cmd.copy()
         cmd.extend(self.common_options)
-        cmd.extend(self.get_platform_specific_options())
+        
+        # Get platform-specific options
+        platform_options = self.get_platform_specific_options()
+        if platform_options is None:
+            return None  # Python 3.13 incompatibility detected
+        
+        cmd.extend(platform_options)
         cmd.extend(self.get_data_files())
         
         # Add debug options if requested
@@ -195,6 +216,11 @@ class NuitkaCompiler:
         
         # Build command
         cmd = self.build_command(debug, profile)
+        
+        # Check if command building failed (e.g., Python 3.13 incompatibility)
+        if cmd is None:
+            print("❌ Cannot proceed with compilation due to compatibility issues")
+            return False
         
         print(f"Compilation command: {' '.join(cmd)}")
         print("Starting compilation...")

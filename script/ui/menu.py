@@ -186,33 +186,43 @@ class AppMenuBar(QMenuBar):
             self.language_changed.emit()
             
         except Exception as e:
+            error_msg = f"Failed to change language: {str(e)}"
             QMessageBox.critical(
                 self,
                 get_text('app.error', 'Error'),
-                get_text('app.language_change_error', 'Failed to change language: {error}').format(error=str(e))
+                error_msg
             )
     
     def retranslate_ui(self):
         """Retranslate the UI elements."""
-        # File menu
-        file_menu = self.actions()[0].menu()
-        file_menu.setTitle(get_text('menu.file', '&File'))
-        
-        # Edit menu
-        edit_menu = self.actions()[1].menu()
-        edit_menu.setTitle(get_text('menu.edit', '&Edit'))
-        
-        # View menu
-        view_menu = self.actions()[2].menu()
-        view_menu.setTitle(get_text('menu.view', '&View'))
-        
-        # Tools menu
-        tools_menu = self.actions()[3].menu()
-        tools_menu.setTitle(get_text('menu.tools', '&Tools'))
-        
-        # Help menu
-        help_menu = self.actions()[4].menu()
-        help_menu.setTitle(get_text('menu.help', '&Help'))
+        try:
+            # File menu
+            file_menu = self.actions()[0].menu()
+            if file_menu:
+                file_menu.setTitle(get_text('menu.file', '&File'))
+            
+            # Edit menu
+            edit_menu = self.actions()[1].menu()
+            if edit_menu:
+                edit_menu.setTitle(get_text('menu.edit', '&Edit'))
+            
+            # View menu
+            view_menu = self.actions()[2].menu()
+            if view_menu:
+                view_menu.setTitle(get_text('menu.view', '&View'))
+            
+            # Tools menu
+            tools_menu = self.actions()[3].menu()
+            if tools_menu:
+                tools_menu.setTitle(get_text('menu.tools', '&Tools'))
+            
+            # Help menu
+            help_menu = self.actions()[4].menu()
+            if help_menu:
+                help_menu.setTitle(get_text('menu.help', '&Help'))
+        except Exception as e:
+            # Silently handle retranslation errors to avoid crashes
+            pass
     
     def close_application(self):
         """Close the application."""

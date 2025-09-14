@@ -6,6 +6,7 @@ This module serves as the primary entry point for the application.
 
 import sys
 import os
+import logging
 from pathlib import Path
 
 # Add the script directory to the Python path
