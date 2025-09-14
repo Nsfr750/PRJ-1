@@ -6,11 +6,12 @@ This script compiles the PRJ-1 application into standalone executables using Nui
 
 import os
 import sys
-import subprocess
 import shutil
+import subprocess
+import glob
 import platform
-from pathlib import Path
 import argparse
+from pathlib import Path
 
 # Import version information
 try:
@@ -45,7 +46,6 @@ class NuitkaCompiler:
             "--include-package=PySide6",
             "--include-package=script",
             "--plugin-enable=pyside6",
-            "--windows-disable-console" if self.is_windows else "",
             "--output-dir=" + str(self.dist_dir),
             "--remove-output",
         ]
@@ -119,18 +119,9 @@ class NuitkaCompiler:
                 "--copyright=© Copyright 2025 Nsfr750 - All rights reserved",
             ])
             
-            # Handle Python 3.13 compatibility
-            python_version = sys.version_info
-            if python_version.major == 3 and python_version.minor == 13:
-                print("⚠️  Python 3.13 detected: Using --msvc=latest for compatibility")
-                print("ℹ️  Note: If MSVC is not installed, you may need to:")
-                print("   1. Install Visual Studio Build Tools, or")
-                print("   2. Use Python 3.12 instead, or")
-                print("   3. Run 'python portable-msvc.py' first (requires internet)")
-                options.append("--msvc=latest")
-            else:
-                print("✓ Using --mingw64 for compilation")
-                options.append("--mingw64")  # Download MinGW64 automatically for compilation
+            # Always use MinGW64 for compilation
+            print("✓ Using --mingw64 for compilation")
+            options.append("--mingw64")  # Download MinGW64 automatically for compilation
         elif self.is_macos:
             # macOS-specific options
             options.extend([
