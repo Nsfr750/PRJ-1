@@ -109,7 +109,6 @@ class NuitkaCompiler:
             # Windows-specific options
             options.extend([
                 "--windows-icon-from-ico=" + str(self.icon_path) if self.icon_path else "",
-                "--enable-plugin=anti-bloat",
                 '--windows-console-mode=disable',
                 "--output-filename=PRJ-1",
                 "--company-name=Tuxxle",
@@ -117,7 +116,8 @@ class NuitkaCompiler:
                 f"--file-version={__version__}.0",
                 f"--product-version={__version__}.0",
                 "--file-description=Project Browser",
-                "--copyright=© Copyright 2025 Nsfr750 - All rights reserved", 
+                "--copyright=© Copyright 2025 Nsfr750 - All rights reserved",
+                "--msvc=latest",  # Required for Python 3.13 compatibility
             ])
         elif self.is_macos:
             # macOS-specific options

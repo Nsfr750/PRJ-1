@@ -13,9 +13,18 @@ qrcode>=7.3.0
 # Image processing (Wand - Python binding for ImageMagick)
 Wand>=0.6.0
 
+# Build and compilation tools
+Nuitka>=2.7.14
+ordered-set>=4.1.0
+zstandard>=0.15.0
+
+# Development and testing tools
+pytest>=7.0.0
+pytest-cov>=4.0.0
+black>=22.0.0
+flake8>=5.0.0
+
 # Standard library dependencies (for reference)
 # These are included with Python but listed here for clarity
 # os, sys, pathlib, subprocess, json, datetime, threading, webbrowser
 # logging, re, io, typing
-
-Nuitka>=2.7.14
