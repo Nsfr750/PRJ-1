@@ -117,7 +117,7 @@ class NuitkaCompiler:
                 f"--product-version={__version__}.0",
                 "--file-description=Project Browser",
                 "--copyright=© Copyright 2025 Nsfr750 - All rights reserved",
-                "--msvc=latest",  # Required for Python 3.13 compatibility
+                "--mingw64",  # Download MinGW64 automatically for compilation
             ])
         elif self.is_macos:
             # macOS-specific options
