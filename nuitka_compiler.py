@@ -35,8 +35,8 @@ class NuitkaCompiler:
         self.is_macos = platform.system() == "Darwin"
         self.is_linux = platform.system() == "Linux"
         
-        # Nuitka command base
-        self.nuitka_cmd = ["python", "-m", "nuitka"]
+        # Base Nuitka command - use the same python executable that's running this script
+        self.nuitka_cmd = [sys.executable, "-m", "nuitka"]
         
         # Common Nuitka options
         self.common_options = [
@@ -236,18 +236,22 @@ class NuitkaCompiler:
                 executable_name = "main.exe" if self.is_windows else "main.bin"
                 if self.is_macos:
                     # On macOS, check for app bundle
-                    app_bundle = self.dist_dir / "main.app"
-                    if app_bundle.exists():
-                        print(f"✓ Executable created: {app_bundle}")
-                        return True
-                
-                executable_path = self.dist_dir / executable_name
-                if executable_path.exists():
-                    print(f"✓ Executable created: {executable_path}")
-                    return True
-                else:
                     print("❌ Executable not found in dist directory")
                     return False
+                
+                # Find the executable
+                expected_executable = self.dist_dir / "PRJ-1.exe"
+                if expected_executable.exists():
+                    print(f"✓ Executable created: {expected_executable}")
+                else:
+                    # Fallback: look for any .exe file
+                    executables = list(self.dist_dir.glob("*.exe")) if self.is_windows else list(self.dist_dir.glob("*"))
+                    if not executables:
+                        print("❌ Executable not found in dist directory")
+                        return False
+                    executable_path = executables[0]
+                    print(f"✓ Executable created: {executable_path}")
+                return True
             else:
                 print("❌ Compilation failed")
                 return False

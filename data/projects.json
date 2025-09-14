@@ -12,7 +12,7 @@
       "main_file": "main.py",
       "description": "Credit Card Stripe Parser",
       "language": "Python",
-      "version": "Unknown"
+      "version": "1.0.0"
     },
     {
       "name": "EmailDuplicateCleaner",
@@ -39,8 +39,8 @@
       "has_setup": true,
       "main_file": "main.py",
       "description": "Images Deduplicator",
-      "language": "Unknown",
-      "version": "Unknown"
+      "language": "Python",
+      "version": "0.6.11"
     },
     {
       "name": "MSR605",
@@ -54,7 +54,7 @@
       "main_file": "main.py",
       "description": "MSR605 Card Reader/Writer",
       "language": "Python",
-      "version": "Unknown"
+      "version": "2.4.1"
     },
     {
       "name": "OpenPGP",
@@ -68,7 +68,7 @@
       "main_file": "main.py",
       "description": "OpenPGP GUI App",
       "language": "Python",
-      "version": "UNKNOWN"
+      "version": "2.0.0"
     },
     {
       "name": "PySnoop",
@@ -82,7 +82,7 @@
       "main_file": "__init__.py",
       "description": "PySnoop",
       "language": "Python",
-      "version": "Unknown"
+      "version": "2.0.0"
     },
     {
       "name": "weather",
@@ -96,7 +96,7 @@
       "main_file": "main.py",
       "description": "🌦️ Weather App",
       "language": "Python",
-      "version": "Unknown"
+      "version": "1.6.0"
     },
     {
       "name": "3D_Filament_Manager",
@@ -124,7 +124,7 @@
       "main_file": "main.py",
       "description": "Nidec CommanderCDE",
       "language": "Python",
-      "version": "Unknown"
+      "version": "2.0.0"
     },
     {
       "name": "CDE550-sim",
@@ -138,7 +138,7 @@
       "main_file": "main.py",
       "description": "Simulatore Nidec Commander CDE 550",
       "language": "Python",
-      "version": "Unknown"
+      "version": "2.0.0"
     },
     {
       "name": "PDF_finder",
@@ -152,7 +152,7 @@
       "main_file": "main.py",
       "description": "PDF Duplicate Finder",
       "language": "Python",
-      "version": "Unknown"
+      "version": "2.10.0"
     },
     {
       "name": "raspy_utility",
@@ -166,7 +166,7 @@
       "main_file": "main.py",
       "description": "Raspberry Pi GPIO Control Center",
       "language": "Python",
-      "version": "6.0.1"
+      "version": "2.0.0"
     },
     {
       "name": "NFC",
@@ -180,7 +180,7 @@
       "main_file": "main.py",
       "description": "🚀 NFC Reader/Writer Application",
       "language": "Python",
-      "version": "Unknown"
+      "version": "6.4.0"
     },
     {
       "name": "nsfr750.github.io",
@@ -193,8 +193,8 @@
       "has_setup": false,
       "main_file": null,
       "description": "Nsfr750's Project Hub",
-      "language": "Web",
-      "version": "Unknown"
+      "language": "HTML",
+      "version": "~> 3.8.3"
     },
     {
       "name": "benchmark",
@@ -208,7 +208,7 @@
       "main_file": "main.py",
       "description": "![Logo](assets/logo.png) PyBench",
       "language": "Python",
-      "version": "Unknown"
+      "version": "0.0.1"
     },
     {
       "name": "pass_mgr",
@@ -222,7 +222,7 @@
       "main_file": "main.py",
       "description": "![Password Manager](assets/logo.png) Password Manager",
       "language": "Python",
-      "version": "Unknown"
+      "version": "0.1.0"
     },
     {
       "name": "NeuralNetworkApp",
@@ -236,12 +236,12 @@
       "main_file": "main.py",
       "description": "Neural Network Creator",
       "language": "Python",
-      "version": "Unknown"
+      "version": "1.9.0"
     },
     {
       "name": "PRJ-1",
       "path": "X:\\GitHub\\PRJ-1",
-      "size": 891973492,
+      "size": 893185654,
       "modified": "2025-09-14T13:32:51.550000",
       "has_git": true,
       "has_readme": true,
@@ -264,7 +264,7 @@
       "main_file": "main.py",
       "description": "ONVIF Camera GUI",
       "language": "Python",
-      "version": "Unknown"
+      "version": "2.0.0"
     },
     {
       "name": "POS",
@@ -277,8 +277,8 @@
       "has_setup": true,
       "main_file": null,
       "description": "POS Data Extractor",
-      "language": "Unknown",
-      "version": "Unknown"
+      "language": "Python",
+      "version": "0.1.0"
     },
     {
       "name": "POS Data Extractor",
@@ -305,8 +305,8 @@
       "has_setup": false,
       "main_file": "main.py",
       "description": "STL to GCode Converter",
-      "language": "Unknown",
-      "version": "Unknown"
+      "language": "Python",
+      "version": "2.0.0"
     },
     {
       "name": "SysInfo",
@@ -333,7 +333,7 @@
       "has_setup": false,
       "main_file": "main.py",
       "description": "Weather App",
-      "language": "Unknown",
+      "language": "Python",
       "version": "Unknown"
     },
     {
@@ -347,10 +347,10 @@
       "has_setup": false,
       "main_file": null,
       "description": "Online 3D Viewer",
-      "language": "Unknown",
+      "language": "Markdown",
       "version": "0.16.0"
     }
   ],
-  "last_scan": "2025-09-14T17:54:20.286958",
+  "last_scan": "2025-09-14T20:04:58.971566",
   "scan_directory": "X:\\GitHub"
 }

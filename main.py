@@ -16,6 +16,7 @@ sys.path.insert(0, str(script_dir))
 try:
     from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox
     from PySide6.QtCore import Qt
+    from PySide6.QtGui import QPixmap, QPainter, QPalette, QIcon
 except ImportError:
     print("PySide6 is not installed. Please install it using:")
     print("pip install PySide6")
@@ -44,8 +45,15 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Project Browser")
         self.setGeometry(100, 100, 800, 600)
         
+        # Set application icon
+        self.set_app_icon()
+        
+        # Set background image
+        self.set_background_image()
+        
         # Create central widget
         central_widget = QMainWindow()
+        central_widget.setAttribute(Qt.WA_TranslucentBackground)
         self.setCentralWidget(central_widget)
         
         # Create menu bar using AppMenuBar
@@ -71,6 +79,54 @@ class MainWindow(QMainWindow):
         
         # Update status bar
         self.statusBar().showMessage(get_text('app.ready', 'Ready'))
+    
+    def set_background_image(self):
+        """Set the background image for the main window."""
+        try:
+            # Load the background image
+            background_path = Path(__file__).parent / "assets" / "background.png"
+            if background_path.exists():
+                self.background_pixmap = QPixmap(str(background_path))
+                
+                # Create a palette with the background image
+                palette = self.palette()
+                palette.setBrush(QPalette.Window, self.background_pixmap)
+                self.setPalette(palette)
+                
+                # Enable auto-fill background
+                self.setAutoFillBackground(True)
+                
+                logger.info(f"Background image loaded from: {background_path}")
+            else:
+                logger.warning(f"Background image not found at: {background_path}")
+        except Exception as e:
+            logger.error(f"Failed to load background image: {e}")
+    
+    def paintEvent(self, event):
+        """Paint the background image."""
+        if hasattr(self, 'background_pixmap'):
+            painter = QPainter(self)
+            painter.drawPixmap(self.rect(), self.background_pixmap)
+            painter.end()
+        super().paintEvent(event)
+    
+    def set_app_icon(self):
+        """Set the application icon."""
+        try:
+            # Load the logo image
+            logo_path = Path(__file__).parent / "assets" / "logo.png"
+            if logo_path.exists():
+                app_icon = QIcon(str(logo_path))
+                self.setWindowIcon(app_icon)
+                
+                # Also set the application icon
+                QApplication.instance().setWindowIcon(app_icon)
+                
+                logger.info(f"Application icon loaded from: {logo_path}")
+            else:
+                logger.warning(f"Logo image not found at: {logo_path}")
+        except Exception as e:
+            logger.error(f"Failed to load application icon: {e}")
 
 
 def main():

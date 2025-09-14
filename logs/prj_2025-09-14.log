@@ -99,3 +99,21 @@
 2025-09-14 19:51:32 - prj1 - INFO - Starting application event loop
 2025-09-14 19:52:02 - prj1 - INFO - Main window closing
 2025-09-14 19:52:02 - prj1 - INFO - Application exited with code: 0
+2025-09-14 20:04:01 - prj1 - INFO - Starting PRJ-1 application
+2025-09-14 20:04:01 - prj1 - INFO - Initializing application
+2025-09-14 20:04:01 - prj1 - INFO - Application info: Project Browser v0.1.2
+2025-09-14 20:04:01 - prj1 - INFO - Creating main window
+2025-09-14 20:04:01 - prj1 - INFO - Application icon loaded from: x:\GitHub\PRJ-1\assets\logo.png
+2025-09-14 20:04:01 - prj1 - INFO - Background image loaded from: x:\GitHub\PRJ-1\assets\background.png
+2025-09-14 20:04:02 - prj1 - INFO - Starting application event loop
+2025-09-14 20:07:15 - prj1 - INFO - Main window closing
+2025-09-14 20:07:15 - prj1 - INFO - Application exited with code: 0
+2025-09-14 20:34:58 - prj1 - INFO - Starting PRJ-1 application
+2025-09-14 20:34:58 - prj1 - INFO - Initializing application
+2025-09-14 20:34:58 - prj1 - INFO - Application info: Project Browser v0.1.2
+2025-09-14 20:34:58 - prj1 - INFO - Creating main window
+2025-09-14 20:34:58 - prj1 - INFO - Application icon loaded from: c:\windows\TEMP\onefile_23336_134023484969355766\assets\logo.png
+2025-09-14 20:34:58 - prj1 - INFO - Background image loaded from: c:\windows\TEMP\onefile_23336_134023484969355766\assets\background.png
+2025-09-14 20:34:59 - prj1 - INFO - Starting application event loop
+2025-09-14 20:35:01 - prj1 - INFO - Main window closing
+2025-09-14 20:35:01 - prj1 - INFO - Application exited with code: 0

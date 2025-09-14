@@ -18,3 +18,12 @@
 | benchmark | 1.3.0 | ✔️ | ✅ |
 | pass_mgr | 1.0.0 | ✔️ | ✅ |
 | NeuralNetworkApp | 0.1.0 | ✔️ | ✅️ |
+| nsfr750.github.io | 3.8.3| ✔ | ✅️ |
+| Onvif | 2.0.0 | ✔️ | ⛔ |
+| PRJ-1 | 0.1.2 | ✔ | ⛔ |
+| POS | 0.1.0 | ⛔ | ⛔ |
+| POS Data Extractor | Unknown | ⛔ | ⛔ |
+| STL_to_G-Code | 2.0.0 | ⛔ | ⛔ |
+| SysInfo | 1.0.0 | ⛔ | ⛔ |
+| web_weather | Unknown | ⛔ | ⛔ |
+| 3DViewer | 0.16.0 | ✔️ | ⛔ |
