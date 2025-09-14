@@ -479,12 +479,15 @@ class TagManager:
         """Add a project to favorites."""
         if not project_path:
             return False
-        
-        self.favorite_projects.add(project_path)
-        return self.save_data()
+        if project_path not in self.favorite_projects:
+            self.favorite_projects.add(project_path)
+            return self.save_data()
+        return True
     
     def remove_favorite_project(self, project_path: str) -> bool:
         """Remove a project from favorites."""
+        if not project_path:
+            return False
         if project_path in self.favorite_projects:
             self.favorite_projects.remove(project_path)
             return self.save_data()
@@ -492,6 +495,8 @@ class TagManager:
     
     def is_favorite_project(self, project_path: str) -> bool:
         """Check if a project is in favorites."""
+        if not project_path:
+            return False
         return project_path in self.favorite_projects
     
     def toggle_favorite_project(self, project_path: str) -> bool:

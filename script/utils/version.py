@@ -1,5 +1,5 @@
 """
-Version information and utilities for PRJ-1 application.
+Version information and utilities for Project Browser application.
 
 This module provides version information following Semantic Versioning 2.0.0
 and utility functions for version comparison and validation.

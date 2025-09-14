@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Update checking utility for PRJ-1 Project Browser.
+Update checking utility for Project Browser.
 Provides functionality to check for updates and display them in an independent dialog.
 """
 

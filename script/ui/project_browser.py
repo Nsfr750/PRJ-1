@@ -21,7 +21,7 @@ from PySide6.QtWidgets import (
     QLineEdit, QPushButton, QComboBox, QTableWidget, QTableWidgetItem,
     QProgressBar, QDialogButtonBox, QMessageBox, QHeaderView, QFrame,
     QSplitter, QTextBrowser, QGroupBox, QFileDialog, QListWidget, QCheckBox, QListWidgetItem,
-    QScrollArea, QWidget, QSizePolicy
+    QScrollArea, QWidget, QSizePolicy, QInputDialog
 )
 
 from ..project_scanner import ProjectScanner
@@ -1720,14 +1720,6 @@ class ProjectBrowserDialog(QDialog):
         # Update UI
         self.update_project_details()
         self.enable_project_controls(True)
-        self.open_folder_button.setEnabled(True)
-        self.open_terminal_button.setEnabled(True)
-        self.open_editor_button.setEnabled(True)
-        self.manage_tags_button.setEnabled(True)
-        self.set_category_button.setEnabled(True)
-        self.edit_notes_button.setEnabled(True)
-        self.clear_notes_button.setEnabled(True)
-        self.favorite_button.setEnabled(True)
         self.update_favorite_button()
     
     def on_project_selection_changed(self):
@@ -1738,14 +1730,7 @@ class ProjectBrowserDialog(QDialog):
         has_selection = len(selected_items) > 0
         
         # Update button states based on selection
-        self.open_folder_button.setEnabled(has_selection)
-        self.open_terminal_button.setEnabled(has_selection)
-        self.open_editor_button.setEnabled(has_selection)
-        self.manage_tags_button.setEnabled(has_selection)
-        self.set_category_button.setEnabled(has_selection)
-        self.edit_notes_button.setEnabled(has_selection)
-        self.clear_notes_button.setEnabled(has_selection)
-        self.favorite_button.setEnabled(has_selection)
+        self.enable_project_controls(has_selection)
         
         # If there's a selection, update the current project and details
         if has_selection:
@@ -1819,6 +1804,17 @@ class ProjectBrowserDialog(QDialog):
         # Update favorite status
         is_favorite = project.get('is_favorite', False)
         self.update_favorite_button()
+    
+    def enable_project_controls(self, enabled):
+        """Enable or disable all project-related controls."""
+        self.open_folder_button.setEnabled(enabled)
+        self.open_terminal_button.setEnabled(enabled)
+        self.open_editor_button.setEnabled(enabled)
+        self.manage_tags_button.setEnabled(enabled)
+        self.set_category_button.setEnabled(enabled)
+        self.edit_notes_button.setEnabled(enabled)
+        self.clear_notes_button.setEnabled(enabled)
+        self.favorite_button.setEnabled(enabled)
     
     def open_project_folder(self):
         """Open the selected project folder in file explorer."""
@@ -2244,7 +2240,10 @@ class ProjectBrowserDialog(QDialog):
             self.scanner.tag_manager.toggle_favorite_project(project_path)
             
             # Refresh current project data
-            self.current_project['is_favorite'] = self.scanner.tag_manager.is_favorite_project(project_path)
+            favorite_status = self.scanner.tag_manager.is_favorite_project(project_path)
+            if favorite_status is None:
+                favorite_status = False
+            self.current_project['is_favorite'] = favorite_status
             
             # Update UI
             self.update_project_details()
@@ -2266,6 +2265,10 @@ class ProjectBrowserDialog(QDialog):
             return
         
         is_favorite = self.scanner.tag_manager.is_favorite_project(project_path)
+        
+        # Handle None case gracefully
+        if is_favorite is None:
+            is_favorite = False
         
         if is_favorite:
             self.favorite_button.setText("Remove from Favorites")
@@ -2457,7 +2460,7 @@ class ProjectBrowserDialog(QDialog):
             project_path = project.get('path', '')
             if project_path:
                 current_favorite = project.get('is_favorite', False)
-                self.scanner.tag_manager.set_favorite(project_path, not current_favorite)
+                self.scanner.tag_manager.toggle_favorite_project(project_path)
                 project['is_favorite'] = not current_favorite
         
         self.populate_project_table()
@@ -2471,7 +2474,7 @@ class ProjectBrowserDialog(QDialog):
             return
         
         # Ask user for tags
-        tags_input, ok = QMessageBox.getText(
+        tags_input, ok = QInputDialog.getText(
             self, "Add Tags", 
             "Enter tags (comma-separated):",
             QLineEdit.Normal, ""
@@ -2487,7 +2490,7 @@ class ProjectBrowserDialog(QDialog):
                     for tag in tags:
                         if tag not in existing_tags:
                             existing_tags.append(tag)
-                    self.scanner.tag_manager.add_tags(project_path, existing_tags)
+                    self.scanner.tag_manager.set_project_tags(project_path, existing_tags)
                     project['tags'] = existing_tags
             
             self.populate_project_table()

@@ -1,27 +1,69 @@
 {
   "recent_projects": [
     {
-      "path": "X:\\GitHub\\MSR605",
-      "name": "MSR605",
-      "accessed_at": "2025-09-15T00:31:49.063301",
+      "path": "X:\\GitHub\\PySnoop",
+      "name": "PySnoop",
+      "accessed_at": "2025-09-15T01:20:15.331389",
+      "project_data": {}
+    },
+    {
+      "path": "X:\\GitHub\\OpenPGP",
+      "name": "OpenPGP",
+      "accessed_at": "2025-09-15T01:20:13.171366",
       "project_data": {}
     },
     {
       "path": "X:\\GitHub\\Images-Deduplicator",
       "name": "Images-Deduplicator",
-      "accessed_at": "2025-09-15T00:31:48.359658",
+      "accessed_at": "2025-09-15T01:20:03.371323",
       "project_data": {}
     },
     {
       "path": "X:\\GitHub\\EmailDuplicateCleaner",
       "name": "EmailDuplicateCleaner",
-      "accessed_at": "2025-09-15T00:31:45.639271",
+      "accessed_at": "2025-09-15T01:19:37.611018",
       "project_data": {}
     },
     {
       "path": "X:\\GitHub\\pass_mgr",
       "name": "pass_mgr",
-      "accessed_at": "2025-09-15T00:31:38.999772",
+      "accessed_at": "2025-09-15T01:19:32.562862",
+      "project_data": {}
+    },
+    {
+      "path": "X:\\GitHub\\PDF_finder",
+      "name": "PDF_finder",
+      "accessed_at": "2025-09-15T01:19:25.171423",
+      "project_data": {}
+    },
+    {
+      "path": "X:\\GitHub\\CDE550-sim",
+      "name": "CDE550-sim",
+      "accessed_at": "2025-09-15T01:19:21.227963",
+      "project_data": {}
+    },
+    {
+      "path": "X:\\GitHub\\Nidec_CommanderCDE",
+      "name": "Nidec_CommanderCDE",
+      "accessed_at": "2025-09-15T01:19:13.747184",
+      "project_data": {}
+    },
+    {
+      "path": "X:\\GitHub\\MSR605",
+      "name": "MSR605",
+      "accessed_at": "2025-09-15T01:07:09.484362",
+      "project_data": {}
+    },
+    {
+      "path": "X:\\GitHub\\weather",
+      "name": "weather",
+      "accessed_at": "2025-09-15T01:03:25.140797",
+      "project_data": {}
+    },
+    {
+      "path": "X:\\GitHub\\NFC",
+      "name": "NFC",
+      "accessed_at": "2025-09-15T00:50:24.925158",
       "project_data": {}
     },
     {
@@ -37,18 +79,6 @@
       "project_data": {}
     },
     {
-      "path": "X:\\GitHub\\PDF_finder",
-      "name": "PDF_finder",
-      "accessed_at": "2025-09-15T00:30:27.519186",
-      "project_data": {}
-    },
-    {
-      "path": "X:\\GitHub\\CDE550-sim",
-      "name": "CDE550-sim",
-      "accessed_at": "2025-09-15T00:30:21.855111",
-      "project_data": {}
-    },
-    {
       "path": "X:\\GitHub\\raspy_utility",
       "name": "raspy_utility",
       "accessed_at": "2025-09-15T00:29:49.175800",
@@ -61,5 +91,5 @@
       "project_data": {}
     }
   ],
-  "last_updated": "2025-09-15T00:31:55.864222"
+  "last_updated": "2025-09-15T01:20:18.188268"
 }

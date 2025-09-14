@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Main entry point for PRJ-1 application.
+Main entry point for Project Browser application.
 This module serves as the primary entry point for the application.
 """
 

@@ -1,10 +1,17 @@
 """
-Log viewer for the Benchmark application.
+Log viewer for the Project Browser application.
 """
 import os
 import sys
 import logging
 from pathlib import Path
+from typing import Dict, Any, Optional
+from PySide6.QtWidgets import (
+    QDialog, QVBoxLayout, QHBoxLayout, QLabel, QComboBox, 
+    QLineEdit, QTextEdit, QPushButton, QFileDialog, QMessageBox, QApplication, QSizePolicy
+)
+from PySide6.QtCore import Qt, Signal
+from PySide6.QtGui import QTextCursor
 
 # Add the src directory to the Python path for proper imports
 project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -12,14 +19,7 @@ src_path = os.path.join(project_root, 'src')
 if src_path not in sys.path:
     sys.path.insert(0, src_path)
 
-from PySide6.QtWidgets import (
-    QDialog, QVBoxLayout, QHBoxLayout, QComboBox,
-    QPushButton, QTextEdit, QLabel, QFileDialog,
-    QMessageBox, QApplication, QSizePolicy, QLineEdit
-)
-from PySide6.QtCore import Qt, Signal
-
-# Import language manager
+from script.utils.logger import LoggerManager
 from script.lang.lang_mgr import get_language_manager, get_text
 log = logging.getLogger(__name__)
 
@@ -137,11 +137,19 @@ class LogViewer(QDialog):
         # --- Filter Section ---
         filter_layout = QHBoxLayout()
         
+        # Log type filter dropdown
+        filter_layout.addWidget(QLabel(get_text("log_viewer.filter_by_type", "Filter by Type:")))
+        self.type_combo = QComboBox()
+        self.type_combo.setMinimumWidth(120)
+        self.type_combo.addItems(["ALL", "MAIN", "ERROR", "JSON"])
+        self.type_combo.currentTextChanged.connect(self.apply_filters)
+        filter_layout.addWidget(self.type_combo)
+        
         # Log level filter dropdown
         filter_layout.addWidget(QLabel(get_text("log_viewer.filter_by_level", "Filter by Level:")))
         self.level_combo = QComboBox()
         self.level_combo.setMinimumWidth(150)
-        self.level_combo.addItems(["ALL", "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"])
+        self.level_combo.addItems(["ALL", "TRACE", "DEBUG", "INFO", "SUCCESS", "WARNING", "ERROR", "CRITICAL"])
         self.level_combo.currentTextChanged.connect(self.apply_filters)
         filter_layout.addWidget(self.level_combo)
         
@@ -159,6 +167,7 @@ class LogViewer(QDialog):
         self.log_display.setReadOnly(True)
         self.log_display.setFontFamily("Consolas")
         self.log_display.setLineWrapMode(QTextEdit.NoWrap)
+        self.log_display.setAcceptRichText(True)  # Enable HTML support for colors
         main_layout.addWidget(self.log_display, 1)  # Add stretch to take remaining space
         
         # --- Button Section ---
@@ -220,7 +229,8 @@ class LogViewer(QDialog):
         try:
             with open(self.current_log_file, 'r', encoding='utf-8') as f:
                 self.original_log_content = f.read()
-                self.log_display.setPlainText(self.original_log_content)
+                # Apply filters to get formatted content with colors
+                self.apply_filters()
                 
             # Auto-scroll to the bottom
             self.log_display.verticalScrollBar().setValue(
@@ -352,6 +362,7 @@ class LogViewer(QDialog):
             return
             
         try:
+            type_filter = self.type_combo.currentText()
             level_filter = self.level_combo.currentText()
             search_text = self.search_input.text().lower()
             
@@ -362,24 +373,38 @@ class LogViewer(QDialog):
             for line in self.original_log_content.split('\n'):
                 if not line.strip():
                     continue
-                    
-                # Apply level filter - check if the line contains the log level
-                line_upper = line.upper()
-                if level_filter != "ALL" and f" {level_filter} " not in f" {line_upper} ":
+                
+                # Apply type filter based on filename
+                if type_filter != "ALL":
+                    filename = os.path.basename(self.current_log_file).lower()
+                    if type_filter == "MAIN" and not filename.startswith('prj_'):
+                        continue
+                    elif type_filter == "ERROR" and not filename.startswith('prj_errors_'):
+                        continue
+                    elif type_filter == "JSON" and not filename.startswith('prj_json_'):
+                        continue
+                
+                # Parse line for filtering
+                parsed_line = self._parse_log_line(line)
+                if not parsed_line:
+                    filtered_lines.append(line)  # Keep unparsable lines
+                    continue
+                
+                # Apply level filter
+                if level_filter != "ALL" and parsed_line.get('level', '').upper() != level_filter:
                     continue
                 
                 # Apply search filter
-                if search_text and search_text not in line.lower():
-                    continue
+                if search_text:
+                    searchable_text = f"{parsed_line.get('message', '')} {parsed_line.get('level', '')} {parsed_line.get('logger', '')}".lower()
+                    if search_text not in searchable_text:
+                        continue
                 
-                filtered_lines.append(line)
+                # Format the line for display
+                formatted_line = self._format_log_line(parsed_line, line)
+                filtered_lines.append(formatted_line)
             
-            self.log_display.setPlainText('\n'.join(filtered_lines))
-            
-            # Auto-scroll to the bottom after filtering
-            self.log_display.verticalScrollBar().setValue(
-                self.log_display.verticalScrollBar().maximum()
-            )
+            self.log_display.setHtml('<div style="font-family: Consolas; font-size: 10pt; white-space: pre;">' + '\n'.join(filtered_lines) + '</div>')
             
             # Auto-scroll to the bottom after filtering
             self.log_display.verticalScrollBar().setValue(
@@ -388,6 +413,99 @@ class LogViewer(QDialog):
             
         except Exception as e:
             log.error(f"Error applying filters: {e}")
+    
+    def _parse_log_line(self, line: str) -> Optional[Dict[str, Any]]:
+        """Parse a log line and return structured data."""
+        try:
+            # Try to parse as JSON first
+            if line.strip().startswith('{') and line.strip().endswith('}'):
+                import json
+                data = json.loads(line.strip())
+                return {
+                    'timestamp': data.get('timestamp', ''),
+                    'level': data.get('level', ''),
+                    'logger': data.get('logger', ''),
+                    'message': data.get('message', ''),
+                    'module': data.get('module', ''),
+                    'function': data.get('function', ''),
+                    'line': data.get('line', ''),
+                    'is_json': True
+                }
+            
+            # Parse standard log format: "timestamp - logger - level - message"
+            parts = line.split(' - ', 3)
+            if len(parts) >= 4:
+                return {
+                    'timestamp': parts[0],
+                    'logger': parts[1],
+                    'level': parts[2],
+                    'message': parts[3],
+                    'is_json': False
+                }
+            
+            # Fallback for unknown formats
+            return {
+                'message': line,
+                'level': 'UNKNOWN',
+                'logger': '',
+                'is_json': False
+            }
+            
+        except Exception:
+            return None
+    
+    def _format_log_line(self, parsed_line: Dict[str, Any], original_line: str) -> str:
+        """Format a parsed log line for display with colors."""
+        if parsed_line.get('is_json'):
+            # Format JSON logs with indentation
+            try:
+                import json
+                data = json.loads(original_line.strip())
+                level = data.get('level', 'INFO').upper()
+                message = data.get('message', '')
+                timestamp = data.get('timestamp', '')
+                
+                # Apply color based on level
+                color_map = {
+                    'TRACE': '#00FFFF',    # Cyan
+                    'DEBUG': '#00FFFF',    # Cyan
+                    'INFO': '#00FF00',     # Green
+                    'SUCCESS': '#00FF00',  # Bright Green
+                    'WARNING': '#FFFF00',  # Yellow
+                    'ERROR': '#FF0000',    # Red
+                    'CRITICAL': '#FF00FF', # Magenta
+                }
+                
+                color = color_map.get(level, '#FFFFFF')
+                colored_level = f'<span style="color: {color}; font-weight: bold;">{level}</span>'
+                
+                return f'{timestamp} - {colored_level} - {message}'
+                
+            except Exception:
+                return original_line
+        
+        else:
+            # Format standard logs with colors
+            level = parsed_line.get('level', 'INFO').upper()
+            
+            # Apply color based on level
+            color_map = {
+                'TRACE': '#00FFFF',    # Cyan
+                'DEBUG': '#00FFFF',    # Cyan
+                'INFO': '#00FF00',     # Green
+                'SUCCESS': '#00FF00',  # Bright Green
+                'WARNING': '#FFFF00',  # Yellow
+                'ERROR': '#FF0000',    # Red
+                'CRITICAL': '#FF00FF', # Magenta
+            }
+            
+            color = color_map.get(level, '#FFFFFF')
+            colored_level = f'<span style="color: {color}; font-weight: bold;">{level}</span>'
+            
+            return original_line.replace(
+                f" - {level} - ", 
+                f" - {colored_level} - "
+            )
 
 def show_log_viewer(parent=None):
     """Show the log viewer dialog."""

@@ -1,4 +1,4 @@
-# PRJ-1 - Project Browser
+# Project Browser
 
 A comprehensive project management application that scans, browses, and manages development projects with advanced version detection and directory selection capabilities.
 
