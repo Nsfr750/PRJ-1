@@ -49,7 +49,7 @@ def setup_logger(name: str = 'neuralnetwork', log_level: int = logging.INFO) -> 
     try:
         # File handler (daily rotation with date in filename)
         current_date = datetime.now().strftime('%Y-%m-%d')
-        log_file = logs_dir / f'neuralnetwork_{current_date}.log'
+        log_file = logs_dir / f'prj_{current_date}.log'
         file_handler = TimedRotatingFileHandler(
             log_file,
             when='midnight',  # Rotate at midnight
@@ -85,5 +85,5 @@ def get_logger(name: str = None) -> logging.Logger:
         Configured logger instance
     """
     if name:
-        return logging.getLogger(f'neuralnetwork.{name}')
+        return logging.getLogger(f'prj.{name}')
     return logger

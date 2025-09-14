@@ -6,7 +6,7 @@ Contains all text strings in all supported languages.
 TRANSLATIONS = {
     'en': {
         "app": {
-            "title": "Application List",
+            "title": "Project Browser",
             "loading": "Loading...",
             "error": "Error",
             "success": "Success",
@@ -63,7 +63,7 @@ TRANSLATIONS = {
         },
         "about": {
             "title": "About",
-            "description": "-",
+            "description": "A simple ProjectBrowser",
             "version": "Version: {version}",
             "author": "© {year} Nsfr750 - All rights reserved",
             "license": "License: GPLv3",
@@ -79,7 +79,7 @@ TRANSLATIONS = {
     },
     'it': {
         "app": {
-            "title": "Lista Applicazioni",
+            "title": "Project Browser",
             "loading": "Caricamento...",
             "error": "Errore",
             "success": "Operazione completata",
@@ -136,7 +136,7 @@ TRANSLATIONS = {
         },
         "about": {
             "title": "Informazioni",
-            "description": "-",
+            "description": "Un semplice Browser per i Progetti",
             "version": "Versione: {version}",
             "author": "© {year} Nsfr750 - Tutti i diritti riservati",
             "license": "Licenza: GPLv3",

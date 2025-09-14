@@ -26,7 +26,7 @@ class HelpDialog(QDialog):
     
     def __init__(self, parent=None, context_topic=None):
         super().__init__(parent)
-        self.setWindowTitle("Help - Neural Network Creator")
+        self.setWindowTitle("Help - Project Browser")
         self.setMinimumSize(1000, 700)
         self.resize(1200, 800)
         self.context_topic = context_topic
@@ -57,7 +57,7 @@ class HelpDialog(QDialog):
         header_layout = QHBoxLayout()
         
         # Title
-        title_label = QLabel("Neural Network Creator - Help")
+        title_label = QLabel("Project Browser - Help")
         title_font = QFont()
         title_font.setBold(True)
         title_font.setPointSize(14)
@@ -172,10 +172,10 @@ class HelpDialog(QDialog):
         links_layout = QVBoxLayout()
         
         links = [
-            ("GitHub Wiki", "https://github.com/Nsfr750/NeuralNetworkApp/wiki"),
-            ("Report Issue", "https://github.com/Nsfr750/NeuralNetworkApp/issues"),
-            ("Discussions", "https://github.com/Nsfr750/NeuralNetworkApp/discussions"),
-            ("Release Notes", "https://github.com/Nsfr750/NeuralNetworkApp/releases")
+            ("GitHub Wiki", "https://github.com/Nsfr750/PRJ-1/wiki"),
+            ("Report Issue", "https://github.com/Nsfr750/PRJ-1/issues"),
+            ("Discussions", "https://github.com/Nsfr750/PRJ-1/discussions"),
+            ("Release Notes", "https://github.com/Nsfr750/PRJ-1/releases")
         ]
         
         for text, url in links:
@@ -262,82 +262,88 @@ class HelpDialog(QDialog):
                 .tip {{ background-color: #1f1f1f; padding: 10px; border-left: 4px solid #28a745; margin: 10px 0; }}
                 ul {{ margin: 10px 0; }}
                 li {{ margin: 5px 0; }}
+                table {{ border-collapse: collapse; width: 100%; margin: 10px 0; }}
+                th, td {{ border: 1px solid #ddd; padding: 8px; text-align: left; }}
+                th {{ background-color: #44607b; color: white; }}
             </style>
         </head>
         <body>
-            <h1>Neural Network Creator - Help Center</h1>
+            <h1>PRJ-1 Project Browser - Help Center</h1>
             
             <div class="note">
-                <strong>Welcome to Neural Network Creator!</strong> This comprehensive help system will guide you through creating, training, and managing neural networks.
+                <strong>Welcome to PRJ-1 Project Browser!</strong> This comprehensive project management tool helps you discover, organize, and manage your development projects with ease.
             </div>
             
             <h2>Quick Start Guide</h2>
             <ol>
-                <li><strong>Load Data:</strong> Start by loading your dataset using CSV format</li>
-                <li><strong>Configure Model:</strong> Set up your neural network architecture</li>
-                <li><strong>Train:</strong> Train your model with customizable parameters</li>
-                <li><strong>Evaluate:</strong> Analyze your model's performance</li>
+                <li><strong>Scan Projects:</strong> Use the Project Browser to scan your directories for projects</li>
+                <li><strong>Browse Projects:</strong> View all your projects in an organized table with detailed information</li>
+                <li><strong>Search & Filter:</strong> Find projects quickly using search and language filters</li>
+                <li><strong>Open Projects:</strong> Launch projects in your preferred editor or IDE</li>
             </ol>
             
             <h2>Interface Overview</h2>
-            <h3>Model Tab</h3>
+            <h3>Main Window</h3>
             <ul>
-                <li><strong>Input Size:</strong> Number of features in your dataset (auto-detected)</li>
-                <li><strong>Hidden Layers:</strong> Configure the number and size of hidden layers</li>
-                <li><strong>Output Size:</strong> Number of classes or output neurons</li>
-                <li><strong>Activation Functions:</strong> Choose from ReLU, Sigmoid, Tanh, etc.</li>
-                <li><strong>Dropout:</strong> Regularization to prevent overfitting</li>
-                <li><strong>Batch Normalization:</strong> Improve training stability</li>
+                <li><strong>Menu Bar:</strong> Access all application features and settings</li>
+                <li><strong>Project Browser:</strong> Browse and manage your projects</li>
+                <li><strong>Status Bar:</strong> View application status and quick information</li>
             </ul>
             
-            <h3>Training Tab</h3>
+            <h3>Project Browser Dialog</h3>
             <ul>
-                <li><strong>Epochs:</strong> Number of training iterations</li>
-                <li><strong>Batch Size:</strong> Number of samples per batch</li>
-                <li><strong>Learning Rate:</strong> Step size for optimization</li>
-                <li><strong>Optimizer:</strong> Adam, SGD, RMSprop, etc.</li>
-                <li><strong>Loss Function:</strong> CrossEntropy, MSE, etc.</li>
-                <li><strong>Progress Tracking:</strong> Real-time training progress</li>
+                <li><strong>Directory Selection:</strong> Choose which directory to scan for projects</li>
+                <li><strong>Project Table:</strong> View all discovered projects with detailed information</li>
+                <li><strong>Search & Filter:</strong> Find projects by name or programming language</li>
+                <li><strong>Version Display:</strong> See version information extracted from version.py files</li>
+                <li><strong>Open Actions:</strong> Launch projects in your preferred editor</li>
             </ul>
             
-            <h3>Data Tab</h3>
+            <h3>Menu Features</h3>
             <ul>
-                <li><strong>Data Loading:</strong> Load CSV datasets with preview</li>
-                <li><strong>Data Statistics:</strong> View dataset information</li>
-                <li><strong>Data Splitting:</strong> Train/validation split configuration</li>
+                <li><strong>File Menu:</strong> Project browser, settings, and exit</li>
+                <li><strong>Help Menu:</strong> Access help, about, and sponsor information</li>
+                <li><strong>Language Support:</strong> Switch between different interface languages</li>
             </ul>
             
             <h2>Keyboard Shortcuts</h2>
-            <table border="1" style="border-collapse: collapse; width: 100%;">
+            <table>
                 <tr><th><strong>Shortcut</strong></th><th><strong>Action</strong></th></tr>
-                <tr><td><code>Ctrl+N</code></td><td>New Project</td></tr>
-                <tr><td><code>Ctrl+O</code></td><td>Open Project</td></tr>
-                <tr><td><code>Ctrl+S</code></td><td>Save Project</td></tr>
+                <tr><td><code>Ctrl+B</code></td><td>Open Project Browser</td></tr>
+                <tr><td><code>Ctrl+F</code></td><td>Focus Search Box</td></tr>
                 <tr><td><code>F1</code></td><td>Show Help</td></tr>
                 <tr><td><code>Ctrl+Q</code></td><td>Quit Application</td></tr>
+                <tr><td><code>Ctrl+W</code></td><td>Close Current Dialog</td></tr>
             </table>
             
             <div class="tip">
-                <strong>Pro Tip:</strong> Use the search box above to quickly find help topics. You can also browse the documentation tree on the left for detailed guides.
+                <strong>Pro Tip:</strong> Use the search box above to quickly find help topics. You can also browse the documentation tree on the left for detailed guides and project documentation.
             </div>
+            
+            <h2>Documentation Sections</h2>
+            <ul>
+                <li><strong>Project Structure:</strong> Detailed explanation of the project architecture</li>
+                <li><strong>Roadmap:</strong> Planned features and future development</li>
+                <li><strong>Application List:</strong> List of supported applications and their status</li>
+            </ul>
             
             <h2>Getting Additional Help</h2>
             <ul>
-                <li><strong>GitHub Wiki:</strong> Comprehensive documentation and guides</li>
-                <li><strong>Community Discussions:</strong> Get help from other users</li>
+                <li><strong>GitHub Repository:</strong> Source code and documentation</li>
                 <li><strong>Issue Tracker:</strong> Report bugs or request features</li>
-                <li><strong>Examples:</strong> Check the Examples tab for sample code</li>
+                <li><strong>Discord Community:</strong> Get help from other users and developers</li>
+                <li><strong>Documentation:</strong> Browse the comprehensive documentation in the docs/ folder</li>
             </ul>
             
             <div class="warning">
-                <strong>Important:</strong> Make sure your data is properly formatted before training. The last column should contain your target variable, and all other columns should be features.
+                <strong>Important:</strong> Make sure your projects contain a <code>version.py</code> file for proper version detection. The scanner will recursively search all subdirectories for version information.
             </div>
         </body>
         </html>
         """
     
     def populate_docs_tree(self):
-        """Populate the documentation tree with available guides."""
+        """Populate the documentation tree with available documentation files."""
         if not self.docs_path:
             return
         
@@ -345,23 +351,28 @@ class HelpDialog(QDialog):
         self.docs_tree.clear()
         
         # Add main categories
-        guides_item = QTreeWidgetItem(self.docs_tree, ["Guides"])
-        api_item = QTreeWidgetItem(self.docs_tree, ["API Reference"])
-        examples_item = QTreeWidgetItem(self.docs_tree, ["Examples"])
+        project_docs_item = QTreeWidgetItem(self.docs_tree, ["Project Documentation"])
+        structure_item = QTreeWidgetItem(self.docs_tree, ["Structure & Architecture"])
+        planning_item = QTreeWidgetItem(self.docs_tree, ["Planning & Roadmap"])
         
-        # Populate guides
-        guides_path = self.docs_path / "guides"
-        if guides_path.exists():
-            for guide_file in guides_path.glob("*.md"):
-                guide_name = guide_file.stem.replace("_", " ").title()
-                QTreeWidgetItem(guides_item, [guide_name])
+        # Populate project documentation
+        if (self.docs_path / "STRUCT.md").exists():
+            struct_item = QTreeWidgetItem(project_docs_item, ["Project Structure"])
+            struct_item.setData(0, Qt.UserRole, "STRUCT.md")
         
-        # Populate API reference
-        api_path = self.docs_path / "api"
-        if api_path.exists():
-            for api_file in api_path.glob("*.md"):
-                api_name = api_file.stem.replace("_", " ").title()
-                QTreeWidgetItem(api_item, [api_name])
+        if (self.docs_path / "app_list.md").exists():
+            app_list_item = QTreeWidgetItem(project_docs_item, ["Application List"])
+            app_list_item.setData(0, Qt.UserRole, "app_list.md")
+        
+        # Populate structure & architecture
+        if (self.docs_path / "STRUCT.md").exists():
+            struct_detail_item = QTreeWidgetItem(structure_item, ["Detailed Structure"])
+            struct_detail_item.setData(0, Qt.UserRole, "STRUCT.md")
+        
+        # Populate planning & roadmap
+        if (self.docs_path / "ROADMAP.md").exists():
+            roadmap_item = QTreeWidgetItem(planning_item, ["Development Roadmap"])
+            roadmap_item.setData(0, Qt.UserRole, "ROADMAP.md")
         
         # Expand the tree
         self.docs_tree.expandAll()
@@ -387,93 +398,131 @@ class HelpDialog(QDialog):
             </style>
         </head>
         <body>
-            <h1>Examples and Tutorials</h1>
+            <h1>Usage Examples and Scenarios</h1>
             
-            <h2>MNIST Classification</h2>
+            <h2>Basic Project Scanning</h2>
             <div class="example-box">
                 <h3>Overview</h3>
-                <p>This example demonstrates how to create a neural network for handwritten digit classification using the MNIST dataset.</p>
+                <p>This example shows how to scan your development directories for projects using PRJ-1 Project Browser.</p>
                 
                 <h3>Steps</h3>
                 <ol>
-                    <li>Load the MNIST dataset (CSV format with 784 features + 1 target)</li>
-                    <li>Create a CNN or MLP architecture</li>
-                    <li>Configure training parameters</li>
-                    <li>Train and evaluate the model</li>
+                    <li>Launch Project Browser</li>
+                    <li>Click "Browse" button to select your projects directory</li>
+                    <li>Wait for the scan to complete</li>
+                    <li>View all discovered projects with their information</li>
                 </ol>
                 
-                <h3>Recommended Configuration</h3>
+                <h3>Expected Results</h3>
                 <ul>
-                    <li><strong>Input Size:</strong> 784 (28x28 pixels flattened)</li>
-                    <li><strong>Hidden Layers:</strong> [256, 128] with ReLU activation</li>
-                    <li><strong>Output Size:</strong> 10 (digits 0-9)</li>
-                    <li><strong>Optimizer:</strong> Adam with learning rate 0.001</li>
-                    <li><strong>Loss Function:</strong> CrossEntropyLoss</li>
-                    <li><strong>Epochs:</strong> 10-20</li>
-                    <li><strong>Batch Size:</strong> 32-64</li>
+                    <li><strong>Projects Found:</strong> All Python projects with version.py files</li>
+                    <li><strong>Version Info:</strong> Extracted from version.py in each project</li>
+                    <li><strong>Language Detection:</strong> Automatically detected programming language</li>
+                    <li><strong>Project Details:</strong> Name, path, version, and language displayed</li>
                 </ul>
             </div>
             
-            <h2>CIFAR-10 Classification</h2>
+            <h2>Advanced Project Management</h2>
             <div class="example-box">
                 <h3>Overview</h3>
-                <p>This example shows how to classify images from the CIFAR-10 dataset using a convolutional neural network.</p>
+                <p>Learn how to use advanced features for managing large project collections.</p>
                 
-                <h3>Dataset Preparation</h3>
-                <p>The CIFAR-10 dataset contains 32x32 color images in 10 classes. For this application, you'll need to preprocess the data:</p>
+                <h3>Features Demonstrated</h3>
                 <ul>
-                    <li>Flatten each 32x32x3 image to 3072 features</li>
-                    <li>Normalize pixel values to [0, 1]</li>
-                    <li>One-hot encode the labels</li>
+                    <li><strong>Search & Filter:</strong> Find projects by name or programming language</li>
+                    <li><strong>Version Tracking:</strong> Monitor project versions across your workspace</li>
+                    <li><strong>Quick Access:</strong> Open projects directly from the browser</li>
+                    <li><strong>Recursive Scanning:</strong> Discover projects in nested directories</li>
                 </ul>
                 
-                <h3>Network Architecture</h3>
+                <h3>Best Practices</h3>
                 <pre>
-Input: 3072 features
-Hidden Layers: [1024, 512, 256]
-Activation: ReLU
-Dropout: 0.2-0.5
-Output: 10 classes
+1. Organize projects in logical directory structures
+2. Ensure each project has a version.py file
+3. Use consistent naming conventions
+4. Regularly scan to keep project list updated
+5. Use search functionality for large collections
                 </pre>
             </div>
             
-            <h2>Custom Dataset Training</h2>
+            <h2>Version File Setup</h2>
             <div class="example-box">
                 <h3>Overview</h3>
-                <p>Learn how to train a neural network on your own custom dataset.</p>
+                <p>Example of a properly formatted version.py file for optimal PRJ-1 integration.</p>
                 
-                <h3>Data Format Requirements</h3>
+                <h3>Sample version.py</h3>
+                <pre>
+# version.py
+__version__ = "0.1.2"
+VERSION = (0, 1, 2)
+
+# Optional metadata
+__author__ = "Your Name"
+__description__ = "Project description"
+__license__ = "MIT"
+                </pre>
+                
+                <h3>Requirements</h3>
                 <ul>
-                    <li><strong>File Format:</strong> CSV file</li>
-                    <li><strong>Structure:</strong> Features in columns 1 to N, target variable in last column</li>
-                    <li><strong>Missing Values:</strong> Handle missing data before loading</li>
-                    <li><strong>Categorical Variables:</strong> Encode as numerical values</li>
+                    <li><strong>Required:</strong> <code>__version__</code> string (Semantic Versioning format)</li>
+                    <li><strong>Optional:</strong> <code>VERSION</code> tuple for programmatic access</li>
+                    <li><strong>Optional:</strong> Additional metadata fields</li>
+                    <li><strong>Location:</strong> Anywhere in the project directory (recursive search)</li>
+                </ul>
+            </div>
+            
+            <h2>Integration Examples</h2>
+            <div class="example-box">
+                <h3>Overview</h3>
+                <p>Learn how to integrate PRJ-1 with your development workflow.</p>
+                
+                <h3>IDE Integration</h3>
+                <ul>
+                    <li><strong>VS Code:</strong> Use PRJ-1 to quickly open projects in VS Code</li>
+                    <li><strong>PyCharm:</strong> Launch projects directly in PyCharm</li>
+                    <li><strong>Sublime Text:</strong> Open projects in your preferred editor</li>
                 </ul>
                 
-                <h3>Example CSV Structure</h3>
+                <h3>Workflow Integration</h3>
                 <pre>
-feature1,feature2,feature3,target
-1.2,3.4,5.6,0
-2.1,4.3,6.5,1
-0.8,2.7,4.9,0
+1. Start your day with PRJ-1 to see project overview
+2. Use search to find specific projects quickly
+3. Open projects directly from the browser
+4. Monitor project versions and updates
+5. Keep project list organized with regular scans
                 </pre>
             </div>
             
-            <h2>Advanced Examples</h2>
+            <h2>Troubleshooting Examples</h2>
             <div class="example-box">
-                <h3>Transfer Learning</h3>
-                <p>Use pre-trained models and adapt them to your specific task.</p>
+                <h3>Common Issues and Solutions</h3>
                 
-                <h3>Hyperparameter Optimization</h3>
-                <p>Learn techniques for finding optimal hyperparameters:</p>
+                <h3>Project Not Detected</h3>
+                <p>If your project isn't showing up in the scan:</p>
                 <ul>
-                    <li>Grid Search</li>
-                    <li>Random Search</li>
-                    <li>Bayesian Optimization</li>
+                    <li>Ensure you have a version.py file in the project</li>
+                    <li>Check that the version.py contains __version__ = "x.y.z"</li>
+                    <li>Verify the directory is included in the scan path</li>
+                    <li>Try scanning the parent directory recursively</li>
                 </ul>
                 
-                <h3>Model Ensemble</h3>
-                <p>Combine multiple models for better performance.</p>
+                <h3>Version Information Issues</h3>
+                <p>If version information is not displaying correctly:</p>
+                <ul>
+                    <li>Check version.py syntax and formatting</li>
+                    <li>Ensure __version__ follows semantic versioning</li>
+                    <li>Verify file encoding is UTF-8</li>
+                    <li>Check file permissions and accessibility</li>
+                </ul>
+                
+                <h3>Performance Optimization</h3>
+                <p>Tips for better performance with large project collections:</p>
+                <ul>
+                    <li>Use specific directory paths instead of root directories</li>
+                    <li>Organize projects in logical folder structures</li>
+                    <li>Use search and filter functions frequently</li>
+                    <li>Regular clean up of unused or moved projects</li>
+                </ul>
             </div>
         </body>
         </html>
@@ -535,53 +584,53 @@ feature1,feature2,feature3,target
             <h1>Frequently Asked Questions</h1>
             
             <div class="faq-item">
-                <div class="question">Q: What format should my data be in?</div>
-                <div class="answer">A: Your data should be in CSV format with features in the first N columns and the target variable in the last column. All values should be numerical.</div>
+                <div class="question">Q: What is Project Browser?</div>
+                <div class="answer">A: PRJ-1 is a comprehensive project management tool that helps developers discover, organize, and manage their development projects. It scans directories for projects, extracts version information, and provides an intuitive interface for browsing and opening projects.</div>
             </div>
             
             <div class="faq-item">
-                <div class="question">Q: How do I determine the input size for my model?</div>
-                <div class="answer">A: The input size is automatically detected when you load your dataset. It equals the number of features (columns) minus one (for the target variable).</div>
+                <div class="question">Q: How does detect projects?</div>
+                <div class="answer">A: PRJ-1 recursively scans directories for <code>version.py</code> files. Any directory containing a version.py file with a valid <code>__version__</code> string is considered a project.</div>
             </div>
             
             <div class="faq-item">
-                <div class="question">Q: What activation function should I use?</div>
-                <div class="answer">A: For hidden layers, ReLU is generally a good default choice. For the output layer, use Sigmoid for binary classification, Softmax for multi-class classification, or Linear for regression.</div>
+                <div class="question">Q: What format should my version.py file have?</div>
+                <div class="answer">A: Your version.py file should contain at minimum: <code>__version__ = "x.y.z"</code> following semantic versioning. Optionally, you can include <code>VERSION = (x, y, z)</code> tuple and metadata like author, description, and license.</div>
             </div>
             
             <div class="faq-item">
-                <div class="question">Q: How many hidden layers should I use?</div>
-                <div class="answer">A: Start with 1-2 hidden layers for simple problems. For complex problems, you may need 3-5 layers. More layers aren't always better - watch for overfitting.</div>
+                <div class="question">Q: Why isn't my project showing up in the scan?</div>
+                <div class="answer">A: Common reasons include: missing version.py file, incorrect version.py format, directory not included in scan path, or file permission issues. Check that your version.py contains a valid __version__ string.</div>
             </div>
             
             <div class="faq-item">
-                <div class="question">Q: What learning rate should I use?</div>
-                <div class="answer">A: Common starting points are 0.001, 0.01, or 0.1. If training is unstable, try a smaller learning rate. If training is too slow, try a larger one.</div>
+                <div class="question">Q: Can PRJ-1 handle non-Python projects?</div>
+                <div class="answer">A: Currently, PRJ-1 is optimized for Python projects with version.py files. However, it can detect any project type as long as it contains a version.py file with proper version information.</div>
             </div>
             
             <div class="faq-item">
-                <div class="question">Q: How do I prevent overfitting?</div>
-                <div class="answer">A: Use dropout (0.2-0.5), batch normalization, early stopping, or reduce model complexity. Also ensure you have enough training data.</div>
+                <div class="question">Q: How do I open a project in my preferred editor?</div>
+                <div class="answer">A: Simply select the project in the browser table and click the "Open Project" button. PRJ-1 will attempt to open the project directory in your system's default file explorer or associated editor.</div>
             </div>
             
             <div class="faq-item">
-                <div class="question">Q: Why is my model not training?</div>
-                <div class="answer">A: Check: 1) Data is properly loaded and preprocessed, 2) Model architecture matches data dimensions, 3) Loss function is appropriate for your task, 4) Learning rate isn't too high or too low.</div>
+                <div class="question">Q: Can I search for specific projects?</div>
+                <div class="answer">A: Yes! Use the search box to filter projects by name, and the language filter to show only projects in specific programming languages. The search is case-insensitive and works in real-time.</div>
             </div>
             
             <div class="faq-item">
-                <div class="question">Q: How do I save and load my trained models?</div>
-                <div class="answer">A: Use the Save Model button in the interface. Models are saved as .pth files that can be loaded later for continued training or inference.</div>
+                <div class="question">Q: Does PRJ-1 modify my project files?</div>
+                <div class="answer">A: No, PRJ-1 is read-only. It only scans and reads your version.py files to extract information. It never modifies or creates any files in your projects.</div>
             </div>
             
             <div class="faq-item">
-                <div class="question">Q: What's the difference between training and validation accuracy?</div>
-                <div class="answer">A: Training accuracy is measured on the data used for training. Validation accuracy is measured on unseen data and better reflects how your model will perform on new data.</div>
+                <div class="question">Q: How can I improve scanning performance?</div>
+                <div class="answer">A: Scan specific directories instead of root directories, organize projects in logical folder structures, and avoid scanning directories with many non-project files. Use the search and filter functions for navigation.</div>
             </div>
             
             <div class="faq-item">
-                <div class="question">Q: How can I improve my model's performance?</div>
-                <div class="answer">A: Try: 1) More/better data, 2) Different architecture, 3) Hyperparameter tuning, 4) Feature engineering, 5) Longer training with early stopping, 6) Ensemble methods.</div>
+                <div class="question">Q: Is PRJ-1 available on multiple platforms?</div>
+                <div class="answer">A: Yes, PRJ-1 is built with Python and PySide6, making it cross-platform compatible with Windows, macOS, and Linux systems.</div>
             </div>
         </body>
         </html>
@@ -597,7 +646,13 @@ feature1,feature2,feature3,target
     def on_docs_tree_selected(self, item, column):
         """Handle documentation tree item selection."""
         topic = item.text(column)
-        self.load_documentation_topic(topic)
+        
+        # Check if item has associated file data
+        file_data = item.data(0, Qt.UserRole)
+        if file_data:
+            self.load_documentation_file(file_data)
+        else:
+            self.load_documentation_topic(topic)
         self.add_to_history(topic)
     
     def on_anchor_clicked(self, url):
@@ -728,6 +783,27 @@ feature1,feature2,feature3,target
     def show_error(self, message):
         """Show an error message."""
         QMessageBox.critical(self, "Error", message)
+    
+    def load_documentation_file(self, filename):
+        """Load a specific documentation file from the docs directory."""
+        if not self.docs_path:
+            self.show_error("Documentation directory not found")
+            return
+        
+        file_path = self.docs_path / filename
+        
+        if file_path.exists():
+            try:
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                # Convert markdown to HTML
+                html_content = self._markdown_to_html(content)
+                self.help_browser.setHtml(html_content)
+                self.tabs.setCurrentIndex(0)  # Switch to Help tab
+            except Exception as e:
+                self.show_error(f"Failed to load documentation file {filename}: {e}")
+        else:
+            self.show_error(f"Documentation file {filename} not found")
     
     def load_documentation_topic(self, topic):
         """Load documentation for a specific topic."""

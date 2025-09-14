@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Update checking utility for NeuralNetworkApp.
+Update checking utility for PRJ-1 Project Browser.
 Provides functionality to check for updates and display them in an independent dialog.
 """
 
@@ -27,9 +27,9 @@ try:
 except ImportError:
     GUI_AVAILABLE = False
 
-# Add the src directory to the path to import version
+# Add the root directory to the path to import version
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
-from neuralnetworkapp.version import __version__
+from script.version import __version__
 
 
 class UpdateChecker:
@@ -256,7 +256,7 @@ class UpdateDialog:
     
     def _show_console_dialog(self, force_check: bool = False) -> None:
         """Show console-based update information."""
-        print("NeuralNetworkApp Update Checker")
+        print("PRJ-1 Project Browser Update Checker")
         print("=" * 40)
         print(f"Current Version: {self.update_checker.current_version}")
         print("Checking for updates...")

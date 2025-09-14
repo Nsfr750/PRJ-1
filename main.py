@@ -23,6 +23,11 @@ except ImportError:
 # Import application modules
 from script.ui.menu import AppMenuBar
 from script.utils.version import __version__
+from script.utils.logger import setup_logger, get_logger
+
+# Setup logging
+logger = setup_logger('prj1', logging.INFO)
+logger.info("Starting PRJ-1 application")
 
 class MainWindow(QMainWindow):
     """Main application window."""
@@ -35,7 +40,7 @@ class MainWindow(QMainWindow):
     def init_ui(self):
         """Initialize the user interface."""
         # Set window properties
-        self.setWindowTitle("Application List")
+        self.setWindowTitle("Project Browser")
         self.setGeometry(100, 100, 800, 600)
         
         # Create central widget
@@ -51,28 +56,42 @@ class MainWindow(QMainWindow):
     
     def closeEvent(self, event):
         """Handle the close event."""
+        logger.info("Main window closing")
         event.accept()
 
 
 def main():
     """Main entry point for the application."""
-    # Create application
-    app = QApplication(sys.argv)
+    logger.info("Initializing application")
     
-    # Set application information
-    app.setApplicationName("Project List")
-    app.setApplicationVersion(__version__)
-    app.setOrganizationName("Tuxxle")
-    
-    # Set application style
-    app.setStyle('Fusion')
-    
-    # Create and show main window
-    window = MainWindow(lang='en')  # Default to English, can be changed
-    window.show()
-    
-    # Execute the application
-    sys.exit(app.exec())
+    try:
+        # Create application
+        app = QApplication(sys.argv)
+        
+        # Set application information
+        app.setApplicationName("Project Browser")
+        app.setApplicationVersion(__version__)
+        app.setOrganizationName("Tuxxle")
+        
+        logger.info(f"Application info: {app.applicationName()} v{app.applicationVersion()}")
+        
+        # Set application style
+        app.setStyle('Fusion')
+        
+        # Create and show main window
+        logger.info("Creating main window")
+        window = MainWindow(lang='en')  # Default to English, can be changed
+        window.show()
+        
+        logger.info("Starting application event loop")
+        # Execute the application
+        result = app.exec()
+        logger.info(f"Application exited with code: {result}")
+        sys.exit(result)
+        
+    except Exception as e:
+        logger.error(f"Application crashed: {e}", exc_info=True)
+        sys.exit(1)
 
 
 if __name__ == "__main__":

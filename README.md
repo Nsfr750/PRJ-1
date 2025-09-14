@@ -1,27 +1,32 @@
-# PRJ-1 - Project Manager
+# PRJ-1 - Project Browser
 
-A comprehensive project management application that scans, browses, and manages projects in your GitHub folder.
+A comprehensive project management application that scans, browses, and manages development projects with advanced version detection and directory selection capabilities.
 
 ## Features
 
 ### 📁 Project Scanner
 
-- **Automatic Detection**: Scans the `X:\GitHub` folder for projects
-- **Metadata Extraction**: Extracts project information including:
+- **Flexible Directory Selection**: Choose any directory to scan for projects
+- **Recursive Scanning**: Automatically searches all subdirectories for projects
+- **Advanced Version Detection**: Extracts version information from `version.py` files
+- **Metadata Extraction**: Extracts comprehensive project information including:
   - Project name and path
   - Programming language detection
-  - Version extraction from common files
+  - Version extraction from version.py files with semantic versioning support
   - Project size and modification date
   - Git repository detection
   - README and requirements file detection
+- **Directory Persistence**: Remembers last used directory for convenience
 
 ### 🔍 Project Browser
 
 - **Interactive Interface**: Browse projects with a user-friendly dialog
 - **Search & Filter**: Search by project name/description and filter by language
-- **Project Details**: View comprehensive project information
+- **Project Details**: View comprehensive project information including version details
 - **Quick Actions**: Open project folder, terminal, or editor directly
 - **Background Scanning**: Non-blocking project scanning for better UX
+- **Version Display**: Shows project versions with semantic versioning format
+- **Directory Navigation**: Easy navigation through project directories
 
 ### 💾 Data Persistence
 
@@ -38,9 +43,11 @@ A comprehensive project management application that scans, browses, and manages 
 ### 🛠️ Additional Tools
 
 - **Log Viewer**: Browse and filter application logs
-- **Update Checker**: Check for application updates
+- **Update Checker**: Check for application updates with GitHub integration
 - **About Dialog**: Application information and credits
 - **Sponsor Dialog**: Support the project developer
+- **Comprehensive Help System**: Integrated documentation with real-time file loading
+- **Enhanced Version Management**: Advanced version parsing and display functionality
 
 ## Installation
 
@@ -111,11 +118,12 @@ Run `python main.py` to launch the application. The main window will appear with
 ### Using the Project Browser
 
 1. Go to **Tools → Project Browser** in the menu
-2. The browser will automatically scan your `X:\GitHub` folder
-3. Use the search box to filter projects by name or description
-4. Use the language dropdown to filter by programming language
-5. Click on any project to view detailed information
-6. Use the action buttons to:
+2. **Select Directory**: Choose the directory you want to scan for projects
+3. **Recursive Scan**: The browser will automatically scan the selected directory and all subdirectories
+4. **Search & Filter**: Use the search box to filter projects by name or description
+5. **Language Filter**: Use the language dropdown to filter by programming language
+6. **View Details**: Click on any project to view detailed information including version
+7. **Quick Actions**: Use the action buttons to:
    - **Open Folder**: Open the project directory in file explorer
    - **Open Terminal**: Open a terminal in the project directory
    - **Open in Editor**: Open the project in your default editor
@@ -123,17 +131,30 @@ Run `python main.py` to launch the application. The main window will appear with
 ### Managing Projects
 
 - **Refresh**: Click the refresh button to rescan for new projects
+- **Change Directory**: Use the directory selection button to scan a different location
 - **Clear Data**: Use the clear button to remove saved project data
 - **Statistics**: View project statistics in the browser sidebar
+- **Version Info**: View detailed version information for each project
 
 ## Configuration
 
-### GitHub Path
+### Directory Selection
 
-By default, the application scans `X:\GitHub`. You can modify this by:
+The application allows flexible directory selection:
 
-- Editing the `github_path` parameter in `ProjectScanner` class
-- Or modifying the scanner initialization in the project browser
+- **Interactive Selection**: Use the directory dialog in the Project Browser
+- **Directory Persistence**: The last used directory is automatically saved and restored
+- **Recursive Scanning**: All subdirectories are automatically scanned
+- **Multiple Locations**: Easily switch between different project directories
+
+### Version Detection
+
+Projects are detected by looking for `version.py` files:
+
+- **Required Format**: `__version__ = "x.y.z"` (semantic versioning)
+- **Optional**: `VERSION = (x, y, z)` tuple for programmatic access
+- **Metadata**: Additional fields like author, description, license are supported
+- **Recursive Search**: Version.py files are searched in all subdirectories
 
 ### Data Storage
 

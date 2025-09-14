@@ -253,7 +253,7 @@ class AppMenuBar(QMenuBar):
     
     def open_wiki(self):
         """Open the project wiki in the default web browser."""
-        webbrowser.open("https://github.com/Nsfr750/NeuralNetworkApp/wiki")
+        webbrowser.open("https://github.com/Nsfr750/PRJ-1/wiki")
     
     def view_logs(self):
         """Open the log viewer dialog."""

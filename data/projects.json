@@ -68,7 +68,7 @@
       "main_file": "main.py",
       "description": "OpenPGP GUI App",
       "language": "Python",
-      "version": "Unknown"
+      "version": "UNKNOWN"
     },
     {
       "name": "PySnoop",
@@ -166,7 +166,7 @@
       "main_file": "main.py",
       "description": "Raspberry Pi GPIO Control Center",
       "language": "Python",
-      "version": "Unknown"
+      "version": "6.0.1"
     },
     {
       "name": "NFC",
@@ -241,7 +241,7 @@
     {
       "name": "PRJ-1",
       "path": "X:\\GitHub\\PRJ-1",
-      "size": 651161323,
+      "size": 651180082,
       "modified": "2025-09-14T13:32:51.550000",
       "has_git": true,
       "has_readme": true,
@@ -250,9 +250,107 @@
       "main_file": "main.py",
       "description": "PRJ-1 - Project Manager",
       "language": "Unknown",
+      "version": "3.4.3"
+    },
+    {
+      "name": "Onvif",
+      "path": "X:\\GitHub\\Onvif",
+      "size": 62015,
+      "modified": "2025-05-26T12:20:50",
+      "has_git": false,
+      "has_readme": true,
+      "has_requirements": true,
+      "has_setup": false,
+      "main_file": "main.py",
+      "description": "ONVIF Camera GUI",
+      "language": "Python",
       "version": "Unknown"
+    },
+    {
+      "name": "POS",
+      "path": "X:\\GitHub\\POS",
+      "size": 228051,
+      "modified": "2025-06-12T18:15:16.260000",
+      "has_git": false,
+      "has_readme": true,
+      "has_requirements": true,
+      "has_setup": true,
+      "main_file": null,
+      "description": "POS Data Extractor",
+      "language": "Unknown",
+      "version": "Unknown"
+    },
+    {
+      "name": "POS Data Extractor",
+      "path": "X:\\GitHub\\POS Data Extractor",
+      "size": 46737,
+      "modified": "2025-07-12T19:30:56",
+      "has_git": false,
+      "has_readme": true,
+      "has_requirements": true,
+      "has_setup": false,
+      "main_file": null,
+      "description": "Data Extractor",
+      "language": "Python",
+      "version": "Unknown"
+    },
+    {
+      "name": "STL_to_G-Code",
+      "path": "X:\\GitHub\\STL_to_G-Code",
+      "size": 123735567,
+      "modified": "2025-08-23T16:40:39.430000",
+      "has_git": false,
+      "has_readme": true,
+      "has_requirements": true,
+      "has_setup": false,
+      "main_file": "main.py",
+      "description": "STL to GCode Converter",
+      "language": "Unknown",
+      "version": "Unknown"
+    },
+    {
+      "name": "SysInfo",
+      "path": "X:\\GitHub\\SysInfo",
+      "size": 153099,
+      "modified": "2025-08-10T07:15:08.960000",
+      "has_git": false,
+      "has_readme": true,
+      "has_requirements": true,
+      "has_setup": false,
+      "main_file": "main.py",
+      "description": "System Info",
+      "language": "Python",
+      "version": "1.0.0"
+    },
+    {
+      "name": "web_weather",
+      "path": "X:\\GitHub\\web_weather",
+      "size": 14886126,
+      "modified": "2023-01-10T08:50:40",
+      "has_git": false,
+      "has_readme": true,
+      "has_requirements": true,
+      "has_setup": false,
+      "main_file": "main.py",
+      "description": "Weather App",
+      "language": "Unknown",
+      "version": "Unknown"
+    },
+    {
+      "name": "3DViewer",
+      "path": "X:\\GitHub\\3DViewer",
+      "size": 258201608,
+      "modified": "2025-08-11T12:15:42",
+      "has_git": false,
+      "has_readme": true,
+      "has_requirements": false,
+      "has_setup": false,
+      "main_file": null,
+      "description": "Online 3D Viewer",
+      "language": "Unknown",
+      "version": "0.16.0"
     }
   ],
-  "last_scan": "2025-09-14T14:57:55.205241",
+  "last_scan": "2025-09-14T15:13:42.187262",
   "scan_directory": "X:\\GitHub"
 }
