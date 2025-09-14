@@ -61,6 +61,18 @@ class ProjectBrowserDialog(QDialog):
         # Start scanning projects
         self.scan_projects()
     
+    def closeEvent(self, event):
+        """Handle dialog close event to properly clean up threads."""
+        # Wait for scan thread to finish if it's running
+        if hasattr(self, 'scan_thread') and self.scan_thread.isRunning():
+            self.scan_thread.quit()
+            self.scan_thread.wait(1000)  # Wait up to 1 second
+            if self.scan_thread.isRunning():
+                self.scan_thread.terminate()
+                self.scan_thread.wait(500)  # Wait another 0.5 seconds
+        
+        super().closeEvent(event)
+    
     def setup_ui(self):
         """Set up the user interface."""
         layout = QVBoxLayout(self)

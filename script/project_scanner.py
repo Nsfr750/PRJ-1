@@ -233,7 +233,7 @@ class ProjectScanner:
             return ''
     
     def _extract_version(self, project_path: Path) -> str:
-        """Extract version from common version files."""
+        """Extract version from common version files, searching recursively in all subdirectories."""
         version_files = [
             'version.py',
             '__version__.py',
@@ -243,6 +243,7 @@ class ProjectScanner:
             'pom.xml'
         ]
         
+        # First check root directory
         for version_file in version_files:
             file_path = project_path / version_file
             if file_path.exists():
@@ -255,6 +256,17 @@ class ProjectScanner:
                         return self._extract_version_from_json(file_path)
                 except Exception:
                     continue
+        
+        # If not found in root, recursively search for version.py files in subdirectories
+        for version_file in version_files:
+            if version_file.endswith('.py'):  # Only search recursively for Python version files
+                for file_path in project_path.rglob(version_file):
+                    try:
+                        version = self._extract_version_from_python(file_path)
+                        if version and version != 'Unknown':
+                            return version
+                    except Exception:
+                        continue
         
         return 'Unknown'
     

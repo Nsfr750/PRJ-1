@@ -241,7 +241,7 @@
     {
       "name": "PRJ-1",
       "path": "X:\\GitHub\\PRJ-1",
-      "size": 494471,
+      "size": 651161323,
       "modified": "2025-09-14T13:32:51.550000",
       "has_git": true,
       "has_readme": true,
@@ -249,9 +249,10 @@
       "has_setup": false,
       "main_file": "main.py",
       "description": "PRJ-1 - Project Manager",
-      "language": "Python",
+      "language": "Unknown",
       "version": "Unknown"
     }
   ],
-  "last_scan": "2025-09-14T14:42:12.689888"
+  "last_scan": "2025-09-14T14:57:55.205241",
+  "scan_directory": "X:\\GitHub"
 }
