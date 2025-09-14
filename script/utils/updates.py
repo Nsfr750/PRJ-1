@@ -29,8 +29,7 @@ except ImportError:
 
 # Add the root directory to the path to import version
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
-from script.version import __version__
-
+from script.utils.version import __version__
 
 class UpdateChecker:
     """Handles update checking and notification."""

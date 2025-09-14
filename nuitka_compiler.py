@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Nuitka Compiler Script for PRJ-1 Project Browser
-This script compiles the PRJ-1 application into standalone executables using Nuitka.
+Nuitka Compiler Script for Project Browser
+This script compiles the application into standalone executables using Nuitka.
 """
 
 import os
@@ -99,6 +99,14 @@ class NuitkaCompiler:
                     rel_path = config_file.relative_to(self.project_root)
                     data_files.append(f"--include-data-files={config_file}={rel_path}")
         
+        # Include docs directory
+        docs_dir = self.project_root / "docs"
+        if docs_dir.exists():
+            for docs_file in docs_dir.rglob("*"):
+                if docs_file.is_file():
+                    rel_path = docs_file.relative_to(self.project_root)
+                    data_files.append(f"--include-data-files={docs_file}={rel_path}")
+
         return data_files
     
     def get_platform_specific_options(self):
@@ -110,9 +118,9 @@ class NuitkaCompiler:
             options.extend([
                 "--windows-icon-from-ico=" + str(self.icon_path) if self.icon_path else "",
                 '--windows-console-mode=disable',
-                "--output-filename=PRJ-1",
+                "--output-filename=PRJ-Browser",
                 "--company-name=Tuxxle",
-                "--product-name=PRJ-1",
+                "--product-name=PRJ-Browser",
                 f"--file-version={__version__}.0",
                 f"--product-version={__version__}.0",
                 "--file-description=Project Browser",
@@ -189,12 +197,54 @@ class NuitkaCompiler:
         print("Cleaning previous build directories...")
         
         if self.build_dir.exists():
-            shutil.rmtree(self.build_dir)
-            print("✓ Removed build directory")
+            try:
+                shutil.rmtree(self.build_dir)
+                print("✓ Removed build directory")
+            except OSError as e:
+                print(f"⚠️  Could not remove build directory: {e}")
+                print("   Trying to remove contents individually...")
+                self._remove_directory_contents(self.build_dir)
         
         if self.dist_dir.exists():
-            shutil.rmtree(self.dist_dir)
-            print("✓ Removed dist directory")
+            try:
+                shutil.rmtree(self.dist_dir)
+                print("✓ Removed dist directory")
+            except OSError as e:
+                print(f"⚠️  Could not remove dist directory: {e}")
+                print("   Trying to remove contents individually...")
+                self._remove_directory_contents(self.dist_dir)
+    
+    def _remove_directory_contents(self, directory):
+        """Remove directory contents individually when rmtree fails."""
+        try:
+            for item in directory.iterdir():
+                if item.is_file():
+                    try:
+                        item.unlink()
+                        print(f"   ✓ Removed file: {item.name}")
+                    except OSError as e:
+                        print(f"   ⚠️  Could not remove file {item.name}: {e}")
+                elif item.is_dir():
+                    try:
+                        shutil.rmtree(item)
+                        print(f"   ✓ Removed subdirectory: {item.name}")
+                    except OSError:
+                        print(f"   ⚠️  Could not remove subdirectory {item.name}, trying recursively...")
+                        self._remove_directory_contents(item)
+                        try:
+                            item.rmdir()
+                            print(f"   ✓ Removed empty directory: {item.name}")
+                        except OSError as e:
+                            print(f"   ❌ Could not remove directory {item.name}: {e}")
+            
+            # Try to remove the now-empty directory
+            try:
+                directory.rmdir()
+                print(f"✓ Removed directory: {directory.name}")
+            except OSError as e:
+                print(f"❌ Could not remove directory {directory.name}: {e}")
+        except Exception as e:
+            print(f"❌ Error removing contents of {directory}: {e}")
     
     def compile(self, debug=False, profile=False, clean=True):
         """Compile the application using Nuitka."""

@@ -35,7 +35,7 @@ class AboutDialog(QDialog):
         app_title = get_translation(self.lang, 'app.title', 'Application List')
         version_text = get_translation(self.lang, 'about.version', 'Version: {version}').format(version=__version__)
         author_text = get_translation(self.lang, 'about.author', '© {year} Nsfr750 - All rights reserved').format(year=2025)
-        description_text = get_translation(self.lang, 'about.description', 'A simple Project Browser')
+        description_text = get_translation(self.lang, 'about.description', 'A comprehensive project management tool helps you discover, organize, and manage your development projects with ease.')
         github_text = get_translation(self.lang, 'about.github', 'GitHub Repository')
         
         about_text = f"""

@@ -824,225 +824,383 @@ __license__ = "MIT"
             self.tabs.setCurrentIndex(0)  # Switch to Help tab
     
     def _markdown_to_html(self, markdown_content):
-        """Convert basic markdown to HTML."""
-        html = markdown_content
+        """Convert markdown to HTML with improved handling including tables."""
+        lines = markdown_content.split('\n')
+        html = []
+        in_code_block = False
+        in_list = False
+        in_table = False
+        is_table_header = False
+        list_stack = []
         
-        # Convert headers
-        html = re.sub(r'^# (.*?)$', r'<h1>\1</h1>', html, flags=re.MULTILINE)
-        html = re.sub(r'^## (.*?)$', r'<h2>\1</h2>', html, flags=re.MULTILINE)
-        html = re.sub(r'^### (.*?)$', r'<h3>\1</h3>', html, flags=re.MULTILINE)
+        for line in lines:
+            stripped = line.strip()
+            
+            # Handle code blocks
+            if stripped.startswith('```'):
+                if in_code_block:
+                    html.append('</code></pre>')
+                    in_code_block = False
+                else:
+                    html.append('<pre><code>')
+                    in_code_block = True
+                continue
+            
+            if in_code_block:
+                html.append(self._escape_html(line))
+                continue
+            
+            # Handle tables
+            if '|' in stripped and stripped.count('|') >= 2:
+                # Check if it's a table separator line (like |---|---|)
+                if re.match(r'^\|\s*-+\s*\|.*\|$', stripped):
+                    is_table_header = False  # Next row will be data, not header
+                    continue  # Skip separator lines
+                
+                # Process table row
+                if not in_table:
+                    html.append('<table style="border-collapse: collapse; width: 100%; margin: 10px 0;">')
+                    in_table = True
+                    is_table_header = True  # First row is header
+                
+                # Split by | and process cells - handle table borders correctly
+                # Remove leading and trailing | first
+                table_content = stripped.strip('|')
+                cells = [cell.strip() for cell in table_content.split('|')]
+                
+                html.append('<tr>')
+                for cell in cells:
+                    processed_cell = self._process_inline_markdown(cell)
+                    if is_table_header:
+                        html.append(f'<th style="border: 1px solid #404040; padding: 8px; text-align: left; background-color: #2d2d2d; font-weight: bold;">{processed_cell}</th>')
+                    else:
+                        html.append(f'<td style="border: 1px solid #404040; padding: 8px; text-align: left;">{processed_cell}</td>')
+                html.append('</tr>')
+                continue  # Skip further processing for table lines
+            else:
+                # Close table if we're no longer in table content
+                if in_table:
+                    html.append('</table>')
+                    in_table = False
+                    is_table_header = False
+            
+            # Handle headers
+            if stripped.startswith('# '):
+                if in_list:
+                    self._close_list(html, list_stack)
+                    in_list = False
+                html.append(f'<h1>{stripped[2:]}</h1>')
+            elif stripped.startswith('## '):
+                if in_list:
+                    self._close_list(html, list_stack)
+                    in_list = False
+                html.append(f'<h2>{stripped[3:]}</h2>')
+            elif stripped.startswith('### '):
+                if in_list:
+                    self._close_list(html, list_stack)
+                    in_list = False
+                html.append(f'<h3>{stripped[4:]}</h3>')
+            elif stripped.startswith('#### '):
+                if in_list:
+                    self._close_list(html, list_stack)
+                    in_list = False
+                html.append(f'<h4>{stripped[5:]}</h4>')
+            
+            # Handle lists
+            elif stripped.startswith('- ') or stripped.startswith('* '):
+                if not in_list:
+                    html.append('<ul>')
+                    in_list = True
+                    list_stack.append('ul')
+                html.append(f'<li>{stripped[2:]}</li>')
+            
+            # Handle numbered lists
+            elif re.match(r'^\d+\. ', stripped):
+                if not in_list:
+                    html.append('<ol>')
+                    in_list = True
+                    list_stack.append('ol')
+                content = re.sub(r'^\d+\. ', '', stripped)
+                html.append(f'<li>{content}</li>')
+            
+            # Handle empty lines
+            elif not stripped:
+                if in_list:
+                    self._close_list(html, list_stack)
+                    in_list = False
+                # Skip empty lines or add paragraph break
+                continue
+            
+            # Handle regular text (paragraphs)
+            else:
+                if in_list:
+                    self._close_list(html, list_stack)
+                    in_list = False
+                # Process inline markdown
+                processed_line = self._process_inline_markdown(stripped)
+                html.append(f'<p>{processed_line}</p>')
         
-        # Convert bold and italic
-        html = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', html)
-        html = re.sub(r'\*(.*?)\*', r'<em>\1</em>', html)
+        # Close any open lists
+        if in_list:
+            self._close_list(html, list_stack)
         
-        # Convert code blocks
-        html = re.sub(r'```(.*?)```', r'<pre><code>\1</code></pre>', html, flags=re.DOTALL)
-        html = re.sub(r'`(.*?)`', r'<code>\1</code>', html)
+        # Close any open table
+        if in_table:
+            html.append('</table>')
         
-        # Convert links
-        html = re.sub(r'\[(.*?)\]\((.*?)\)', r'<a href="\2">\1</a>', html)
-        
-        # Convert lists
-        html = re.sub(r'^- (.*?)$', r'<li>\1</li>', html, flags=re.MULTILINE)
-        html = re.sub(r'(<li>.*</li>)', r'<ul>\1</ul>', html, flags=re.DOTALL)
-        
-        # Convert paragraphs (split by double newlines)
-        paragraphs = html.split('\n\n')
-        html = ''
-        for para in paragraphs:
-            para = para.strip()
-            if para and not para.startswith('<h') and not para.startswith('<ul') and not para.startswith('<li') and not para.startswith('<pre'):
-                html += f'<p>{para}</p>'
-            elif para:
-                html += para
-        
-        return """
-        <html>
-        <head>
-            <style>
-                body { 
-                    font-family: Arial, sans-serif; 
-                    margin: 20px; 
-                    background-color: #1a1a1a;
-                    color: #e0e0e0;
-                }
-                h1 { 
-                    color: #4fc3f7; 
-                    border-bottom: 2px solid #2196f3; 
-                    padding-bottom: 10px;
-                }
-                h2 { 
-                    color: #81c784; 
-                    margin-top: 30px; 
-                    border-bottom: 1px solid #424242;
-                    padding-bottom: 5px;
-                }
-                h3 { color: #ffb74d; }
-                .section {
-                    background-color: #2d2d2d;
-                    margin: 20px 0;
-                    padding: 20px;
-                    border-radius: 8px;
-                    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-                    border: 1px solid #404040;
-                }
-                .feature {
-                    background-color: #37474f;
-                    padding: 15px;
-                    margin: 10px 0;
-                    border-left: 4px solid #4fc3f7;
-                    border-radius: 4px;
-                }
-                .tip {
-                    background-color: #1b5e20;
-                    padding: 15px;
-                    margin: 10px 0;
-                    border-left: 4px solid #4caf50;
-                    border-radius: 4px;
-                }
-                .warning {
-                    background-color: #f57c00;
-                    padding: 15px;
-                    margin: 10px 0;
-                    border-left: 4px solid #ff9800;
-                    border-radius: 4px;
-                }
-                ul {
-                    margin: 10px 0;
-                    padding-left: 20px;
-                }
-                li {
-                    margin: 8px 0;
-                    line-height: 1.5;
-                }
-                code {
-                    background-color: #424242;
-                    color: #e0e0e0;
-                    padding: 2px 6px;
-                    border-radius: 4px;
-                    font-family: 'Courier New', monospace;
-                    border: 1px solid #555555;
-                }
-                pre {
-                    background-color: #1e1e1e;
-                    color: #e0e0e0;
-                    padding: 15px;
-                    border-radius: 6px;
-                    border-left: 4px solid #757575;
-                    overflow-x: auto;
-                    font-family: 'Courier New', monospace;
-                    border: 1px solid #404040;
-                }
-                .keyboard-shortcut {
-                    background-color: #616161;
-                    color: #ffffff;
-                    padding: 2px 6px;
-                    border-radius: 3px;
-                    font-size: 0.9em;
-                    font-weight: bold;
-                }
-                .version-info {
-                    background-color: #424242;
-                    padding: 10px;
-                    border-radius: 4px;
-                    font-size: 0.9em;
-                    text-align: center;
-                    margin-top: 20px;
-                    border: 1px solid #555555;
-                }
-            </style>
-        </head>
-        <body>
-            {html}
-        </body>
-        </html>
-        """
+        return '\n'.join(html)
     
+    def _close_list(self, html, list_stack):
+        """Close all open lists."""
+        while list_stack:
+            list_type = list_stack.pop()
+            if list_type == 'ul':
+                html.append('</ul>')
+            elif list_type == 'ol':
+                html.append('</ol>')
+    
+    def _process_inline_markdown(self, text):
+        """Process inline markdown elements."""
+        # Bold
+        text = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', text)
+        text = re.sub(r'__(.*?)__', r'<strong>\1</strong>', text)
+        
+        # Italic
+        text = re.sub(r'\*(.*?)\*', r'<em>\1</em>', text)
+        text = re.sub(r'_(.*?)_', r'<em>\1</em>', text)
+        
+        # Inline code
+        text = re.sub(r'`(.*?)`', r'<code>\1</code>', text)
+        
+        # Links
+        text = re.sub(r'\[(.*?)\]\((.*?)\)', r'<a href="\2">\1</a>', text)
+        
+        return text
+    
+    def _escape_html(self, text):
+        """Escape HTML special characters."""
+        text = text.replace('&', '&amp;')
+        text = text.replace('<', '&lt;')
+        text = text.replace('>', '&gt;')
+        text = text.replace('"', '&quot;')
+        text = text.replace("'", '&#39;')
+        return text
+    
+    def _close_list(self, html, list_stack):
+        """Close all open lists."""
+        while list_stack:
+            list_type = list_stack.pop()
+            if list_type == 'ul':
+                html.append('</ul>')
+            elif list_type == 'ol':
+                html.append('</ol>')
+    
+    def _process_inline_markdown(self, text):
+        """Process inline markdown elements."""
+        # Bold
+        text = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', text)
+        text = re.sub(r'__(.*?)__', r'<strong>\1</strong>', text)
+        
+        # Italic
+        text = re.sub(r'\*(.*?)\*', r'<em>\1</em>', text)
+        text = re.sub(r'_(.*?)_', r'<em>\1</em>', text)
+        
+        # Inline code
+        text = re.sub(r'`(.*?)`', r'<code>\1</code>', text)
+        
+        # Links
+        text = re.sub(r'\[(.*?)\]\((.*?)\)', r'<a href="\2">\1</a>', text)
+        
+        return text
+
+    def _get_html_template(self):
+        """Get the HTML template for markdown content."""
+        return """
+    <html>
+    <head>
+        <style>
+            body { 
+                font-family: Arial, sans-serif; 
+                margin: 20px; 
+                background-color: #1a1a1a;
+                color: #e0e0e0;
+            }
+            h1 { 
+                color: #4fc3f7; 
+                border-bottom: 2px solid #2196f3; 
+                padding-bottom: 10px;
+            }
+            h2 { 
+                color: #81c784; 
+                margin-top: 30px; 
+                border-bottom: 1px solid #424242;
+                padding-bottom: 5px;
+            }
+            h3 { color: #ffb74d; }
+            .section {
+                background-color: #2d2d2d;
+                margin: 20px 0;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+                border: 1px solid #404040;
+            }
+            .feature {
+                background-color: #37474f;
+                padding: 15px;
+                margin: 10px 0;
+                border-left: 4px solid #4fc3f7;
+                border-radius: 4px;
+            }
+            .tip {
+                background-color: #1b5e20;
+                padding: 15px;
+                margin: 10px 0;
+                border-left: 4px solid #4caf50;
+                border-radius: 4px;
+            }
+            .warning {
+                background-color: #f57c00;
+                padding: 15px;
+                margin: 10px 0;
+                border-left: 4px solid #ff9800;
+                border-radius: 4px;
+            }
+            ul {
+                margin: 10px 0;
+                padding-left: 20px;
+            }
+            li {
+                margin: 8px 0;
+                line-height: 1.5;
+            }
+            code {
+                background-color: #424242;
+                color: #e0e0e0;
+                padding: 2px 6px;
+                border-radius: 4px;
+                font-family: 'Courier New', monospace;
+                border: 1px solid #555555;
+            }
+            pre {
+                background-color: #1e1e1e;
+                color: #e0e0e0;
+                padding: 15px;
+                border-radius: 6px;
+                border-left: 4px solid #757575;
+                overflow-x: auto;
+                font-family: 'Courier New', monospace;
+                border: 1px solid #404040;
+            }
+            .keyboard-shortcut {
+                background-color: #616161;
+                color: #ffffff;
+                padding: 2px 6px;
+                border-radius: 3px;
+                font-size: 0.9em;
+                font-weight: bold;
+            }
+            .version-info {
+                background-color: #424242;
+                padding: 10px;
+                border-radius: 4px;
+                font-size: 0.9em;
+                text-align: center;
+                margin-top: 20px;
+                border: 1px solid #555555;
+            }
+        </style>
+    </head>
+    <body>
+        {content}
+    </body>
+    </html>
+    """
+
     def _get_getting_started_content(self):
         """Get getting started content for Project Browser."""
         return """
-        <html>
-        <head>
-            <style>
-                body { 
-                    font-family: Arial, sans-serif; 
-                    margin: 20px; 
-                    background-color: #1a1a1a;
-                    color: #e0e0e0;
-                }
-                h1 { 
-                    color: #4fc3f7; 
-                    border-bottom: 2px solid #2196f3; 
-                }
-                h2 { 
-                    color: #81c784; 
-                    margin-top: 30px; 
-                }
-                .step { 
-                    background-color: #2d2d2d; 
-                    padding: 15px; 
-                    margin: 10px 0; 
-                    border-radius: 5px; 
-                    border: 1px solid #404040;
-                }
-                h3 { color: #ffb74d; }
-                strong { color: #4fc3f7; }
-                ol { margin-left: 20px; }
-                li { margin: 8px 0; }
-            </style>
-        </head>
-        <body>
-            <h1>Getting Started with Project Browser</h1>
-            
-            <p>Welcome to Project Browser! This tool helps you discover, browse, and manage your programming projects efficiently.</p>
-            
-            <div class="step">
-                <h2>Step 1: Open Project Browser</h2>
-                <ol>
-                    <li>Go to the <strong>Tools</strong> menu in the main application</li>
-                    <li>Select <strong>Project Browser</strong> from the dropdown menu</li>
-                    <li>The Project Browser dialog will open</li>
-                </ol>
-            </div>
-            
-            <div class="step">
-                <h2>Step 2: Scan for Projects</h2>
-                <ol>
-                    <li>Click the <strong style="color: #4CAF50;">Start Scan</strong> button (green)</li>
-                    <li>The application will scan your GitHub folder for projects</li>
-                    <li>Watch the progress bar as projects are discovered</li>
-                    <li>Results will appear in the table below</li>
-                </ol>
-            </div>
-            
-            <div class="step">
-                <h2>Step 3: Browse and Filter Projects</h2>
-                <ol>
-                    <li>Use the <strong>Search</strong> box to find specific projects</li>
-                    <li>Filter by <strong>Language</strong> using the dropdown menu</li>
-                    <li>Click on any project in the table to view details</li>
-                    <li>Use the <strong>Open Folder</strong> button to access project files</li>
-                </ol>
-            </div>
-            
-            <div class="step">
-                <h2>Step 4: Export Results (Optional)</h2>
-                <ol>
-                    <li>After scanning, click the <strong style="color: #2196F3;">Export</strong> button (blue)</li>
-                    <li>Results will be saved in Markdown format to the <strong>data/</strong> folder</li>
-                    <li>The export includes project details, statistics, and summaries</li>
-                </ol>
-            </div>
-            
-            <h2>Tips for Best Results</h2>
-            <ul>
-                <li><strong>Organization:</strong> Keep your projects in well-structured folders</li>
-                <li><strong>Git Repositories:</strong> Projects with Git will show more detailed information</li>
-                <li><strong>README Files:</strong> Include README.md files for better project descriptions</li>
-                <li><strong>Regular Scans:</strong> Scan periodically to discover new projects</li>
-            </ul>
-            
-        </body>
-        </html>
-        """
+    <html>
+    <head>
+        <style>
+            body { 
+                font-family: Arial, sans-serif; 
+                margin: 20px; 
+                background-color: #1a1a1a;
+                color: #e0e0e0;
+            }
+            h1 { 
+                color: #4fc3f7; 
+                border-bottom: 2px solid #2196f3; 
+            }
+            h2 { 
+                color: #81c784; 
+                margin-top: 30px; 
+            }
+            .step { 
+                background-color: #2d2d2d; 
+                padding: 15px; 
+                margin: 10px 0; 
+                border-radius: 5px; 
+                border: 1px solid #404040;
+            }
+            h3 { color: #ffb74d; }
+            strong { color: #4fc3f7; }
+            ol { margin-left: 20px; }
+            li { margin: 8px 0; }
+        </style>
+    </head>
+    <body>
+        <h1>Getting Started with Project Browser</h1>
+        
+        <p>Welcome to Project Browser! This tool helps you discover, browse, and manage your programming projects efficiently.</p>
+        
+        <div class="step">
+            <h2>Step 1: Open Project Browser</h2>
+            <ol>
+                <li>Go to the <strong>Tools</strong> menu in the main application</li>
+                <li>Select <strong>Project Browser</strong> from the dropdown menu</li>
+                <li>The Project Browser dialog will open</li>
+            </ol>
+        </div>
+        
+        <div class="step">
+            <h2>Step 2: Scan for Projects</h2>
+            <ol>
+                <li>Click the <strong style="color: #4CAF50;">Start Scan</strong> button (green)</li>
+                <li>The application will scan your GitHub folder for projects</li>
+                <li>Watch the progress bar as projects are discovered</li>
+                <li>Results will appear in the table below</li>
+            </ol>
+        </div>
+        
+        <div class="step">
+            <h2>Step 3: Browse and Filter Projects</h2>
+            <ol>
+                <li>Use the <strong>Search</strong> box to find specific projects</li>
+                <li>Filter by <strong>Language</strong> using the dropdown menu</li>
+                <li>Click on any project in the table to view details</li>
+                <li>Use the <strong>Open Folder</strong> button to access project files</li>
+            </ol>
+        </div>
+        
+        <div class="step">
+            <h2>Step 4: Export Results (Optional)</h2>
+            <ol>
+                <li>After scanning, click the <strong style="color: #2196F3;">Export</strong> button (blue)</li>
+                <li>Results will be saved in Markdown format to the <strong>data/</strong> folder</li>
+                <li>The export includes project details, statistics, and summaries</li>
+            </ol>
+        </div>
+        
+        <h2>Tips for Best Results</h2>
+        <ul>
+            <li><strong>Organization:</strong> Keep your projects in well-structured folders</li>
+            <li><strong>Git Repositories:</strong> Projects with Git will show more detailed information</li>
+            <li><strong>README Files:</strong> Include README.md files for better project descriptions</li>
+            <li><strong>Regular Scans:</strong> Scan periodically to discover new projects</li>
+        </ul>
+        
+    </body>
+    </html>
+    """

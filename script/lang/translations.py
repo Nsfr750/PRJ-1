@@ -73,7 +73,7 @@ TRANSLATIONS = {
         },
         "about": {
             "title": "About",
-            "description": "A simple ProjectBrowser",
+            "description": "A comprehensive project management tool helps you discover, organize, and manage your development projects with ease.",
             "version": "Version: {version}",
             "author": "© {year} Nsfr750 - All rights reserved",
             "license": "License: GPLv3",
@@ -156,7 +156,7 @@ TRANSLATIONS = {
         },
         "about": {
             "title": "Informazioni",
-            "description": "Un semplice Browser per i Progetti",
+            "description": "Uno strumento completo per la gestione dei progetti ti aiuta a individuare, organizzare e gestire con facilità i tuoi progetti di sviluppo.",
             "version": "Versione: {version}",
             "author": "© {year} Nsfr750 - Tutti i diritti riservati",
             "license": "Licenza: GPLv3",

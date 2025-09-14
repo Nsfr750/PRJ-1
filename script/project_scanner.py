@@ -374,7 +374,6 @@ class ProjectScanner:
         version_files = [
             'version.py',
             '__version__.py',
-            'setup.py',
             'pyproject.toml',
             'package.json',
             'pom.xml',
@@ -429,7 +428,7 @@ class ProjectScanner:
                     continue
         
         # If not found in root, recursively search for common version files
-        for version_file in ['version.py', '__version__.py', 'setup.py']:
+        for version_file in ['version.py', '__version__.py']:
             for file_path in project_path.rglob(version_file):
                 try:
                     version = self._extract_version_from_python(file_path)

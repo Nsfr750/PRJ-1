@@ -692,32 +692,85 @@ class ProjectBrowserDialog(QDialog):
             return
         
         project_path = self.current_project['path']
+        
+        import platform
+        system = platform.system().lower()
+        
         try:
-            # Open Windows Terminal or Command Prompt in the project directory
-            subprocess.Popen(['wt', '-d', project_path], shell=True)
-        except Exception:
-            try:
-                # Fallback to Command Prompt
+            if system == 'linux':
+                # Use xterm on Linux
+                subprocess.Popen(['xterm', '-e', f'cd "{project_path}"; bash'], shell=False)
+            elif system == 'windows':
+                # Try Windows Terminal first
+                try:
+                    subprocess.Popen(['wt', '-d', project_path], shell=True)
+                except Exception:
+                    # Fallback to Command Prompt
+                    subprocess.Popen(['cmd', '/k', 'cd', '/d', project_path], shell=True)
+            else:
+                # Fallback for other systems
                 subprocess.Popen(['cmd', '/k', 'cd', '/d', project_path], shell=True)
-            except Exception as e:
-                QMessageBox.warning(self, "Error", f"Could not open terminal: {str(e)}")
+        except Exception as e:
+            QMessageBox.warning(self, "Error", f"Could not open terminal: {str(e)}")
     
     def open_in_editor(self):
-        """Open the project in the default editor."""
+        """Open the project in the system's default text editor."""
         if not self.current_project:
             return
         
         project_path = Path(self.current_project['path'])
         
-        # Try to open main file if exists
-        if self.current_project['main_file']:
-            main_file_path = project_path / self.current_project['main_file']
-            if main_file_path.exists():
-                QDesktopServices.openUrl(QUrl.fromLocalFile(str(main_file_path)))
-                return
+        import platform
+        system = platform.system().lower()
         
-        # Otherwise open the folder
-        self.open_project_folder()
+        try:
+            if system == 'windows':
+                # On Windows, try to open with notepad.exe or the system's default text editor
+                if self.current_project['main_file']:
+                    main_file_path = project_path / self.current_project['main_file']
+                    if main_file_path.exists():
+                        # Open the main file with the default text editor
+                        subprocess.Popen(['notepad.exe', str(main_file_path)], shell=True)
+                    else:
+                        # Open the project folder with the default editor
+                        subprocess.Popen(['notepad.exe', str(project_path)], shell=True)
+                else:
+                    # Open the project folder with the default editor
+                    subprocess.Popen(['notepad.exe', str(project_path)], shell=True)
+            elif system == 'linux':
+                # On Linux, try to open with gedit or the system's default text editor
+                if self.current_project['main_file']:
+                    main_file_path = project_path / self.current_project['main_file']
+                    if main_file_path.exists():
+                        # Try gedit first, then fallback to xdg-open
+                        try:
+                            subprocess.Popen(['gedit', str(main_file_path)], shell=False)
+                        except Exception:
+                            subprocess.Popen(['xdg-open', str(main_file_path)], shell=False)
+                    else:
+                        # Open the project folder
+                        try:
+                            subprocess.Popen(['gedit', str(project_path)], shell=False)
+                        except Exception:
+                            subprocess.Popen(['xdg-open', str(project_path)], shell=False)
+                else:
+                    # Open the project folder
+                    try:
+                        subprocess.Popen(['gedit', str(project_path)], shell=False)
+                    except Exception:
+                        subprocess.Popen(['xdg-open', str(project_path)], shell=False)
+            else:
+                # For other systems, use the system's default application
+                if self.current_project['main_file']:
+                    main_file_path = project_path / self.current_project['main_file']
+                    if main_file_path.exists():
+                        QDesktopServices.openUrl(QUrl.fromLocalFile(str(main_file_path)))
+                    else:
+                        QDesktopServices.openUrl(QUrl.fromLocalFile(str(project_path)))
+                else:
+                    QDesktopServices.openUrl(QUrl.fromLocalFile(str(project_path)))
+        except Exception as e:
+            QMessageBox.warning(self, "Error", f"Could not open editor: {str(e)}")
 
 
 def show_project_browser(parent=None):

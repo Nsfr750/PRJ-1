@@ -86,11 +86,8 @@ class AppMenuBar(QMenuBar):
         select_all_action = edit_menu.addAction(get_text('menu.select_all', 'Select All'))
         select_all_action.setShortcut('Ctrl+A')
         
-        # View Menu
-        view_menu = self.addMenu(get_text('menu.view', '&View'))
-        
-        # Language Submenu
-        language_menu = view_menu.addMenu(get_text('menu.language', '&Language'))
+        # Language Menu
+        language_menu = self.addMenu(get_text('menu.language', '&Language'))
         
         # Language Actions
         self.language_group = QActionGroup(self)
@@ -111,27 +108,7 @@ class AppMenuBar(QMenuBar):
         language_menu.addAction(it_action)
         self.language_group.addAction(it_action)
         
-        view_menu.addSeparator()
-        
-        # Theme Submenu
-        theme_menu = view_menu.addMenu(get_text('menu.theme', '&Theme'))
-        
-        # Theme Actions
-        theme_group = QActionGroup(self)
-        theme_group.setExclusive(True)
-        
-        # System Theme
-        system_theme = QAction(get_text('menu.system', 'System'), self)
-        system_theme.setCheckable(True)
-        system_theme.setChecked(True)
-        theme_menu.addAction(system_theme)
-        theme_group.addAction(system_theme)
-        
-        # Dark Theme
-        dark_theme = QAction(get_text('menu.dark', 'Dark'), self)
-        dark_theme.setCheckable(True)
-        theme_menu.addAction(dark_theme)
-        theme_group.addAction(dark_theme)
+        language_menu.addSeparator()
         
         # Tools Menu
         tools_menu = self.addMenu(get_text('menu.tools', '&Tools'))
@@ -222,30 +199,15 @@ class AppMenuBar(QMenuBar):
                 if len(actions) > 5: actions[5].setText(get_text('menu.delete', 'Delete'))
                 if len(actions) > 6: actions[6].setText(get_text('menu.select_all', 'Select All'))
             
-            # View menu
-            view_menu = self.actions()[2].menu()
-            if view_menu:
-                view_menu.setTitle(get_text('menu.view', '&View'))
-                # Update View menu actions
-                actions = view_menu.actions()
-                # Language submenu
-                if len(actions) > 0:
-                    lang_menu = actions[0].menu()
-                    if lang_menu:
-                        lang_menu.setTitle(get_text('menu.language', '&Language'))
-                        lang_actions = lang_menu.actions()
-                        if len(lang_actions) > 0: lang_actions[0].setText(get_text('menu.english', 'English'))
-                        if len(lang_actions) > 1: lang_actions[1].setText(get_text('menu.italian', 'Italiano'))
-                # Theme submenu
-                if len(actions) > 1:
-                    theme_menu = actions[1].menu()
-                    if theme_menu:
-                        theme_menu.setTitle(get_text('menu.theme', '&Theme'))
-                        theme_actions = theme_menu.actions()
-                        if len(theme_actions) > 0: theme_actions[0].setText(get_text('menu.system', 'System'))
-                        if len(theme_actions) > 1: theme_actions[1].setText(get_text('menu.dark', 'Dark'))
-                        if len(theme_actions) > 2: theme_actions[2].setText(get_text('menu.light', 'Light'))
-            
+            # Language menu
+            if len(actions) > 0:
+                lang_menu = actions[0].menu()
+                if lang_menu:
+                    lang_menu.setTitle(get_text('menu.language', '&Language'))
+                    lang_actions = lang_menu.actions()
+                    if len(lang_actions) > 0: lang_actions[0].setText(get_text('menu.english', 'English'))
+                    if len(lang_actions) > 1: lang_actions[1].setText(get_text('menu.italian', 'Italiano'))
+
             # Tools menu
             tools_menu = self.actions()[3].menu()
             if tools_menu:
@@ -349,7 +311,7 @@ class AppMenuBar(QMenuBar):
         """Check for application updates."""
         try:
             # Import here to avoid circular imports
-            from src.utils.updates import check_for_updates as show_update_dialog
+            from script.utils.updates import check_for_updates as show_update_dialog
             show_update_dialog(self.parent)
         except Exception as e:
             QMessageBox.critical(
