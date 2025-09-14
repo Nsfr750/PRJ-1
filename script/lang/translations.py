@@ -19,7 +19,11 @@ TRANSLATIONS = {
             "ok": "OK",
             "save": "Save",
             "open": "Open",
-            "close": "Close"
+            "close": "Close",
+            "ready": "Ready",
+            "confirm_exit": "Confirm Exit",
+            "confirm_exit_text": "Are you sure you want to exit?",
+            "log_viewer_error": "Failed to open log viewer"
         },
         "menu": {
             "file": "File",
@@ -29,6 +33,8 @@ TRANSLATIONS = {
             "save_as": "Save As...",
             "exit": "Exit",
             "edit": "Edit",
+            "undo": "Undo",
+            "redo": "Redo",
             "cut": "Cut",
             "copy": "Copy",
             "paste": "Paste",
@@ -48,7 +54,11 @@ TRANSLATIONS = {
             "light": "Light",
             "system": "System",
             "tools": "Tools",
-            "project_browser": "Project Browser"
+            "project_browser": "Project Browser",
+            "view_logs": "View Logs",
+            "check_updates": "Check for Updates",
+            "documentation": "Documentation (Wiki)",
+            "sponsor": "Sponsor"
         },
         "log_viewer": {
             "title": "Log Viewer",
@@ -92,7 +102,11 @@ TRANSLATIONS = {
             "ok": "OK",
             "save": "Salva",
             "open": "Apri",
-            "close": "Chiudi"
+            "close": "Chiudi",
+            "ready": "Pronto",
+            "confirm_exit": "Conferma Uscita",
+            "confirm_exit_text": "Sei sicuro di voler uscire?",
+            "log_viewer_error": "Impossibile aprire il visualizzatore di log"
         },
         "menu": {
             "file": "File",
@@ -102,6 +116,8 @@ TRANSLATIONS = {
             "save_as": "Salva con nome...",
             "exit": "Esci",
             "edit": "Modifica",
+            "undo": "Annulla",
+            "redo": "Ripeti",
             "cut": "Taglia",
             "copy": "Copia",
             "paste": "Incolla",
@@ -121,7 +137,11 @@ TRANSLATIONS = {
             "light": "Chiaro",
             "system": "Sistema",
             "tools": "Strumenti",
-            "project_browser": "Browser Progetti"
+            "project_browser": "Browser Progetti",
+            "view_logs": "Visualizza Log",
+            "check_updates": "Controlla Aggiornamenti",
+            "documentation": "Documentazione (Wiki)",
+            "sponsor": "Sponsor"
         },
         "log_viewer": {
             "title": "Visualizzatore Log",

@@ -7,6 +7,7 @@ Provides a browsable interface for projects found in the GitHub folder.
 import os
 import subprocess
 from pathlib import Path
+from datetime import datetime
 from typing import List, Dict, Any
 
 from PySide6.QtCore import Qt, QThread, Signal, QUrl
@@ -58,8 +59,8 @@ class ProjectBrowserDialog(QDialog):
         self.setMinimumSize(1200, 800)
         self.setup_ui()
         
-        # Start scanning projects
-        self.scan_projects()
+        # Don't start scanning automatically - user must click "Start Scan" button
+        self.status_label.setText("Ready - Click 'Start Scan' to begin scanning projects")
     
     def closeEvent(self, event):
         """Handle dialog close event to properly clean up threads."""
@@ -136,10 +137,30 @@ class ProjectBrowserDialog(QDialog):
         self.language_combo.currentTextChanged.connect(self.filter_projects)
         controls_layout.addWidget(self.language_combo, 1, 1)
         
-        # Refresh button
-        self.refresh_button = QPushButton("Refresh")
-        self.refresh_button.clicked.connect(self.scan_projects)
-        controls_layout.addWidget(self.refresh_button, 2, 0, 1, 2)
+        # Scan control buttons
+        scan_buttons_layout = QHBoxLayout()
+        
+        self.start_scan_button = QPushButton("Start Scan")
+        self.start_scan_button.clicked.connect(self.start_scanning)
+        # Style start button: green background with white text
+        self.start_scan_button.setStyleSheet("background-color: #4CAF50; color: white; font-weight: bold; padding: 5px 15px; border: none; border-radius: 3px;")
+        scan_buttons_layout.addWidget(self.start_scan_button)
+        
+        self.stop_scan_button = QPushButton("Stop Scan")
+        self.stop_scan_button.clicked.connect(self.stop_scanning)
+        self.stop_scan_button.setEnabled(False)  # Disabled initially
+        # Style stop button: red background with white text
+        self.stop_scan_button.setStyleSheet("background-color: #f44336; color: white; font-weight: bold; padding: 5px 15px; border: none; border-radius: 3px;")
+        scan_buttons_layout.addWidget(self.stop_scan_button)
+        
+        # Export button
+        self.export_button = QPushButton("Export")
+        self.export_button.clicked.connect(self.export_to_markdown)
+        # Style export button: blue background with white text
+        self.export_button.setStyleSheet("background-color: #2196F3; color: white; font-weight: bold; padding: 5px 15px; border: none; border-radius: 3px;")
+        scan_buttons_layout.addWidget(self.export_button)
+        
+        controls_layout.addLayout(scan_buttons_layout, 2, 0, 1, 2)
         
         layout.addWidget(controls_group)
         
@@ -311,10 +332,14 @@ class ProjectBrowserDialog(QDialog):
                     "The selected directory is not valid. Please choose a different directory."
                 )
     
-    def scan_projects(self):
+    def start_scanning(self):
         """Start scanning projects in a separate thread."""
         self.progress_bar.setVisible(True)
         self.progress_bar.setRange(0, 0)  # Indeterminate progress
+        
+        # Update button states
+        self.start_scan_button.setEnabled(False)
+        self.stop_scan_button.setEnabled(True)
         
         # Create and start scan thread
         self.scan_thread = ScanThread(self.scanner)
@@ -322,13 +347,205 @@ class ProjectBrowserDialog(QDialog):
         self.scan_thread.status.connect(self.status_label.setText)
         self.scan_thread.start()
     
+    def stop_scanning(self):
+        """Stop the currently running scan."""
+        if hasattr(self, 'scan_thread') and self.scan_thread.isRunning():
+            self.scan_thread.quit()
+            self.scan_thread.wait(1000)  # Wait up to 1 second
+            if self.scan_thread.isRunning():
+                self.scan_thread.terminate()
+                self.scan_thread.wait(500)  # Wait another 0.5 seconds
+        
+        # Update UI
+        self.progress_bar.setVisible(False)
+        self.start_scan_button.setEnabled(True)
+        self.stop_scan_button.setEnabled(False)
+        self.status_label.setText("Scan stopped by user")
+    
+    def export_to_markdown(self):
+        """Export project results to Markdown format and save to data folder."""
+        if not self.projects:
+            QMessageBox.warning(
+                self,
+                "No Projects",
+                "No projects to export. Please scan for projects first."
+            )
+            return
+        
+        try:
+            # Generate markdown content
+            markdown_content = self._generate_markdown_content()
+            
+            # Create data directory if it doesn't exist
+            data_dir = Path("data")
+            data_dir.mkdir(exist_ok=True)
+            
+            # Generate filename with timestamp
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"projects_export_{timestamp}.md"
+            filepath = data_dir / filename
+            
+            # Write to file
+            with open(filepath, 'w', encoding='utf-8') as f:
+                f.write(markdown_content)
+            
+            # Show success message
+            QMessageBox.information(
+                self,
+                "Export Successful",
+                f"Project results exported successfully to:\n{filepath}"
+            )
+            
+            self.status_label.setText(f"Exported to {filename}")
+            
+        except Exception as e:
+            QMessageBox.critical(
+                self,
+                "Export Error",
+                f"Failed to export projects: {str(e)}"
+            )
+    
+    def _generate_markdown_content(self) -> str:
+        """Generate Markdown content for project export."""
+        from datetime import datetime
+        
+        # Header
+        content = []
+        content.append("# Project Browser Export\n")
+        content.append(f"**Generated on:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        content.append(f"**Total Projects:** {len(self.projects)}\n")
+        content.append(f"**Scan Directory:** {self.scanner.get_scan_directory()}\n")
+        
+        if self.scanner.last_scan:
+            content.append(f"**Last Scan:** {self.scanner.last_scan.strftime('%Y-%m-%d %H:%M:%S')}\n")
+        
+        content.append("---\n\n")
+        
+        # Summary statistics
+        languages = {}
+        git_projects = 0
+        readme_projects = 0
+        requirements_projects = 0
+        
+        for project in self.projects:
+            lang = project.get('language', 'Unknown')
+            languages[lang] = languages.get(lang, 0) + 1
+            if project.get('has_git', False):
+                git_projects += 1
+            if project.get('has_readme', False):
+                readme_projects += 1
+            if project.get('has_requirements', False):
+                requirements_projects += 1
+        
+        content.append("## Summary\n\n")
+        content.append(f"- **Projects with Git:** {git_projects}/{len(self.projects)}\n")
+        content.append(f"- **Projects with README:** {readme_projects}/{len(self.projects)}\n")
+        content.append(f"- **Projects with Requirements:** {requirements_projects}/{len(self.projects)}\n\n")
+        
+        content.append("### Languages\n\n")
+        content.append("| Language | Count |\n")
+        content.append("|----------|-------|\n")
+        for lang, count in sorted(languages.items()):
+            content.append(f"| {lang} | {count} |\n")
+        content.append("\n")
+        
+        # Project details
+        content.append("## Project Details\n\n")
+        
+        for i, project in enumerate(self.projects, 1):
+            content.append(f"### {i}. {project.get('name', 'Unknown')}\n\n")
+            
+            # Basic info
+            content.append(f"- **Path:** `{project.get('path', 'N/A')}`\n")
+            content.append(f"- **Language:** {project.get('language', 'Unknown')}\n")
+            content.append(f"- **Version:** {project.get('version', 'Unknown')}\n")
+            content.append(f"- **Size:** {self._format_size(project.get('size', 0))}\n")
+            
+            # Modified date
+            modified = project.get('modified')
+            if modified:
+                if isinstance(modified, str):
+                    try:
+                        modified = datetime.fromisoformat(modified)
+                    except ValueError:
+                        modified = None
+                if modified:
+                    content.append(f"- **Modified:** {modified.strftime('%Y-%m-%d %H:%M:%S')}\n")
+            
+            # Features
+            features = []
+            if project.get('has_git', False):
+                features.append("✅ Git")
+            else:
+                features.append("❌ Git")
+            
+            if project.get('has_readme', False):
+                features.append("✅ README")
+            else:
+                features.append("❌ README")
+            
+            if project.get('has_requirements', False):
+                features.append("✅ Requirements")
+            else:
+                features.append("❌ Requirements")
+            
+            if project.get('has_setup', False):
+                features.append("✅ Setup")
+            else:
+                features.append("❌ Setup")
+            
+            content.append(f"- **Features:** {' | '.join(features)}\n")
+            
+            # Main file
+            if project.get('main_file'):
+                content.append(f"- **Main File:** `{project.get('main_file')}`\n")
+            
+            # Description
+            description = project.get('description', '')
+            if description and description.strip():
+                content.append(f"\n**Description:**\n{description}\n")
+            
+            content.append("\n---\n\n")
+        
+        # Footer
+        content.append("\n---\n")
+        content.append(f"\n*Generated by Project Browser v{self._get_app_version()}*\n")
+        
+        return "".join(content)
+    
+    def _format_size(self, size_bytes: int) -> str:
+        """Format size in bytes to human readable format."""
+        if size_bytes == 0:
+            return "0 B"
+        
+        size_names = ["B", "KB", "MB", "GB", "TB"]
+        i = 0
+        while size_bytes >= 1024 and i < len(size_names) - 1:
+            size_bytes /= 1024
+            i += 1
+        
+        return f"{size_bytes:.1f} {size_names[i]}"
+    
+    def _get_app_version(self) -> str:
+        """Get the application version."""
+        try:
+            from ..utils.version import __version__
+            return __version__
+        except ImportError:
+            return "Unknown"
+    
+    def scan_projects(self):
+        """Legacy method for backward compatibility."""
+        self.start_scanning()
+    
     def on_scan_finished(self, projects: List[Dict[str, Any]]):
         """Handle completion of project scanning."""
         self.projects = projects
         self.filtered_projects = projects
         
         self.progress_bar.setVisible(False)
-        self.refresh_button.setEnabled(True)
+        self.start_scan_button.setEnabled(True)
+        self.stop_scan_button.setEnabled(False)
         
         # Update language combo box
         self.update_language_combo()

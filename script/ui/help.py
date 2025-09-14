@@ -130,30 +130,7 @@ class HelpDialog(QDialog):
     def create_navigation_panel(self):
         """Create the left navigation panel with help topics."""
         nav_widget = QWidget()
-        nav_layout = QVBoxLayout(nav_widget)
-        
-        # Quick Help section
-        quick_group = QGroupBox("Quick Help")
-        quick_layout = QVBoxLayout()
-        
-        self.quick_list = QListWidget()
-        quick_items = [
-            "Getting Started",
-            "Model Configuration",
-            "Data Loading",
-            "Training Process",
-            "Evaluation",
-            "Troubleshooting"
-        ]
-        
-        for item in quick_items:
-            list_item = QListWidgetItem(item)
-            self.quick_list.addItem(list_item)
-        
-        self.quick_list.itemClicked.connect(self.on_quick_help_selected)
-        quick_layout.addWidget(self.quick_list)
-        quick_group.setLayout(quick_layout)
-        nav_layout.addWidget(quick_group)
+        nav_layout = QVBoxLayout(nav_widget)        
         
         # Documentation Tree
         docs_group = QGroupBox("Documentation")
@@ -161,9 +138,9 @@ class HelpDialog(QDialog):
         
         self.docs_tree = QTreeWidget()
         self.docs_tree.setHeaderLabel("Topics")
-        self.docs_tree.itemClicked.connect(self.on_docs_tree_selected)
-        
+        self.docs_tree.itemClicked.connect(self.on_docs_item_clicked)
         docs_layout.addWidget(self.docs_tree)
+        
         docs_group.setLayout(docs_layout)
         nav_layout.addWidget(docs_group)
         
@@ -684,10 +661,10 @@ __license__ = "MIT"
         """Get content for a specific topic."""
         topics = {
             "Getting Started": self._get_getting_started_content(),
-            "Model Configuration": self._get_model_config_content(),
-            "Data Loading": self._get_data_loading_content(),
-            "Training Process": self._get_training_content(),
-            "Evaluation": self._get_evaluation_content(),
+            "Project Scanning": self._get_project_scanning_content(),
+            "Browsing Projects": self._get_browsing_projects_content(),
+            "Exporting Results": self._get_exporting_results_content(),
+            "Project Details": self._get_project_details_content(),
             "Troubleshooting": self._get_troubleshooting_content(),
         }
         return topics.get(topic, "<h2>Topic not found</h2><p>The requested help topic could not be found.</p>")
@@ -783,6 +760,12 @@ __license__ = "MIT"
     def show_error(self, message):
         """Show an error message."""
         QMessageBox.critical(self, "Error", message)
+    
+    def on_docs_item_clicked(self, item, column):
+        """Handle documentation tree item clicks."""
+        filename = item.data(0, Qt.UserRole)
+        if filename:
+            self.load_documentation_file(filename)
     
     def load_documentation_file(self, filename):
         """Load a specific documentation file from the docs directory."""
@@ -977,7 +960,7 @@ __license__ = "MIT"
         """
     
     def _get_getting_started_content(self):
-        """Get getting started content."""
+        """Get getting started content for Project Browser."""
         return """
         <html>
         <head>
@@ -1000,400 +983,66 @@ __license__ = "MIT"
                     background-color: #2d2d2d; 
                     padding: 15px; 
                     margin: 10px 0; 
-                    border-left: 4px solid #4fc3f7; 
-                    border-radius: 4px;
-                    border: 1px solid #404040;
-                }
-                strong { color: #ffb74d; }
-            </style>
-        </head>
-        <body>
-            <h1>Getting Started with Neural Network Creator</h1>
-            
-            <div class="step">
-                <h2>Step 1: Prepare Your Data</h2>
-                <p>Your data should be in CSV format with:</p>
-                <ul>
-                    <li>Features in the first N columns</li>
-                    <li>Target variable in the last column</li>
-                    <li>All numerical values</li>
-                    <li>No missing values (handle them beforehand)</li>
-                </ul>
-            </div>
-            
-            <div class="step">
-                <h2>Step 2: Load Your Dataset</h2>
-                <ol>
-                    <li>Go to the <strong>Data</strong> tab</li>
-                    <li>Click <strong>Load Data</strong></li>
-                    <li>Select your CSV file</li>
-                    <li>Review the data preview and statistics</li>
-                </ol>
-            </div>
-            
-            <div class="step">
-                <h2>Step 3: Configure Your Model</h2>
-                <ol>
-                    <li>Go to the <strong>Model</strong> tab</li>
-                    <li>Review the auto-detected input size</li>
-                    <li>Set your output size (number of classes)</li>
-                    <li>Configure hidden layers, activation, dropout</li>
-                    <li>Click <strong>Create Model</strong></li>
-                </ol>
-            </div>
-            
-            <div class="step">
-                <h2>Step 4: Train Your Model</h2>
-                <ol>
-                    <li>Go to the <strong>Training</strong> tab</li>
-                    <li>Set training parameters (epochs, batch size, learning rate)</li>
-                    <li>Choose optimizer and loss function</li>
-                    <li>Click <strong>Train Model</strong></li>
-                    <li>Monitor training progress</li>
-                </ol>
-            </div>
-        </body>
-        </html>
-        """
-    
-    def _get_model_config_content(self):
-        """Get model configuration content."""
-        return """
-        <html>
-        <head>
-            <style>
-                body { 
-                    font-family: Arial, sans-serif; 
-                    margin: 20px; 
-                    background-color: #1a1a1a;
-                    color: #e0e0e0;
-                }
-                h1 { 
-                    color: #4fc3f7; 
-                    border-bottom: 2px solid #2196f3; 
-                }
-                h2 { 
-                    color: #81c784; 
-                    margin-top: 30px; 
-                }
-                .param { 
-                    background-color: #2d2d2d; 
-                    padding: 10px; 
-                    margin: 10px 0; 
                     border-radius: 5px; 
                     border: 1px solid #404040;
                 }
                 h3 { color: #ffb74d; }
                 strong { color: #4fc3f7; }
+                ol { margin-left: 20px; }
+                li { margin: 8px 0; }
             </style>
         </head>
         <body>
-            <h1>Model Configuration Guide</h1>
+            <h1>Getting Started with Project Browser</h1>
             
-            <h2>Understanding Model Parameters</h2>
+            <p>Welcome to Project Browser! This tool helps you discover, browse, and manage your programming projects efficiently.</p>
             
-            <div class="param">
-                <h3>Input Size</h3>
-                <p><strong>What it is:</strong> Number of features in your dataset</p>
-                <p><strong>How to set:</strong> Automatically detected when you load data</p>
-                <p><strong>Tip:</strong> This should match the number of columns in your CSV minus 1 (for target)</p>
+            <div class="step">
+                <h2>Step 1: Open Project Browser</h2>
+                <ol>
+                    <li>Go to the <strong>Tools</strong> menu in the main application</li>
+                    <li>Select <strong>Project Browser</strong> from the dropdown menu</li>
+                    <li>The Project Browser dialog will open</li>
+                </ol>
             </div>
             
-            <div class="param">
-                <h3>Hidden Layers</h3>
-                <p><strong>What it is:</strong> Number and size of intermediate layers</p>
-                <p><strong>How to set:</strong> Start with [128, 64] for simple problems</p>
-                <p><strong>Tip:</strong> More layers = more complexity, but risk of overfitting</p>
-            </div>
-        </body>
-        </html>
-        """
-    
-    def _get_data_loading_content(self):
-        """Get data loading content."""
-        return """
-        <html>
-        <head>
-            <style>
-                body { 
-                    font-family: Arial, sans-serif; 
-                    margin: 20px; 
-                    background-color: #1a1a1a;
-                    color: #e0e0e0;
-                }
-                h1 { 
-                    color: #4fc3f7; 
-                    border-bottom: 2px solid #2196f3; 
-                }
-                h2 { 
-                    color: #81c784; 
-                    margin-top: 30px; 
-                }
-                .format { 
-                    background-color: #2d2d2d; 
-                    padding: 15px; 
-                    margin: 10px 0; 
-                    border-left: 4px solid #f44336; 
-                    border-radius: 4px;
-                    border: 1px solid #404040;
-                }
-                h3 { color: #ffb74d; }
-                strong { color: #4fc3f7; }
-                pre { 
-                    background-color: #1e1e1e; 
-                    color: #e0e0e0; 
-                    padding: 10px; 
-                    border-radius: 4px; 
-                    border: 1px solid #555555;
-                }
-            </style>
-        </head>
-        <body>
-            <h1>Data Loading Guide</h1>
-            
-            <h2>Supported Data Formats</h2>
-            
-            <div class="format">
-                <h3>CSV Format</h3>
-                <p><strong>Requirements:</strong></p>
-                <ul>
-                    <li>Comma-separated values</li>
-                    <li>No header row (or remove it)</li>
-                    <li>All numerical values</li>
-                    <li>Target variable in last column</li>
-                    <li>No missing values</li>
-                </ul>
-                <p><strong>Example:</strong></p>
-                <pre>1.2,3.4,5.6,0
-2.1,4.3,6.5,1
-3.0,5.2,7.4,0</pre>
+            <div class="step">
+                <h2>Step 2: Scan for Projects</h2>
+                <ol>
+                    <li>Click the <strong style="color: #4CAF50;">Start Scan</strong> button (green)</li>
+                    <li>The application will scan your GitHub folder for projects</li>
+                    <li>Watch the progress bar as projects are discovered</li>
+                    <li>Results will appear in the table below</li>
+                </ol>
             </div>
             
-            <h2>Data Preprocessing</h2>
-            <p>The application automatically handles:</p>
+            <div class="step">
+                <h2>Step 3: Browse and Filter Projects</h2>
+                <ol>
+                    <li>Use the <strong>Search</strong> box to find specific projects</li>
+                    <li>Filter by <strong>Language</strong> using the dropdown menu</li>
+                    <li>Click on any project in the table to view details</li>
+                    <li>Use the <strong>Open Folder</strong> button to access project files</li>
+                </ol>
+            </div>
+            
+            <div class="step">
+                <h2>Step 4: Export Results (Optional)</h2>
+                <ol>
+                    <li>After scanning, click the <strong style="color: #2196F3;">Export</strong> button (blue)</li>
+                    <li>Results will be saved in Markdown format to the <strong>data/</strong> folder</li>
+                    <li>The export includes project details, statistics, and summaries</li>
+                </ol>
+            </div>
+            
+            <h2>Tips for Best Results</h2>
             <ul>
-                <li>Train/validation split (80/20 by default)</li>
-                <li>Data normalization</li>
-                <li>Tensor conversion</li>
-                <li>Data loader creation</li>
+                <li><strong>Organization:</strong> Keep your projects in well-structured folders</li>
+                <li><strong>Git Repositories:</strong> Projects with Git will show more detailed information</li>
+                <li><strong>README Files:</strong> Include README.md files for better project descriptions</li>
+                <li><strong>Regular Scans:</strong> Scan periodically to discover new projects</li>
             </ul>
-        </body>
-        </html>
-        """
-    
-    def _get_training_content(self):
-        """Get training process content."""
-        return """
-        <html>
-        <head>
-            <style>
-                body { 
-                    font-family: Arial, sans-serif; 
-                    margin: 20px; 
-                    background-color: #1a1a1a;
-                    color: #e0e0e0;
-                }
-                h1 { 
-                    color: #4fc3f7; 
-                    border-bottom: 2px solid #2196f3; 
-                }
-                h2 { 
-                    color: #81c784; 
-                    margin-top: 30px; 
-                }
-                .param { 
-                    background-color: #2d2d2d; 
-                    padding: 10px; 
-                    margin: 10px 0; 
-                    border-radius: 5px; 
-                    border: 1px solid #404040;
-                }
-                h3 { color: #ffb74d; }
-                strong { color: #4fc3f7; }
-            </style>
-        </head>
-        <body>
-            <h1>Training Process Guide</h1>
             
-            <h2>Training Parameters</h2>
-            
-            <div class="param">
-                <h3>Epochs</h3>
-                <p><strong>What it is:</strong> Number of complete passes through the training data</p>
-                <p><strong>Typical values:</strong> 10-100 for simple problems, 100-1000 for complex ones</p>
-                <p><strong>Tip:</strong> Use early stopping to prevent overfitting</p>
-            </div>
-            
-            <div class="param">
-                <h3>Batch Size</h3>
-                <p><strong>What it is:</strong> Number of samples processed before updating weights</p>
-                <p><strong>Typical values:</strong> 16, 32, 64, 128</p>
-                <p><strong>Tip:</strong> Smaller batches = better generalization, slower training</p>
-            </div>
-            
-            <div class="param">
-                <h3>Learning Rate</h3>
-                <p><strong>What it is:</strong> Step size for weight updates</p>
-                <p><strong>Typical values:</strong> 0.001, 0.01, 0.1</p>
-                <p><strong>Tip:</strong> Too high = unstable training, too low = slow convergence</p>
-            </div>
-        </body>
-        </html>
-        """
-    
-    def _get_evaluation_content(self):
-        """Get evaluation content."""
-        return """
-        <html>
-        <head>
-            <style>
-                body { 
-                    font-family: Arial, sans-serif; 
-                    margin: 20px; 
-                    background-color: #1a1a1a;
-                    color: #e0e0e0;
-                }
-                h1 { 
-                    color: #4fc3f7; 
-                    border-bottom: 2px solid #2196f3; 
-                }
-                h2 { 
-                    color: #81c784; 
-                    margin-top: 30px; 
-                }
-                .metric { 
-                    background-color: #2d2d2d; 
-                    padding: 15px; 
-                    margin: 10px 0; 
-                    border-left: 4px solid #4caf50; 
-                    border-radius: 4px;
-                    border: 1px solid #404040;
-                }
-                h3 { color: #ffb74d; }
-                strong { color: #4fc3f7; }
-            </style>
-        </head>
-        <body>
-            <h1>Model Evaluation Guide</h1>
-            
-            <h2>Understanding Metrics</h2>
-            
-            <div class="metric">
-                <h3>Accuracy</h3>
-                <p><strong>What it measures:</strong> Percentage of correct predictions</p>
-                <p><strong>Good range:</strong> 0.7-1.0 (70-100%)</p>
-                <p><strong>Limitations:</strong> Can be misleading for imbalanced datasets</p>
-            </div>
-            
-            <div class="metric">
-                <h3>Loss</h3>
-                <p><strong>What it measures:</strong> How far predictions are from actual values</p>
-                <p><strong>Good range:</strong> Should decrease during training</p>
-                <p><strong>Tip:</strong> Watch for overfitting when training loss << validation loss</p>
-            </div>
-            
-            <h2>Interpreting Results</h2>
-            <ul>
-                <li><strong>High training accuracy, low validation accuracy:</strong> Overfitting</li>
-                <li><strong>Both accuracies low:</strong> Underfitting or insufficient training</li>
-                <li><strong>Both accuracies high:</strong> Good model performance</li>
-                <li><strong>Loss not decreasing:</strong> Learning rate too low or model too simple</li>
-            </ul>
-        </body>
-        </html>
-        """
-    
-    def _get_troubleshooting_content(self):
-        """Get troubleshooting content."""
-        return """
-        <html>
-        <head>
-            <style>
-                body { 
-                    font-family: Arial, sans-serif; 
-                    margin: 20px; 
-                    background-color: #1a1a1a;
-                    color: #e0e0e0;
-                }
-                h1 { 
-                    color: #4fc3f7; 
-                    border-bottom: 2px solid #2196f3; 
-                }
-                h2 { 
-                    color: #81c784; 
-                    margin-top: 30px; 
-                }
-                .issue { 
-                    background-color: #4e342e; 
-                    padding: 15px; 
-                    margin: 10px 0; 
-                    border-left: 4px solid #ff9800; 
-                    border-radius: 4px;
-                    border: 1px solid #5d4037;
-                }
-                .solution { 
-                    background-color: #1b5e20; 
-                    padding: 15px; 
-                    margin: 10px 0; 
-                    border-left: 4px solid #4caf50; 
-                    border-radius: 4px;
-                    border: 1px solid #2e7d32;
-                }
-                h3 { color: #ffb74d; }
-                strong { color: #4fc3f7; }
-            </style>
-        </head>
-        <body>
-            <h1>Troubleshooting Guide</h1>
-            
-            <div class="issue">
-                <h3>Issue: Model won't train</h3>
-                <p><strong>Symptoms:</strong> Loss stays the same, accuracy doesn't improve</p>
-            </div>
-            
-            <div class="solution">
-                <h3>Solutions:</h3>
-                <ul>
-                    <li>Check data format and preprocessing</li>
-                    <li>Increase learning rate</li>
-                    <li>Add more hidden layers or neurons</li>
-                    <li>Try different activation functions</li>
-                    <li>Ensure data is properly normalized</li>
-                </ul>
-            </div>
-            
-            <div class="issue">
-                <h3>Issue: Overfitting</h3>
-                <p><strong>Symptoms:</strong> High training accuracy, low validation accuracy</p>
-            </div>
-            
-            <div class="solution">
-                <h3>Solutions:</h3>
-                <ul>
-                    <li>Add dropout layers</li>
-                    <li>Use batch normalization</li>
-                    <li>Reduce model complexity</li>
-                    <li>Add more training data</li>
-                    <li>Use early stopping</li>
-                    <li>Apply data augmentation</li>
-                </ul>
-            </div>
-            
-            <div class="issue">
-                <h3>Issue: Training too slow</h3>
-                <p><strong>Symptoms:</strong> Each epoch takes a long time</p>
-            </div>
-            
-            <div class="solution">
-                <h3>Solutions:</h3>
-                <ul>
-                    <li>Increase batch size</li>
-                    <li>Reduce model complexity</li>
-                    <li>Use GPU acceleration if available</li>
-                    <li>Reduce dataset size</li>
-                    <li>Use fewer epochs</li>
-                </ul>
-            </div>
         </body>
         </html>
         """

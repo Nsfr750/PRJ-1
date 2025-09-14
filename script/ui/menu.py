@@ -200,29 +200,76 @@ class AppMenuBar(QMenuBar):
             file_menu = self.actions()[0].menu()
             if file_menu:
                 file_menu.setTitle(get_text('menu.file', '&File'))
+                # Update File menu actions
+                actions = file_menu.actions()
+                if len(actions) > 0: actions[0].setText(get_text('menu.new', 'New'))
+                if len(actions) > 1: actions[1].setText(get_text('menu.open', 'Open...'))
+                if len(actions) > 2: actions[2].setText(get_text('menu.save', 'Save'))
+                if len(actions) > 3: actions[3].setText(get_text('menu.save_as', 'Save As...'))
+                if len(actions) > 4: actions[4].setText(get_text('menu.exit', 'Exit'))
             
             # Edit menu
             edit_menu = self.actions()[1].menu()
             if edit_menu:
                 edit_menu.setTitle(get_text('menu.edit', '&Edit'))
+                # Update Edit menu actions
+                actions = edit_menu.actions()
+                if len(actions) > 0: actions[0].setText(get_text('menu.undo', 'Undo'))
+                if len(actions) > 1: actions[1].setText(get_text('menu.redo', 'Redo'))
+                if len(actions) > 2: actions[2].setText(get_text('menu.cut', 'Cut'))
+                if len(actions) > 3: actions[3].setText(get_text('menu.copy', 'Copy'))
+                if len(actions) > 4: actions[4].setText(get_text('menu.paste', 'Paste'))
+                if len(actions) > 5: actions[5].setText(get_text('menu.delete', 'Delete'))
+                if len(actions) > 6: actions[6].setText(get_text('menu.select_all', 'Select All'))
             
             # View menu
             view_menu = self.actions()[2].menu()
             if view_menu:
                 view_menu.setTitle(get_text('menu.view', '&View'))
+                # Update View menu actions
+                actions = view_menu.actions()
+                # Language submenu
+                if len(actions) > 0:
+                    lang_menu = actions[0].menu()
+                    if lang_menu:
+                        lang_menu.setTitle(get_text('menu.language', '&Language'))
+                        lang_actions = lang_menu.actions()
+                        if len(lang_actions) > 0: lang_actions[0].setText(get_text('menu.english', 'English'))
+                        if len(lang_actions) > 1: lang_actions[1].setText(get_text('menu.italian', 'Italiano'))
+                # Theme submenu
+                if len(actions) > 1:
+                    theme_menu = actions[1].menu()
+                    if theme_menu:
+                        theme_menu.setTitle(get_text('menu.theme', '&Theme'))
+                        theme_actions = theme_menu.actions()
+                        if len(theme_actions) > 0: theme_actions[0].setText(get_text('menu.system', 'System'))
+                        if len(theme_actions) > 1: theme_actions[1].setText(get_text('menu.dark', 'Dark'))
+                        if len(theme_actions) > 2: theme_actions[2].setText(get_text('menu.light', 'Light'))
             
             # Tools menu
             tools_menu = self.actions()[3].menu()
             if tools_menu:
                 tools_menu.setTitle(get_text('menu.tools', '&Tools'))
+                # Update Tools menu actions
+                actions = tools_menu.actions()
+                if len(actions) > 0: actions[0].setText(get_text('menu.project_browser', 'Project Browser'))
+                if len(actions) > 1: actions[1].setText(get_text('menu.view_logs', 'View Logs'))
+                if len(actions) > 2: actions[2].setText(get_text('menu.check_updates', 'Check for Updates'))
             
             # Help menu
             help_menu = self.actions()[4].menu()
             if help_menu:
                 help_menu.setTitle(get_text('menu.help', '&Help'))
+                # Update Help menu actions
+                actions = help_menu.actions()
+                if len(actions) > 0: actions[0].setText(get_text('menu.help', 'Help'))
+                if len(actions) > 1: actions[1].setText(get_text('menu.documentation', 'Documentation (Wiki)'))
+                if len(actions) > 2: actions[2].setText(get_text('menu.about', 'About'))
+                if len(actions) > 3: actions[3].setText(get_text('menu.sponsor', 'Sponsor'))
         except Exception as e:
             # Silently handle retranslation errors to avoid crashes
-            pass
+            import logging
+            logging.getLogger(__name__).warning(f"Retranslation error: {e}")
     
     def close_application(self):
         """Close the application."""

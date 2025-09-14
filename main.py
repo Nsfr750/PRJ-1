@@ -52,6 +52,9 @@ class MainWindow(QMainWindow):
         self.menu_bar = AppMenuBar(self)
         self.setMenuBar(self.menu_bar)
         
+        # Connect language change signal
+        self.menu_bar.language_changed.connect(self.on_language_changed)
+        
         # Create status bar
         self.statusBar().showMessage("Ready")
     
@@ -59,6 +62,15 @@ class MainWindow(QMainWindow):
         """Handle the close event."""
         logger.info("Main window closing")
         event.accept()
+    
+    def on_language_changed(self):
+        """Handle language change event."""
+        # Update window title
+        from script.lang.lang_mgr import get_text
+        self.setWindowTitle(get_text('app.title', 'Project Browser'))
+        
+        # Update status bar
+        self.statusBar().showMessage(get_text('app.ready', 'Ready'))
 
 
 def main():

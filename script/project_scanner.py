@@ -185,18 +185,91 @@ class ProjectScanner:
                         project_info['has_setup'] = True
                     elif file.name.lower() in ['main.py', 'app.py', 'index.py', '__init__.py']:
                         project_info['main_file'] = file.name
-                    elif file.name.lower().endswith('.py'):
-                        project_info['language'] = 'Python'
-                    elif file.name.lower().endswith(('.js', '.ts', '.jsx', '.tsx')):
-                        project_info['language'] = 'JavaScript/TypeScript'
-                    elif file.name.lower().endswith(('.html', '.css', '.scss')):
-                        project_info['language'] = 'Web'
-                    elif file.name.lower().endswith(('.java', '.kt', '.scala')):
-                        project_info['language'] = 'Java/JVM'
-                    elif file.name.lower().endswith(('.cpp', '.c', '.h', '.hpp')):
-                        project_info['language'] = 'C/C++'
-                    elif file.name.lower().endswith(('.go', '.rs')):
-                        project_info['language'] = f"{file.suffix[1:].upper()}"
+                    # Language detection - collect all languages found
+                    file_ext = file.suffix.lower()
+                    file_name = file.name.lower()
+                    
+                    # Initialize language set if not exists
+                    if 'detected_languages' not in project_info:
+                        project_info['detected_languages'] = set()
+                    
+                    # Detect language based on file extension
+                    if file_ext == '.py':
+                        project_info['detected_languages'].add('Python')
+                    elif file_ext in ('.js', '.mjs', '.cjs'):
+                        project_info['detected_languages'].add('JavaScript')
+                    elif file_ext in ('.ts', '.tsx'):
+                        project_info['detected_languages'].add('TypeScript')
+                    elif file_ext in ('.jsx',) :
+                        project_info['detected_languages'].add('React/JSX')
+                    elif file_ext in ('.html', '.htm'):
+                        project_info['detected_languages'].add('HTML')
+                    elif file_ext in ('.css', '.scss', '.sass', '.less'):
+                        project_info['detected_languages'].add('CSS')
+                    elif file_ext == '.java':
+                        project_info['detected_languages'].add('Java')
+                    elif file_ext == '.kt':
+                        project_info['detected_languages'].add('Kotlin')
+                    elif file_ext == '.scala':
+                        project_info['detected_languages'].add('Scala')
+                    elif file_ext in ('.cpp', '.cc', '.cxx'):
+                        project_info['detected_languages'].add('C++')
+                    elif file_ext in ('.c', '.h'):
+                        project_info['detected_languages'].add('C')
+                    elif file_ext == '.go':
+                        project_info['detected_languages'].add('Go')
+                    elif file_ext == '.rs':
+                        project_info['detected_languages'].add('Rust')
+                    elif file_ext == '.rb':
+                        project_info['detected_languages'].add('Ruby')
+                    elif file_ext in ('.php', '.php3', '.php4', '.php5'):
+                        project_info['detected_languages'].add('PHP')
+                    elif file_ext == '.swift':
+                        project_info['detected_languages'].add('Swift')
+                    elif file_ext == '.dart':
+                        project_info['detected_languages'].add('Dart')
+                    elif file_ext in ('.sh', '.bash', '.zsh'):
+                        project_info['detected_languages'].add('Shell')
+                    elif file_ext == '.r':
+                        project_info['detected_languages'].add('R')
+                    elif file_ext == '.m':
+                        project_info['detected_languages'].add('Objective-C')
+                    elif file_ext == '.lua':
+                        project_info['detected_languages'].add('Lua')
+                    elif file_ext in ('.pl', '.pm'):
+                        project_info['detected_languages'].add('Perl')
+                    elif file_ext in ('.cs', '.csx'):
+                        project_info['detected_languages'].add('C#')
+                    elif file_ext == '.vb':
+                        project_info['detected_languages'].add('Visual Basic')
+                    elif file_ext == '.f90':
+                        project_info['detected_languages'].add('Fortran')
+                    elif file_ext == '.asm':
+                        project_info['detected_languages'].add('Assembly')
+                    elif file_ext == '.sql':
+                        project_info['detected_languages'].add('SQL')
+                    elif file_ext in ('.dockerfile', '.dockerignore'):
+                        project_info['detected_languages'].add('Docker')
+                    elif file_ext in ('.yaml', '.yml'):
+                        project_info['detected_languages'].add('YAML')
+                    elif file_ext == '.json':
+                        project_info['detected_languages'].add('JSON')
+                    elif file_ext == '.xml':
+                        project_info['detected_languages'].add('XML')
+                    elif file_ext == '.md':
+                        project_info['detected_languages'].add('Markdown')
+                    elif file_ext in ('.txt', '.log', '.conf', '.ini', '.cfg'):
+                        project_info['detected_languages'].add('Text/Config')
+            
+            # Determine primary language from detected languages
+            if 'detected_languages' in project_info and project_info['detected_languages']:
+                project_info['language'] = self._determine_primary_language(project_info['detected_languages'])
+            else:
+                project_info['language'] = 'Unknown'
+            
+            # Clean up temporary field
+            if 'detected_languages' in project_info:
+                del project_info['detected_languages']
             
             # Try to extract version from setup files or version files
             project_info['version'] = self._extract_version(project_path)
@@ -206,6 +279,70 @@ class ProjectScanner:
         except Exception as e:
             print(f"Error analyzing project {project_path}: {e}")
             return None
+    
+    def _determine_primary_language(self, detected_languages: set) -> str:
+        """Determine the primary language from a set of detected languages.
+        
+        Args:
+            detected_languages: Set of detected language names
+            
+        Returns:
+            str: The primary language name
+        """
+        if not detected_languages:
+            return 'Unknown'
+        
+        # Priority order for primary languages (most important first)
+        language_priority = [
+            'Python', 'JavaScript', 'TypeScript', 'React/JSX', 'Java', 'C++', 'C',
+            'Go', 'Rust', 'Ruby', 'PHP', 'Swift', 'Kotlin', 'Scala', 'C#',
+            'Visual Basic', 'Objective-C', 'Dart', 'Lua', 'Perl', 'R', 'Fortran',
+            'Assembly', 'SQL', 'Shell'
+        ]
+        
+        # Secondary/supporting languages (lower priority)
+        supporting_languages = ['HTML', 'CSS', 'JSON', 'XML', 'YAML', 'Markdown', 'Text/Config', 'Docker']
+        
+        # Convert to list for processing
+        languages = list(detected_languages)
+        
+        # If only one language, return it
+        if len(languages) == 1:
+            return languages[0]
+        
+        # Separate primary and supporting languages
+        primary_found = []
+        supporting_found = []
+        
+        for lang in languages:
+            if lang in language_priority:
+                primary_found.append(lang)
+            elif lang in supporting_languages:
+                supporting_found.append(lang)
+            else:
+                # Unknown language, treat as primary
+                primary_found.append(lang)
+        
+        # If we have primary languages, return the highest priority one
+        if primary_found:
+            for priority_lang in language_priority:
+                if priority_lang in primary_found:
+                    return priority_lang
+            # If no priority match, return first primary language
+            return primary_found[0]
+        
+        # If only supporting languages, try to determine context
+        if supporting_found:
+            if 'HTML' in supporting_found and 'CSS' in supporting_found:
+                return 'Web'
+            elif 'HTML' in supporting_found:
+                return 'HTML'
+            elif 'CSS' in supporting_found:
+                return 'CSS'
+            else:
+                return supporting_found[0]
+        
+        return 'Unknown'
     
     def _get_folder_size(self, path: Path) -> int:
         """Calculate the total size of a folder in bytes."""
@@ -240,7 +377,22 @@ class ProjectScanner:
             'setup.py',
             'pyproject.toml',
             'package.json',
-            'pom.xml'
+            'pom.xml',
+            'Cargo.toml',
+            'go.mod',
+            'composer.json',
+            'Gemfile',
+            'build.gradle',
+            'build.sbt',
+            'pubspec.yaml',
+            'project.clj',
+            'mix.exs',
+            'dune-project',
+            'stack.yaml',
+            'cabal.project',
+            'shard.yml',
+            'meson.build',
+            'CMakeLists.txt'
         ]
         
         # First check root directory
@@ -249,24 +401,50 @@ class ProjectScanner:
             if file_path.exists():
                 try:
                     if version_file.endswith('.py'):
-                        return self._extract_version_from_python(file_path)
+                        version = self._extract_version_from_python(file_path)
                     elif version_file.endswith('.toml'):
-                        return self._extract_version_from_toml(file_path)
+                        version = self._extract_version_from_toml(file_path)
                     elif version_file.endswith('.json'):
-                        return self._extract_version_from_json(file_path)
+                        version = self._extract_version_from_json(file_path)
+                    elif version_file.endswith('.xml'):
+                        version = self._extract_version_from_xml(file_path)
+                    elif version_file == 'go.mod':
+                        version = self._extract_version_from_go_mod(file_path)
+                    elif version_file == 'Cargo.toml':
+                        version = self._extract_version_from_cargo_toml(file_path)
+                    elif version_file == 'Gemfile':
+                        version = self._extract_version_from_gemfile(file_path)
+                    elif version_file in ('build.gradle', 'build.sbt'):
+                        version = self._extract_version_from_gradle_sbt(file_path)
+                    elif version_file.endswith(('.yaml', '.yml')):
+                        version = self._extract_version_from_yaml(file_path)
+                    elif version_file in ('mix.exs', 'project.clj', 'shard.yml'):
+                        version = self._extract_version_from_lang_file(file_path)
+                    else:
+                        version = self._extract_version_generic(file_path)
+                    
+                    if version and version != 'Unknown':
+                        return version
                 except Exception:
                     continue
         
-        # If not found in root, recursively search for version.py files in subdirectories
-        for version_file in version_files:
-            if version_file.endswith('.py'):  # Only search recursively for Python version files
-                for file_path in project_path.rglob(version_file):
-                    try:
-                        version = self._extract_version_from_python(file_path)
-                        if version and version != 'Unknown':
-                            return version
-                    except Exception:
-                        continue
+        # If not found in root, recursively search for common version files
+        for version_file in ['version.py', '__version__.py', 'setup.py']:
+            for file_path in project_path.rglob(version_file):
+                try:
+                    version = self._extract_version_from_python(file_path)
+                    if version and version != 'Unknown':
+                        return version
+                except Exception:
+                    continue
+        
+        # Try to find version in git tags as last resort
+        try:
+            version = self._extract_version_from_git(project_path)
+            if version and version != 'Unknown':
+                return version
+        except Exception:
+            pass
         
         return 'Unknown'
     
@@ -275,9 +453,30 @@ class ProjectScanner:
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
                 content = f.read()
-                # Look for __version__ = "x.x.x" or __version__ = 'x.x.x'
                 import re
+                
+                # Pattern 1: __version__ = "x.x.x" or __version__ = 'x.x.x'
                 match = re.search(r'__version__\s*=\s*["\']([^"\']+)["\']', content)
+                if match:
+                    return match.group(1)
+                
+                # Pattern 2: VERSION = "x.x.x" or VERSION = 'x.x.x'
+                match = re.search(r'VERSION\s*=\s*["\']([^"\']+)["\']', content)
+                if match:
+                    return match.group(1)
+                
+                # Pattern 3: version = "x.x.x" or version = 'x.x.x'
+                match = re.search(r'version\s*=\s*["\']([^"\']+)["\']', content)
+                if match:
+                    return match.group(1)
+                
+                # Pattern 4: setup.py with version parameter
+                match = re.search(r'version\s*=\s*["\']([^"\']+)["\']', content)
+                if match:
+                    return match.group(1)
+                
+                # Pattern 5: Semantic versioning pattern (x.x.x)
+                match = re.search(r'(\d+\.\d+\.\d+(?:-[\w.]+)?)', content)
                 if match:
                     return match.group(1)
         except Exception:
@@ -289,9 +488,30 @@ class ProjectScanner:
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
                 content = f.read()
-                # Simple regex for version in TOML
                 import re
+                
+                # Pattern 1: version = "x.x.x" or version = 'x.x.x'
                 match = re.search(r'version\s*=\s*["\']([^"\']+)["\']', content)
+                if match:
+                    return match.group(1)
+                
+                # Pattern 2: [project] version = "x.x.x"
+                match = re.search(r'\[project\][^\[]*version\s*=\s*["\']([^"\']+)["\']', content, re.DOTALL)
+                if match:
+                    return match.group(1)
+                
+                # Pattern 3: [tool.poetry] version = "x.x.x"
+                match = re.search(r'\[tool\.poetry\][^\[]*version\s*=\s*["\']([^"\']+)["\']', content, re.DOTALL)
+                if match:
+                    return match.group(1)
+                
+                # Pattern 4: [package] version = "x.x.x"
+                match = re.search(r'\[package\][^\[]*version\s*=\s*["\']([^"\']+)["\']', content, re.DOTALL)
+                if match:
+                    return match.group(1)
+                
+                # Pattern 5: Generic semantic version
+                match = re.search(r'(\d+\.\d+\.\d+(?:-[\w.]+)?)', content)
                 if match:
                     return match.group(1)
         except Exception:
@@ -303,7 +523,248 @@ class ProjectScanner:
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
-                return data.get('version', 'Unknown')
+                
+                # Try different common version keys
+                version_keys = ['version', 'Version', 'VERSION', 'appVersion', 'apiVersion']
+                for key in version_keys:
+                    if key in data and data[key]:
+                        return str(data[key])
+                
+                # Try nested version (common in package.json)
+                if 'package' in data and isinstance(data['package'], dict):
+                    for key in version_keys:
+                        if key in data['package'] and data['package'][key]:
+                            return str(data['package'][key])
+                
+                # Try semantic version pattern in stringified content
+                with open(file_path, 'r', encoding='utf-8') as f2:
+                    content = f2.read()
+                    import re
+                    match = re.search(r'(\d+\.\d+\.\d+(?:-[\w.]+)?)', content)
+                    if match:
+                        return match.group(1)
+        except Exception:
+            pass
+        return 'Unknown'
+    
+    def _extract_version_from_xml(self, file_path: Path) -> str:
+        """Extract version from XML file (e.g., pom.xml)."""
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+                import re
+                
+                # Pattern 1: <version>x.x.x</version>
+                match = re.search(r'<version[^>]*>([^<]+)</version>', content)
+                if match:
+                    return match.group(1)
+                
+                # Pattern 2: <project><version>x.x.x</version></project>
+                match = re.search(r'<project[^>]*>.*?<version[^>]*>([^<]+)</version>', content, re.DOTALL)
+                if match:
+                    return match.group(1)
+                
+                # Pattern 3: version="x.x.x" attribute
+                match = re.search(r'version\s*=\s*["\']([^"\']+)["\']', content)
+                if match:
+                    return match.group(1)
+                
+                # Pattern 4: Generic semantic version
+                match = re.search(r'(\d+\.\d+\.\d+(?:-[\w.]+)?)', content)
+                if match:
+                    return match.group(1)
+        except Exception:
+            pass
+        return 'Unknown'
+    
+    def _extract_version_from_go_mod(self, file_path: Path) -> str:
+        """Extract version from go.mod file."""
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+                import re
+                
+                # Pattern: go x.xx or module version
+                match = re.search(r'go\s+(\d+\.\d+(?:\.\d+)?)', content)
+                if match:
+                    return match.group(1)
+                
+                # Pattern: semantic version in module path
+                match = re.search(r'(\d+\.\d+\.\d+(?:-[\w.]+)?)', content)
+                if match:
+                    return match.group(1)
+        except Exception:
+            pass
+        return 'Unknown'
+    
+    def _extract_version_from_cargo_toml(self, file_path: Path) -> str:
+        """Extract version from Cargo.toml file."""
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+                import re
+                
+                # Pattern: [package] version = "x.x.x"
+                match = re.search(r'\[package\][^\[]*version\s*=\s*["\']([^"\']+)["\']', content, re.DOTALL)
+                if match:
+                    return match.group(1)
+                
+                # Pattern: version = "x.x.x"
+                match = re.search(r'version\s*=\s*["\']([^"\']+)["\']', content)
+                if match:
+                    return match.group(1)
+        except Exception:
+            pass
+        return 'Unknown'
+    
+    def _extract_version_from_gemfile(self, file_path: Path) -> str:
+        """Extract version from Gemfile."""
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+                import re
+                
+                # Pattern: gem 'name', 'x.x.x'
+                match = re.search(r'gem\s+[\'\"]\w+[\'\"],\s*[\'\"]([^\'\"]+)[\'\"]', content)
+                if match:
+                    return match.group(1)
+                
+                # Pattern: ruby 'x.x.x'
+                match = re.search(r'ruby\s+[\'\"]([^\'\"]+)[\'\"]', content)
+                if match:
+                    return match.group(1)
+                
+                # Pattern: semantic version
+                match = re.search(r'(\d+\.\d+\.\d+(?:-[\w.]+)?)', content)
+                if match:
+                    return match.group(1)
+        except Exception:
+            pass
+        return 'Unknown'
+    
+    def _extract_version_from_gradle_sbt(self, file_path: Path) -> str:
+        """Extract version from build.gradle or build.sbt file."""
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+                import re
+                
+                # Pattern: version 'x.x.x' or version "x.x.x"
+                match = re.search(r'version\s+["\']([^"\']+)["\']', content)
+                if match:
+                    return match.group(1)
+                
+                # Pattern: version = 'x.x.x' or version = "x.x.x"
+                match = re.search(r'version\s*=\s*["\']([^"\']+)["\']', content)
+                if match:
+                    return match.group(1)
+                
+                # Pattern: semantic version
+                match = re.search(r'(\d+\.\d+\.\d+(?:-[\w.]+)?)', content)
+                if match:
+                    return match.group(1)
+        except Exception:
+            pass
+        return 'Unknown'
+    
+    def _extract_version_from_yaml(self, file_path: Path) -> str:
+        """Extract version from YAML file."""
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+                import re
+                
+                # Pattern: version: x.x.x
+                match = re.search(r'version:\s*([^\n\s]+)', content)
+                if match:
+                    return match.group(1)
+                
+                # Pattern: version: "x.x.x" or version: 'x.x.x'
+                match = re.search(r'version:\s*["\']([^"\']+)["\']', content)
+                if match:
+                    return match.group(1)
+                
+                # Pattern: semantic version
+                match = re.search(r'(\d+\.\d+\.\d+(?:-[\w.]+)?)', content)
+                if match:
+                    return match.group(1)
+        except Exception:
+            pass
+        return 'Unknown'
+    
+    def _extract_version_from_lang_file(self, file_path: Path) -> str:
+        """Extract version from language-specific files (mix.exs, project.clj, etc.)."""
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+                import re
+                
+                # Generic version patterns
+                patterns = [
+                    r'version:\s*["\']([^"\']+)["\']',
+                    r'version\s*["\']([^"\']+)["\']',
+                    r':version\s*["\']([^"\']+)["\']',
+                    r'defversion\s+["\']([^"\']+)["\']'
+                ]
+                
+                for pattern in patterns:
+                    match = re.search(pattern, content)
+                    if match:
+                        return match.group(1)
+                
+                # Semantic version pattern
+                match = re.search(r'(\d+\.\d+\.\d+(?:-[\w.]+)?)', content)
+                if match:
+                    return match.group(1)
+        except Exception:
+            pass
+        return 'Unknown'
+    
+    def _extract_version_generic(self, file_path: Path) -> str:
+        """Extract version using generic patterns from any file."""
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+                import re
+                
+                # Common version patterns
+                patterns = [
+                    r'version\s*[=:]\s*["\']([^"\']+)["\']',
+                    r'VERSION\s*[=:]\s*["\']([^"\']+)["\']',
+                    r'__version__\s*[=:]\s*["\']([^"\']+)["\']',
+                    r'Application\.version\s*[=:]\s*["\']([^"\']+)["\']'
+                ]
+                
+                for pattern in patterns:
+                    match = re.search(pattern, content, re.IGNORECASE)
+                    if match:
+                        return match.group(1)
+                
+                # Semantic version pattern
+                match = re.search(r'(\d+\.\d+\.\d+(?:-[\w.]+)?)', content)
+                if match:
+                    return match.group(1)
+        except Exception:
+            pass
+        return 'Unknown'
+    
+    def _extract_version_from_git(self, project_path: Path) -> str:
+        """Extract version from git tags."""
+        try:
+            import subprocess
+            result = subprocess.run(
+                ['git', 'describe', '--tags', '--abbrev=0'],
+                cwd=project_path,
+                capture_output=True,
+                text=True,
+                timeout=10
+            )
+            if result.returncode == 0:
+                version = result.stdout.strip()
+                # Remove 'v' prefix if present
+                if version.startswith('v'):
+                    version = version[1:]
+                return version
         except Exception:
             pass
         return 'Unknown'
