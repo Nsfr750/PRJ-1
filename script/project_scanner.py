@@ -26,6 +26,32 @@ class ProjectScanner:
         # Load saved data if available
         self.load_projects()
     
+    def set_scan_directory(self, directory_path: str) -> bool:
+        """Set the directory to scan for projects.
+        
+        Args:
+            directory_path: Path to the directory to scan
+            
+        Returns:
+            bool: True if directory exists and was set, False otherwise
+        """
+        path = Path(directory_path)
+        if path.exists() and path.is_dir():
+            self.github_path = path
+            # Clear existing projects when changing directory
+            self.projects = []
+            self.last_scan = None
+            return True
+        return False
+    
+    def get_scan_directory(self) -> str:
+        """Get the current scan directory path.
+        
+        Returns:
+            str: Current scan directory path
+        """
+        return str(self.github_path)
+    
     def scan_projects(self) -> List[Dict[str, Any]]:
         """Scan the GitHub folder for projects."""
         self.projects = []
@@ -56,7 +82,8 @@ class ProjectScanner:
             # Prepare data for serialization (convert datetime objects to strings)
             serializable_data = {
                 'projects': [],
-                'last_scan': self.last_scan.isoformat() if self.last_scan else None
+                'last_scan': self.last_scan.isoformat() if self.last_scan else None,
+                'scan_directory': str(self.github_path)
             }
             
             for project in self.projects:
@@ -84,6 +111,11 @@ class ProjectScanner:
             
             with open(data_file, 'r', encoding='utf-8') as f:
                 data = json.load(f)
+            
+            # Load scan directory if available
+            scan_directory = data.get('scan_directory')
+            if scan_directory:
+                self.github_path = Path(scan_directory)
             
             # Load projects
             self.projects = data.get('projects', [])

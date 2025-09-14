@@ -15,7 +15,7 @@ from PySide6.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QGridLayout, QLabel, 
     QLineEdit, QPushButton, QComboBox, QTableWidget, QTableWidgetItem,
     QProgressBar, QDialogButtonBox, QMessageBox, QHeaderView, QFrame,
-    QSplitter, QTextBrowser, QGroupBox
+    QSplitter, QTextBrowser, QGroupBox, QFileDialog
 )
 
 from ..project_scanner import ProjectScanner
@@ -88,6 +88,23 @@ class ProjectBrowserDialog(QDialog):
         """Create the left panel with project list and controls."""
         panel = QFrame()
         layout = QVBoxLayout(panel)
+        
+        # Directory selection controls
+        directory_group = QGroupBox("Scan Directory")
+        directory_layout = QGridLayout(directory_group)
+        
+        # Current directory display
+        directory_layout.addWidget(QLabel("Current Directory:"), 0, 0)
+        self.directory_label = QLabel(self.scanner.get_scan_directory())
+        self.directory_label.setWordWrap(True)
+        directory_layout.addWidget(self.directory_label, 0, 1)
+        
+        # Browse button
+        self.browse_button = QPushButton("Browse...")
+        self.browse_button.clicked.connect(self.browse_directory)
+        directory_layout.addWidget(self.browse_button, 0, 2)
+        
+        layout.addWidget(directory_group)
         
         # Search and filter controls
         controls_group = QGroupBox("Search & Filter")
@@ -251,22 +268,45 @@ class ProjectBrowserDialog(QDialog):
         return panel
     
     def create_button_box(self) -> QDialogButtonBox:
-        """Create the button box for the dialog."""
+        """Create the button box with dialog buttons."""
         button_box = QDialogButtonBox(QDialogButtonBox.Close)
         button_box.rejected.connect(self.close)
         return button_box
+    
+    def browse_directory(self):
+        """Open directory selection dialog to choose scan directory."""
+        current_dir = self.scanner.get_scan_directory()
+        
+        # Open directory selection dialog
+        selected_dir = QFileDialog.getExistingDirectory(
+            self,
+            "Select Directory to Scan",
+            current_dir,
+            QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks
+        )
+        
+        if selected_dir:
+            # Update the scanner with new directory
+            if self.scanner.set_scan_directory(selected_dir):
+                self.directory_label.setText(selected_dir)
+                self.status_label.setText(f"Directory changed to: {selected_dir}")
+                # Automatically start scanning the new directory
+                self.scan_projects()
+            else:
+                QMessageBox.warning(
+                    self,
+                    "Invalid Directory",
+                    "The selected directory is not valid. Please choose a different directory."
+                )
     
     def scan_projects(self):
         """Start scanning projects in a separate thread."""
         self.progress_bar.setVisible(True)
         self.progress_bar.setRange(0, 0)  # Indeterminate progress
-        self.status_label.setText("Scanning projects...")
-        self.refresh_button.setEnabled(False)
         
         # Create and start scan thread
         self.scan_thread = ScanThread(self.scanner)
         self.scan_thread.finished.connect(self.on_scan_finished)
-        self.scan_thread.progress.connect(self.progress_bar.setValue)
         self.scan_thread.status.connect(self.status_label.setText)
         self.scan_thread.start()
     
