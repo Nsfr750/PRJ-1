@@ -17,3 +17,5 @@ Wand>=0.6.0
 # These are included with Python but listed here for clarity
 # os, sys, pathlib, subprocess, json, datetime, threading, webbrowser
 # logging, re, io, typing
+
+Nuitka>=2.7.14
