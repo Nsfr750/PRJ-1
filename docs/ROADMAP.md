@@ -137,8 +137,8 @@ The initial version provides core functionality including project scanning, brow
 
 - **Database**: SQLite → PostgreSQL
 - **Backend**: Add FastAPI for web interface
-- **Frontend**: Consider web-based frontend 
-- **AI/ML**: Integration with ML libraries 
+- **Frontend**: Consider web-based frontend
+- **AI/ML**: Integration with ML libraries
 
 ## Contribution Guidelines
 
@@ -161,6 +161,7 @@ We welcome community contributions! Here's how you can help:
 ## Feedback and Suggestions
 
 We value your feedback! Please:
+
 - Report bugs and issues on GitHub
 - Suggest new features and improvements
 - Share your use cases and requirements
