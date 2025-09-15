@@ -82,6 +82,13 @@ python main.py
 
 ## Recent Bug Fixes
 
+### Version 0.1.5 (2025-09-15)
+
+- **Complete Translation System Integration**: Added multilingual support for dashboard module with centralized translation keys
+- **Enhanced Multilingual Support**: Updated all dashboard UI components to support runtime language switching
+- **Fixed Translation Parameter Issues**: Resolved missing language parameters in dashboard translation calls
+- **Improved Error Messages**: Enhanced user feedback messages with proper translation support
+
 ### Version 0.1.3 (2025-09-15)
 
 - **Fixed KeyError: 'language' errors**: Enhanced error handling for missing project data with safe dictionary access

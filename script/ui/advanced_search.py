@@ -19,15 +19,18 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt, QDate
 from PySide6.QtGui import QFont
 
+from script.lang.lang_mgr import get_text
+
 
 class AdvancedSearchDialog(QDialog):
     """Advanced search dialog for projects."""
     
-    def __init__(self, scanner, parent=None):
+    def __init__(self, scanner, parent=None, lang='en'):
         super().__init__(parent)
         self.scanner = scanner
         self.search_results = []
-        self.setWindowTitle("Advanced Project Search")
+        self.lang = lang
+        self.setWindowTitle(get_text('advanced_search.title', 'Advanced Project Search'))
         self.setModal(True)
         self.resize(600, 500)
         
@@ -43,27 +46,27 @@ class AdvancedSearchDialog(QDialog):
         
         # Basic search tab
         self.basic_tab = self.create_basic_search_tab()
-        self.tab_widget.addTab(self.basic_tab, "Basic")
+        self.tab_widget.addTab(self.basic_tab, get_text('advanced_search.tabs.basic', 'Basic'))
         
         # Advanced filters tab
         self.advanced_tab = self.create_advanced_filters_tab()
-        self.tab_widget.addTab(self.advanced_tab, "Advanced Filters")
+        self.tab_widget.addTab(self.advanced_tab, get_text('advanced_search.tabs.advanced', 'Advanced Filters'))
         
         # Date filters tab
         self.date_tab = self.create_date_filters_tab()
-        self.tab_widget.addTab(self.date_tab, "Date Filters")
+        self.tab_widget.addTab(self.date_tab, get_text('advanced_search.tabs.date', 'Date Filters'))
         
         layout.addWidget(self.tab_widget)
         
         # Search and clear buttons
         button_layout = QHBoxLayout()
         
-        self.search_button = QPushButton("Search")
+        self.search_button = QPushButton(get_text('advanced_search.buttons.search', 'Search'))
         self.search_button.clicked.connect(self.perform_search)
         self.search_button.setStyleSheet("background-color: #2196F3; color: white; font-weight: bold; padding: 8px 16px;")
         button_layout.addWidget(self.search_button)
         
-        self.clear_button = QPushButton("Clear")
+        self.clear_button = QPushButton(get_text('advanced_search.buttons.clear', 'Clear'))
         self.clear_button.clicked.connect(self.clear_search)
         button_layout.addWidget(self.clear_button)
         
@@ -86,20 +89,20 @@ class AdvancedSearchDialog(QDialog):
         layout = QVBoxLayout(tab)
         
         # Name search
-        name_group = QGroupBox("Project Name")
+        name_group = QGroupBox(get_text('advanced_search.basic.name', 'Project Name'))
         name_layout = QVBoxLayout(name_group)
         
         self.name_search = QLineEdit()
-        self.name_search.setPlaceholderText("Enter project name (supports wildcards: *, ?)")
+        self.name_search.setPlaceholderText(get_text('advanced_search.basic.name_placeholder', 'Enter project name (supports wildcards: *, ?)'))
         name_layout.addWidget(self.name_search)
         
         # Name search options
         name_options_layout = QHBoxLayout()
         
-        self.name_exact_match = QCheckBox("Exact match")
+        self.name_exact_match = QCheckBox(get_text('advanced_search.basic.exact_match', 'Exact match'))
         name_options_layout.addWidget(self.name_exact_match)
         
-        self.name_case_sensitive = QCheckBox("Case sensitive")
+        self.name_case_sensitive = QCheckBox(get_text('advanced_search.basic.case_sensitive', 'Case sensitive'))
         name_options_layout.addWidget(self.name_case_sensitive)
         
         name_options_layout.addStretch()
@@ -108,37 +111,37 @@ class AdvancedSearchDialog(QDialog):
         layout.addWidget(name_group)
         
         # Language search
-        lang_group = QGroupBox("Programming Language")
+        lang_group = QGroupBox(get_text('advanced_search.basic.language', 'Programming Language'))
         lang_layout = QVBoxLayout(lang_group)
         
         self.language_combo = QComboBox()
-        self.language_combo.addItem("Any Language", "")
+        self.language_combo.addItem(get_text('advanced_search.basic.any_language', 'Any Language'), "")
         lang_layout.addWidget(self.language_combo)
         
         layout.addWidget(lang_group)
         
         # Category search
-        category_group = QGroupBox("Category")
+        category_group = QGroupBox(get_text('advanced_search.basic.category', 'Category'))
         category_layout = QVBoxLayout(category_group)
         
         self.category_combo = QComboBox()
-        self.category_combo.addItem("Any Category", "")
+        self.category_combo.addItem(get_text('advanced_search.basic.any_category', 'Any Category'), "")
         category_layout.addWidget(self.category_combo)
         
         layout.addWidget(category_group)
         
         # Tags search
-        tags_group = QGroupBox("Tags")
+        tags_group = QGroupBox(get_text('advanced_search.basic.tags', 'Tags'))
         tags_layout = QVBoxLayout(tags_group)
         
         self.tags_search = QLineEdit()
-        self.tags_search.setPlaceholderText("Enter tags (comma-separated, supports AND/OR)")
+        self.tags_search.setPlaceholderText(get_text('advanced_search.basic.tags_placeholder', 'Enter tags (comma-separated, supports AND/OR)'))
         tags_layout.addWidget(self.tags_search)
         
         # Tags search options
         tags_options_layout = QHBoxLayout()
         
-        self.tags_match_all = QCheckBox("Match all tags (AND)")
+        self.tags_match_all = QCheckBox(get_text('advanced_search.basic.match_all_tags', 'Match all tags (AND)'))
         self.tags_match_all.setChecked(True)
         tags_options_layout.addWidget(self.tags_match_all)
         
@@ -157,17 +160,17 @@ class AdvancedSearchDialog(QDialog):
         layout = QVBoxLayout(tab)
         
         # File types filter
-        files_group = QGroupBox("File Types")
+        files_group = QGroupBox(get_text('advanced_search.advanced.file_types', 'File Types'))
         files_layout = QVBoxLayout(files_group)
         
         self.file_types_search = QLineEdit()
-        self.file_types_search.setPlaceholderText("Enter file extensions (comma-separated, e.g., .py,.js,.cpp)")
+        self.file_types_search.setPlaceholderText(get_text('advanced_search.advanced.file_types_placeholder', 'Enter file extensions (comma-separated, e.g., .py,.js,.cpp)'))
         files_layout.addWidget(self.file_types_search)
         
         # File types options
         files_options_layout = QHBoxLayout()
         
-        self.files_match_any = QCheckBox("Match any file type")
+        self.files_match_any = QCheckBox(get_text('advanced_search.advanced.match_any_file_type', 'Match any file type'))
         self.files_match_any.setChecked(True)
         files_options_layout.addWidget(self.files_match_any)
         
@@ -177,16 +180,16 @@ class AdvancedSearchDialog(QDialog):
         layout.addWidget(files_group)
         
         # Size filters
-        size_group = QGroupBox("Project Size")
+        size_group = QGroupBox(get_text('advanced_search.advanced.project_size', 'Project Size'))
         size_layout = QGridLayout(size_group)
         
-        size_layout.addWidget(QLabel("Min size (KB):"), 0, 0)
+        size_layout.addWidget(QLabel(get_text('advanced_search.advanced.min_size', 'Min size (KB):')), 0, 0)
         self.min_size_spin = QSpinBox()
         self.min_size_spin.setRange(0, 1000000)
         self.min_size_spin.setValue(0)
         size_layout.addWidget(self.min_size_spin, 0, 1)
         
-        size_layout.addWidget(QLabel("Max size (KB):"), 1, 0)
+        size_layout.addWidget(QLabel(get_text('advanced_search.advanced.max_size', 'Max size (KB):')), 1, 0)
         self.max_size_spin = QSpinBox()
         self.max_size_spin.setRange(0, 1000000)
         self.max_size_spin.setValue(1000000)
@@ -195,16 +198,16 @@ class AdvancedSearchDialog(QDialog):
         layout.addWidget(size_group)
         
         # Project properties
-        props_group = QGroupBox("Project Properties")
+        props_group = QGroupBox(get_text('advanced_search.advanced.project_properties', 'Project Properties'))
         props_layout = QVBoxLayout(props_group)
         
-        self.has_git_repo = QCheckBox("Has Git repository")
+        self.has_git_repo = QCheckBox(get_text('advanced_search.advanced.has_git_repo', 'Has Git repository'))
         props_layout.addWidget(self.has_git_repo)
         
-        self.is_favorite = QCheckBox("Is favorite")
+        self.is_favorite = QCheckBox(get_text('advanced_search.advanced.is_favorite', 'Is favorite'))
         props_layout.addWidget(self.is_favorite)
         
-        self.has_notes = QCheckBox("Has notes")
+        self.has_notes = QCheckBox(get_text('advanced_search.advanced.has_notes', 'Has notes'))
         props_layout.addWidget(self.has_notes)
         
         layout.addWidget(props_group)
@@ -219,16 +222,16 @@ class AdvancedSearchDialog(QDialog):
         layout = QVBoxLayout(tab)
         
         # Modified date filters
-        modified_group = QGroupBox("Last Modified")
+        modified_group = QGroupBox(get_text('advanced_search.date.last_modified', 'Last Modified'))
         modified_layout = QGridLayout(modified_group)
         
-        modified_layout.addWidget(QLabel("From:"), 0, 0)
+        modified_layout.addWidget(QLabel(get_text('advanced_search.date.from', 'From:')), 0, 0)
         self.modified_from_date = QDateEdit()
         self.modified_from_date.setCalendarPopup(True)
         self.modified_from_date.setDate(QDate.currentDate().addMonths(-1))
         modified_layout.addWidget(self.modified_from_date, 0, 1)
         
-        modified_layout.addWidget(QLabel("To:"), 1, 0)
+        modified_layout.addWidget(QLabel(get_text('advanced_search.date.to', 'To:')), 1, 0)
         self.modified_to_date = QDateEdit()
         self.modified_to_date.setCalendarPopup(True)
         self.modified_to_date.setDate(QDate.currentDate())
@@ -237,16 +240,16 @@ class AdvancedSearchDialog(QDialog):
         layout.addWidget(modified_group)
         
         # Created date filters (if available)
-        created_group = QGroupBox("Created Date")
+        created_group = QGroupBox(get_text('advanced_search.date.created_date', 'Created Date'))
         created_layout = QGridLayout(created_group)
         
-        created_layout.addWidget(QLabel("From:"), 0, 0)
+        created_layout.addWidget(QLabel(get_text('advanced_search.date.from', 'From:')), 0, 0)
         self.created_from_date = QDateEdit()
         self.created_from_date.setCalendarPopup(True)
         self.created_from_date.setDate(QDate.currentDate().addYears(-1))
         created_layout.addWidget(self.created_from_date, 0, 1)
         
-        created_layout.addWidget(QLabel("To:"), 1, 0)
+        created_layout.addWidget(QLabel(get_text('advanced_search.date.to', 'To:')), 1, 0)
         self.created_to_date = QDateEdit()
         self.created_to_date.setCalendarPopup(True)
         self.created_to_date.setDate(QDate.currentDate())
@@ -255,22 +258,22 @@ class AdvancedSearchDialog(QDialog):
         layout.addWidget(created_group)
         
         # Quick date presets
-        presets_group = QGroupBox("Quick Presets")
+        presets_group = QGroupBox(get_text('advanced_search.date.quick_presets', 'Quick Presets'))
         presets_layout = QHBoxLayout(presets_group)
         
-        self.today_button = QPushButton("Today")
+        self.today_button = QPushButton(get_text('advanced_search.date.today', 'Today'))
         self.today_button.clicked.connect(lambda: self.set_date_preset("today"))
         presets_layout.addWidget(self.today_button)
         
-        self.this_week_button = QPushButton("This Week")
+        self.this_week_button = QPushButton(get_text('advanced_search.date.this_week', 'This Week'))
         self.this_week_button.clicked.connect(lambda: self.set_date_preset("this_week"))
         presets_layout.addWidget(self.this_week_button)
         
-        self.this_month_button = QPushButton("This Month")
+        self.this_month_button = QPushButton(get_text('advanced_search.date.this_month', 'This Month'))
         self.this_month_button.clicked.connect(lambda: self.set_date_preset("this_month"))
         presets_layout.addWidget(self.this_month_button)
         
-        self.this_year_button = QPushButton("This Year")
+        self.this_year_button = QPushButton(get_text('advanced_search.date.this_year', 'This Year'))
         self.this_year_button.clicked.connect(lambda: self.set_date_preset("this_year"))
         presets_layout.addWidget(self.this_year_button)
         
@@ -491,9 +494,9 @@ class AdvancedSearchDialog(QDialog):
         return self.search_results
 
 
-def show_advanced_search(scanner, parent=None) -> Optional[List[Dict[str, Any]]]:
+def show_advanced_search(scanner, parent=None, lang='en') -> Optional[List[Dict[str, Any]]]:
     """Show the advanced search dialog and return results."""
-    dialog = AdvancedSearchDialog(scanner, parent)
+    dialog = AdvancedSearchDialog(scanner, parent, lang)
     if dialog.exec() == QDialog.Accepted:
         return dialog.get_search_results()
     return None

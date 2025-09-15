@@ -15,6 +15,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from functools import lru_cache
 
 from .tag_manager import TagManager
+from .build_system import BuildSystemDetector
 
 
 class ProjectScanner:
@@ -33,6 +34,9 @@ class ProjectScanner:
         
         # Initialize tag manager
         self.tag_manager = TagManager(data_path)
+        
+        # Initialize build system detector
+        self.build_detector = BuildSystemDetector()
         
         # Ensure data directory exists
         self.data_path.mkdir(exist_ok=True)
@@ -452,6 +456,9 @@ class ProjectScanner:
             
             # Extract version
             project_info['version'] = self._extract_version(project_path)
+            
+            # Detect build system
+            project_info['build_system'] = self.build_detector.detect_build_system(str(project_path))
             
             # Load tags, category, notes, and favorites from tag manager
             project_info['tags'] = self.tag_manager.get_project_tags(str(project_path))

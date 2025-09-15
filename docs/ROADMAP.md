@@ -6,9 +6,9 @@ This document outlines the planned development roadmap for PRJ-1 Project Browser
 
 PRJ-1 aims to become the ultimate project management tool for developers, providing comprehensive project discovery, organization, and management capabilities with an intuitive user interface.
 
-## Current Status: v0.1.3 (Released)
+## Current Status: v0.1.5 (Released)
 
-The current version provides enhanced functionality including custom title bar, improved error handling, and robust project management features.
+The current version provides comprehensive multilingual support for the dashboard module with complete translation system integration, runtime language switching, and enhanced user experience across all UI components.
 
 ## Completed Features (v0.1.3)
 
@@ -28,13 +28,7 @@ The current version provides enhanced functionality including custom title bar, 
 - **Improved UI stability**: Better handling of missing project data
 - **Better error handling**: Comprehensive error prevention throughout the application
 
-## Upcoming Releases
-
-### Version 0.2.0 - Advanced Project Management
-
-**Planned Release:** Q4 2025
-
-#### New Features - v0.2.0
+#### New Features
 
 - **Project Tagging System**: Add custom tags to projects for better organization
 - **Project Categories**: Organize projects into custom categories (Web, Desktop, Mobile, Library, etc.)
@@ -43,7 +37,7 @@ The current version provides enhanced functionality including custom title bar, 
 - **Recent Projects**: Track and display recently accessed projects
 - **Project Statistics Dashboard**: Enhanced statistics with charts and graphs
 
-#### Improvements - v0.2.0
+#### Improvements
 
 - **Advanced Search**: Search by multiple criteria (tags, categories, file types, etc.)
 - **Batch Operations**: Select and perform actions on multiple projects
@@ -51,31 +45,60 @@ The current version provides enhanced functionality including custom title bar, 
 - **Performance Optimization**: Better performance for large project collections
 - **Memory Management**: Improved memory usage optimization
 
-### Version 0.3.0 - Integration & Automation
+## Completed Features (v0.1.5)
 
-**Planned Release:** Q1 2026
+### ✅ Translation System Integration
 
-#### New Features - v0.3.0
+- **Complete Multilingual Support**: Full translation system integration for dashboard module
+- **Language Parameter Propagation**: Language parameter passed throughout dashboard dialog and functions
+- **Centralized Translation Keys**: All UI strings use get_text() with proper language parameter
+- **Runtime Language Switching**: Dashboard supports dynamic language changes
+- **Enhanced Chart Translations**: Chart titles, labels, and messages fully translated
+- **Export Functionality**: Export dialogs and file dialogs with multilingual support
+- **HTML Report Generation**: Complete translation support for exported reports
+
+### ✅ UI Enhancements
+
+- **Custom Title Bar**: Professional title bar with window control buttons
+- **Window Management**: Minimize, maximize/restore, and close functionality
+- **Dark Theme**: Consistent dark theme across entire interface
+- **Responsive Design**: Adaptive layout with proper margins and spacing
+- **Interactive Controls**: Hover effects and tooltips for better UX
+
+### ✅ Bug Fixes & Stability
+
+- **Fixed Translation Parameter Issues**: Resolved missing language parameters in dashboard calls
+- **Enhanced Error Messages**: Improved user feedback with proper translation support
+- **Fixed KeyError: 'language' errors**: Enhanced error handling for missing project data
+- **Fixed NoneType object is not subscriptable errors**: Improved null checking
+- **Enhanced robustness**: Added default values for all project fields
+- **Improved UI stability**: Better handling of missing project data
+- **Better error handling**: Comprehensive error prevention throughout the application
+
+#### New Features
 
 - **Git Integration**: Enhanced Git repository management and status tracking
 - **Build System Integration**: Support for various build systems (Makefile, CMake, etc.)
 - **Dependency Management**: Track and manage project dependencies
 - **Automated Backups**: Automatic backup of project data and configurations
 - **Export/Import**: Export project data to various formats (CSV, JSON, XML)
-- **Plugin System**: Basic plugin architecture for extending functionality
 
-#### Improvements - v0.3.0
+## Upcoming Features (v0.2.0)
+
+#### Improvements - v0.2.0
 
 - **Real-time Updates**: Monitor project changes and update information automatically
 - **Multi-Platform Support**: Full support for Linux and macOS
 - **Configuration Management**: Advanced configuration options and profiles
 - **Enhanced Logging**: Improved logging with filtering and search capabilities
 
-### Version 0.4.0 - Advanced Features
+### Version 0.3.0 - Integration & Automation
 
-**Planned Release:** Q2 2026
+**Planned Release:** Q1 2026
 
-#### New Features - v0.4.0
+### Version 0.3.0 - Advanced Features
+
+#### New Features - v0.3.0
 
 - **Project Templates**: Create and manage project templates for quick setup
 - **Task Management**: Integrated task and issue tracking for projects
@@ -84,18 +107,18 @@ The current version provides enhanced functionality including custom title bar, 
 - **API Interface**: REST API for external integrations
 - **Web Interface**: Optional web-based interface for remote access
 
-#### Improvements - v0.4.0
+#### Improvements - v0.3.0
 
 - **Database Backend**: Replace JSON storage with SQLite for better performance
 - **Advanced Analytics**: Project analytics and insights
 - **Custom Workflows**: Define custom project workflows and automation
 - **Multi-language Support**: Add more languages (Spanish, French, German, etc.)
 
-### Version 0.5.0 - Enterprise Features
+### Version 0.4.0 - Enterprise Features
 
 **Planned Release:** Q3 2026
 
-#### New Features - v0.5.0
+#### New Features - v0.4.0
 
 - **User Management**: Multi-user support with role-based access control
 - **Project Sharing**: Share projects and collaborate with team members
@@ -103,20 +126,20 @@ The current version provides enhanced functionality including custom title bar, 
 - **Integration Hub**: Connect with external tools (GitHub, GitLab, Jira, etc.)
 - **Cloud Storage**: Optional cloud storage for project data synchronization
 
-#### Improvements - v0.5.0
+#### Improvements - v0.4.0
 
 - **Security Enhancements**: Enhanced security features and encryption
 - **Performance Optimization**: Major performance improvements for large datasets
 - **Scalability**: Support for thousands of projects
 - **Enterprise Support**: Enterprise-level features and support
 
-## Long-term Vision (Beyond 0.5.0)
+## Long-term Vision (Beyond 0.4.0)
 
-### Version 0.6.0 - AI-Powered Project Management
+### Version 0.5.0 - AI-Powered Project Management
 
 **Planned Release:** 2027
 
-#### Vision - v0.6.0
+#### Vision - v0.5.0
 
 - **AI-Powered Insights**: Machine learning for project analysis and recommendations
 - **Automated Project Organization**: Intelligent categorization and tagging
@@ -124,11 +147,11 @@ The current version provides enhanced functionality including custom title bar, 
 - **Natural Language Processing**: Voice commands and natural language queries
 - **Smart Search**: AI-enhanced search with contextual understanding
 
-### Version 0.7.0 - Complete Development Ecosystem
+### Version 0.6.0 - Complete Development Ecosystem
 
 **Planned Release:** 2028
 
-#### Vision - v0.7.0
+#### Vision - v0.6.0
 
 - **Integrated Development Environment**: Full IDE integration
 - **Code Analysis**: Advanced code analysis and quality metrics

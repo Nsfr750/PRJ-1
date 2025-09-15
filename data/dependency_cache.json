@@ -1,0 +1,335 @@
+{
+  "89fd31ac6dcfa8699891388e7ce8a743": {
+    "project_path": "X:\\GitHub\\PRJ-1",
+    "package_managers": [
+      "pip"
+    ],
+    "dependencies": {
+      "pip": [
+        {
+          "name": "PySide6",
+          "version_spec": ">=6.5.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 2
+        },
+        {
+          "name": "requests",
+          "version_spec": ">=2.28.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 5
+        },
+        {
+          "name": "packaging",
+          "version_spec": ">=21.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 8
+        },
+        {
+          "name": "qrcode",
+          "version_spec": ">=7.3.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 11
+        },
+        {
+          "name": "Wand",
+          "version_spec": ">=0.6.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 14
+        },
+        {
+          "name": "watchdog",
+          "version_spec": ">=3.0.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 17
+        },
+        {
+          "name": "matplotlib",
+          "version_spec": ">=3.5.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 20
+        },
+        {
+          "name": "Nuitka",
+          "version_spec": ">=2.7.14",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 23
+        },
+        {
+          "name": "ordered-set",
+          "version_spec": ">=4.1.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 24
+        },
+        {
+          "name": "zstandard",
+          "version_spec": ">=0.15.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 25
+        },
+        {
+          "name": "pytest",
+          "version_spec": ">=7.0.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 28
+        },
+        {
+          "name": "pytest-cov",
+          "version_spec": ">=4.0.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 29
+        },
+        {
+          "name": "black",
+          "version_spec": ">=22.0.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 30
+        },
+        {
+          "name": "flake8",
+          "version_spec": ">=5.0.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 31
+        }
+      ]
+    },
+    "total_dependencies": 14,
+    "outdated_dependencies": [],
+    "vulnerabilities": [],
+    "dependency_tree": {
+      "pip": {
+        "dependencies": [
+          {
+            "name": "PySide6",
+            "version_spec": ">=6.5.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 2
+          },
+          {
+            "name": "requests",
+            "version_spec": ">=2.28.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 5
+          },
+          {
+            "name": "packaging",
+            "version_spec": ">=21.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 8
+          },
+          {
+            "name": "qrcode",
+            "version_spec": ">=7.3.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 11
+          },
+          {
+            "name": "Wand",
+            "version_spec": ">=0.6.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 14
+          },
+          {
+            "name": "watchdog",
+            "version_spec": ">=3.0.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 17
+          },
+          {
+            "name": "matplotlib",
+            "version_spec": ">=3.5.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 20
+          },
+          {
+            "name": "Nuitka",
+            "version_spec": ">=2.7.14",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 23
+          },
+          {
+            "name": "ordered-set",
+            "version_spec": ">=4.1.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 24
+          },
+          {
+            "name": "zstandard",
+            "version_spec": ">=0.15.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 25
+          },
+          {
+            "name": "pytest",
+            "version_spec": ">=7.0.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 28
+          },
+          {
+            "name": "pytest-cov",
+            "version_spec": ">=4.0.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 29
+          },
+          {
+            "name": "black",
+            "version_spec": ">=22.0.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 30
+          },
+          {
+            "name": "flake8",
+            "version_spec": ">=5.0.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 31
+          }
+        ],
+        "count": 14,
+        "types": [
+          "python"
+        ]
+      }
+    },
+    "analysis_time": "2025-09-15T21:14:55.867781",
+    "cached_at": "2025-09-15T21:14:55.867781"
+  }
+}

@@ -20,7 +20,7 @@
 | NeuralNetworkApp | 0.1.0 | ✔️ | ✅️ |
 | nsfr750.github.io | 3.8.3| ✔ | ✅️ |
 | Onvif | 2.0.0 | ✔️ | ⛔ |
-| PRJ-1 | 0.1.3 | ✔ | ⛔ |
+| PRJ-1 | 0.1.5 | ✔ | ⛔ |
 | POS | 0.1.0 | ⛔ | ⛔ |
 | STL_to_G-Code | 2.0.0 | ⛔ | ⛔ |
 | SysInfo | 1.0.0 | ⛔ | ⛔ |

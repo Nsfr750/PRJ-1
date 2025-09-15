@@ -9,24 +9,27 @@ import webbrowser
 import os
 import re
 from pathlib import Path
+from ..lang.lang_mgr import get_text
 
 
-def show_help(parent=None):
+def show_help(parent=None, lang='en'):
     """Show the help dialog.
     
     Args:
         parent: Parent widget for the dialog
+        lang: Language code for translations
     """
-    dialog = HelpDialog(parent)
+    dialog = HelpDialog(parent, lang=lang)
     dialog.exec()
 
 
 class HelpDialog(QDialog):
     """Enhanced help dialog with tabbed interface, search, and documentation integration."""
     
-    def __init__(self, parent=None, context_topic=None):
+    def __init__(self, parent=None, context_topic=None, lang='en'):
         super().__init__(parent)
-        self.setWindowTitle("Help - Project Browser")
+        self.lang = lang
+        self.setWindowTitle(get_text('help.title', 'Help - Project Browser'))
         self.setMinimumSize(1000, 700)
         self.resize(1200, 800)
         self.context_topic = context_topic
@@ -57,7 +60,7 @@ class HelpDialog(QDialog):
         header_layout = QHBoxLayout()
         
         # Title
-        title_label = QLabel("Project Browser - Help")
+        title_label = QLabel(get_text('help.header_title', 'Project Browser - Help'))
         title_font = QFont()
         title_font.setBold(True)
         title_font.setPointSize(14)
@@ -66,9 +69,9 @@ class HelpDialog(QDialog):
         header_layout.addStretch()
         
         # Search box
-        search_label = QLabel("Search:")
+        search_label = QLabel(get_text('help.search_label', 'Search:'))
         self.search_box = QLineEdit()
-        self.search_box.setPlaceholderText("Type to search help topics...")
+        self.search_box.setPlaceholderText(get_text('help.search_placeholder', 'Type to search help topics...'))
         self.search_box.setMinimumWidth(300)
         self.search_box.textChanged.connect(self.filter_content)
         header_layout.addWidget(search_label)
@@ -95,15 +98,15 @@ class HelpDialog(QDialog):
         button_layout = QHBoxLayout()
         
         # Additional buttons
-        self.back_btn = QPushButton("← Back")
+        self.back_btn = QPushButton(get_text('help.buttons.back', '← Back'))
         self.back_btn.clicked.connect(self.go_back)
         self.back_btn.setEnabled(False)
         
-        self.forward_btn = QPushButton("Forward →")
+        self.forward_btn = QPushButton(get_text('help.buttons.forward', 'Forward →'))
         self.forward_btn.clicked.connect(self.go_forward)
         self.forward_btn.setEnabled(False)
         
-        self.home_btn = QPushButton("🏠 Home")
+        self.home_btn = QPushButton(get_text('help.buttons.home', '🏠 Home'))
         self.home_btn.clicked.connect(self.go_home)
         self.home_btn.setStyleSheet("QPushButton { background-color: #4caf50; color: white; font-weight: bold; padding: 5px 15px; border-radius: 4px; } QPushButton:hover { background-color: #388e3c; } QPushButton:pressed { background-color: #1b5e20; }")
         
@@ -113,7 +116,7 @@ class HelpDialog(QDialog):
         button_layout.addStretch()
         
         # Close button
-        close_btn = QPushButton("Close")
+        close_btn = QPushButton(get_text('help.buttons.close', 'Close'))
         close_btn.clicked.connect(self.accept)
         close_btn.setStyleSheet("QPushButton { background-color: #2196f3; color: white; font-weight: bold; padding: 5px 15px; border-radius: 4px; } QPushButton:hover { background-color: #1976d2; } QPushButton:pressed { background-color: #0d47a1; }")
         button_layout.addWidget(close_btn)
@@ -133,11 +136,11 @@ class HelpDialog(QDialog):
         nav_layout = QVBoxLayout(nav_widget)        
         
         # Documentation Tree
-        docs_group = QGroupBox("Documentation")
+        docs_group = QGroupBox(get_text('help.nav.documentation', 'Documentation'))
         docs_layout = QVBoxLayout()
         
         self.docs_tree = QTreeWidget()
-        self.docs_tree.setHeaderLabel("Topics")
+        self.docs_tree.setHeaderLabel(get_text('help.nav.topics', 'Topics'))
         self.docs_tree.itemClicked.connect(self.on_docs_item_clicked)
         docs_layout.addWidget(self.docs_tree)
         
@@ -145,14 +148,14 @@ class HelpDialog(QDialog):
         nav_layout.addWidget(docs_group)
         
         # External Links
-        links_group = QGroupBox("External Links")
+        links_group = QGroupBox(get_text('help.nav.external_links', 'External Links'))
         links_layout = QVBoxLayout()
         
         links = [
-            ("GitHub Wiki", "https://github.com/Nsfr750/PRJ-1/wiki"),
-            ("Report Issue", "https://github.com/Nsfr750/PRJ-1/issues"),
-            ("Discussions", "https://github.com/Nsfr750/PRJ-1/discussions"),
-            ("Release Notes", "https://github.com/Nsfr750/PRJ-1/releases")
+            (get_text('help.nav.github_wiki', 'GitHub Wiki'), "https://github.com/Nsfr750/PRJ-1/wiki"),
+            (get_text('help.nav.report_issue', 'Report Issue'), "https://github.com/Nsfr750/PRJ-1/issues"),
+            (get_text('help.nav.discussions', 'Discussions'), "https://github.com/Nsfr750/PRJ-1/discussions"),
+            (get_text('help.nav.release_notes', 'Release Notes'), "https://github.com/Nsfr750/PRJ-1/releases")
         ]
         
         for text, url in links:
@@ -178,22 +181,22 @@ class HelpDialog(QDialog):
         self.help_browser = QTextBrowser()
         self.help_browser.setOpenExternalLinks(True)
         self.help_browser.anchorClicked.connect(self.on_anchor_clicked)
-        self.tabs.addTab(self.help_browser, "Help")
+        self.tabs.addTab(self.help_browser, get_text('help.tabs.help', 'Help'))
         
         # Examples tab
         self.examples_browser = QTextBrowser()
         self.examples_browser.setOpenExternalLinks(True)
-        self.tabs.addTab(self.examples_browser, "Examples")
+        self.tabs.addTab(self.examples_browser, get_text('help.tabs.examples', 'Examples'))
         
         # API Reference tab
         self.api_browser = QTextBrowser()
         self.api_browser.setOpenExternalLinks(True)
-        self.tabs.addTab(self.api_browser, "API Reference")
+        self.tabs.addTab(self.api_browser, get_text('help.tabs.api', 'API Reference'))
         
         # FAQ tab
         self.faq_browser = QTextBrowser()
         self.faq_browser.setOpenExternalLinks(True)
-        self.tabs.addTab(self.faq_browser, "FAQ")
+        self.tabs.addTab(self.faq_browser, get_text('help.tabs.faq', 'FAQ'))
         
         self.tabs.currentChanged.connect(self.on_tab_changed)
         content_layout.addWidget(self.tabs)
@@ -203,7 +206,7 @@ class HelpDialog(QDialog):
     def load_documentation(self):
         """Load documentation from the docs directory."""
         if not self.docs_path:
-            self.show_error("Documentation directory not found")
+            self.show_error(get_text('help.error.no_docs_dir', 'Documentation directory not found'))
             return
         
         # Load main help content

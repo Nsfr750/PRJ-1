@@ -6,6 +6,10 @@ This document provides a detailed explanation of the PRJ-1 project structure, in
 
 PRJ-1 is organized into a modular structure that separates concerns and promotes maintainability. The project follows Python best practices and uses a clear directory hierarchy.
 
+## Current Version: 0.1.5
+
+The current version (0.1.5) includes comprehensive translation system integration for the dashboard module, providing full multilingual support with runtime language switching capabilities across all UI components.
+
 ## Root Directory Structure
 
 ```text

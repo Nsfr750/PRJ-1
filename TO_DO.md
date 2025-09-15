@@ -11,6 +11,10 @@ This TO-DO list tracks all planned features, improvements, bug fixes, and mainte
 ### Version 0.2.0 - Advanced Project Management
 
 #### ✅ Completed Features
+- [x] **Translation System Integration**: Complete multilingual support for dashboard module (v0.1.5)
+- [x] **Language Parameter Support**: Added language parameter propagation throughout dashboard (v0.1.5)
+- [x] **Centralized Translation Keys**: All UI strings use get_text() with language parameter (v0.1.5)
+- [x] **Runtime Language Switching**: Dashboard supports dynamic language changes (v0.1.5)
 - [x] **Custom Title Bar**: Professional title bar with window control buttons (v0.1.3)
 - [x] **Window Management**: Minimize, maximize/restore, and close functionality (v0.1.3)
 - [x] **Error Handling**: Fixed KeyError and NoneType errors (v0.1.3)
@@ -73,7 +77,6 @@ This TO-DO list tracks all planned features, improvements, bug fixes, and mainte
 - [ ] **Project Sharing**: Share projects and collaborate with team members
 - [ ] **Advanced Reporting**: Generate detailed reports and analytics
 - [ ] **Integration Hub**: Connect with external tools (GitHub, GitLab, Jira, etc.)
-- [ ] **Cloud Storage**: Optional cloud storage for project data synchronization
 
 #### 📝 Planned Improvements
 - [ ] **Security Enhancements**: Enhanced security features and encryption
@@ -124,7 +127,6 @@ This TO-DO list tracks all planned features, improvements, bug fixes, and mainte
 - [ ] **User Guide**: Create comprehensive user guide
 - [ ] **Developer Documentation**: Add developer setup and contribution guide
 - [ ] **API Documentation**: Document API endpoints and usage
-- [ ] **Video Tutorials**: Create video tutorials for key features
 
 ### Community & Support
 - [ ] **Issue Templates**: Create GitHub issue templates
@@ -134,7 +136,7 @@ This TO-DO list tracks all planned features, improvements, bug fixes, and mainte
 
 ## 🚀 Release Management
 
-### Version 0.1.4 (Next Release)
+### Version 0.1.6 (Next Release)
 - [ ] **Testing**: Comprehensive testing of current features
 - [ ] **Bug Fixes**: Address any reported bugs
 - [ ] **Documentation**: Update all documentation
@@ -149,7 +151,7 @@ This TO-DO list tracks all planned features, improvements, bug fixes, and mainte
 ## 📅 Timeline Estimates
 
 ### Q4 2025
-- **October 2025**: Version 0.1.4 release
+- **October 2025**: Version 0.1.6 release
 - **November 2025**: Version 0.2.0 development
 - **December 2025**: Version 0.2.0 beta testing
 

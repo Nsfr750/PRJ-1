@@ -12,23 +12,22 @@ from wand.image import Image as WandImage
 from wand.drawing import Drawing
 from wand.color import Color
 
-# Import language manager
+# Import translation function
 try:
-    from script.lang.lang_mgr import LanguageManager
+    from script.lang.lang_mgr import get_text
 except ImportError:
     # Fallback if script module is not available
-    class LanguageManager:
-        def __init__(self):
-            self.tr = lambda key, default: default
+    def get_text(key, default):
+        return default
 
-def show_sponsor_dialog(parent=None, language_manager=None):
+def show_sponsor_dialog(parent=None, lang='en'):
     """Show the sponsor dialog.
     
     Args:
         parent: Parent widget
-        language_manager: Optional language manager instance
+        lang: Language code for translations
     """
-    dialog = SponsorDialog(parent, language_manager)
+    dialog = SponsorDialog(parent, lang)
     dialog.exec()
 
 # Alias for backward compatibility
@@ -54,27 +53,27 @@ class SponsorDialog(QDialog):
         # Convert to hex
         return f'#{int(r*255):02x}{int(g*255):02x}{int(b*255):02x}'
 
-    def __init__(self, parent=None, language_manager=None):
+    def __init__(self, parent=None, lang='en'):
         super().__init__(parent)
-        self.language_manager = language_manager
-        self.tr = language_manager.tr if language_manager else lambda key, default: default
+        self.lang = lang
         
-        self.setWindowTitle(self.tr("sponsor.window_title", "Support Development"))
+        self.setWindowTitle(get_text('sponsor.window_title', 'Support Development', lang))
         self.setMinimumSize(500, 400)
         
         layout = QVBoxLayout(self)
         
         # Title
-        title = QLabel(self.tr("sponsor.title", "Support"))
+        title = QLabel(get_text('sponsor.title', 'Support', lang))
         title.setStyleSheet("font-size: 18px; font-weight: bold; margin-bottom: 20px;")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(title)
         
         # Message
-        message = QLabel(self.tr(
-            "sponsor.message",
-            "If you find this application useful, please consider supporting its development.\n\n"
-            "Your support helps cover hosting costs and encourages further development."
+        message = QLabel(get_text(
+            'sponsor.message',
+            'If you find this application useful, please consider supporting its development.\n\n'
+            'Your support helps cover hosting costs and encourages further development.',
+            lang
         ))
         message.setWordWrap(True)
         message.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -113,7 +112,7 @@ class SponsorDialog(QDialog):
         
         # GitHub Sponsors Button
         github_btn = create_button(
-            self.tr("sponsor.buttons.github_sponsors", "GitHub Sponsors"),
+            get_text('sponsor.buttons.github_sponsors', 'GitHub Sponsors', self.lang),
             None,  # No icon by default
             "https://github.com/sponsors/Nsfr750",
             "#0D1117"  # GitHub dark color
@@ -121,7 +120,7 @@ class SponsorDialog(QDialog):
         
         # Discord Button
         discord_btn = create_button(
-            self.tr("sponsor.buttons.discord", "Join Discord"),
+            get_text('sponsor.buttons.discord', 'Join Discord', self.lang),
             None,
             "https://discord.gg/ryqNeuRYjD",
             "#5865F2"  # Discord blurple
@@ -129,7 +128,7 @@ class SponsorDialog(QDialog):
         
         # Patreon Button
         patreon_btn = create_button(
-            self.tr("sponsor.buttons.patreon", "Become a Patron"),
+            get_text('sponsor.buttons.patreon', 'Become a Patron', self.lang),
             None,
             "https://www.patreon.com/Nsfr750",
             "#FF424D"  # Patreon red
@@ -137,7 +136,7 @@ class SponsorDialog(QDialog):
         
         # PayPal Button
         paypal_btn = create_button(
-            self.tr("sponsor.buttons.paypal", "Donate with PayPal"),
+            get_text('sponsor.buttons.paypal', 'Donate with PayPal', self.lang),
             None,
             "https://paypal.me/3dmega",
             "#0079C1"  # PayPal blue
@@ -145,7 +144,7 @@ class SponsorDialog(QDialog):
         
         # Monero
         monero_address = "47Jc6MC47WJVFhiQFYwHyBNQP5BEsjUPG6tc8R37FwcTY8K5Y3LvFzveSXoGiaDQSxDrnCUBJ5WBj6Fgmsfix8VPD4w3gXF"
-        monero_label = QLabel(self.tr("sponsor.monero.label", "Monero:"))
+        monero_label = QLabel(get_text('sponsor.monero.label', 'Monero:', self.lang))
         monero_xmr= "XMR XMR XMR XMR XMR XMR XMR XMR XMR XMR XMR XMR XMR XMR XMR XMR XMR XMR"
         monero_address_label = QLabel(monero_xmr)
         monero_address_label.setStyleSheet("""
@@ -205,10 +204,10 @@ class SponsorDialog(QDialog):
         qr_label = QLabel()
         qr_label.setPixmap(pixmap)
         qr_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        qr_label.setToolTip(self.tr("sponsor.qr_tooltip", "Scan to donate XMR"))
+        qr_label.setToolTip(get_text('sponsor.qr_tooltip', 'Scan to donate XMR', self.lang))
         
         # Add widgets to grid
-        grid.addWidget(QLabel(f"<h3>{self.tr('sponsor.ways_to_support', 'Ways to Support:')}</h3>"), 0, 0, 1, 2)
+        grid.addWidget(QLabel(f"<h3>{get_text('sponsor.ways_to_support', 'Ways to Support:', self.lang)}</h3>"), 0, 0, 1, 2)
         
         # Add support buttons in a vertical layout
         support_buttons = QVBoxLayout()
@@ -242,12 +241,12 @@ class SponsorDialog(QDialog):
         other_help = QTextBrowser()
         other_help.setOpenExternalLinks(True)
         other_help.setHtml(f"""
-        <h3>{self.tr('sponsor.other_ways.title', 'Other Ways to Help:')}</h3>
+        <h3>{get_text('sponsor.other_ways.title', 'Other Ways to Help:', self.lang)}</h3>
         <ul>
-            <li>{self.tr('sponsor.other_ways.star', 'Star the project on')} <a href="https://github.com/Nsfr750/NeuralNetworkApp">GitHub</a></li>
-            <li>{self.tr('sponsor.other_ways.report', 'Report bugs and suggest features')}</li>
-            <li>{self.tr('sponsor.other_ways.share', 'Share with others who might find it useful')}</li>
-            <li>{self.tr('sponsor.other_ways.patreon', 'Join on')} <a href="https://patreon.com/Nsfr750/">Patreon</a></li>
+            <li>{get_text('sponsor.other_ways.star', 'Star the project on', self.lang)} <a href="https://github.com/Nsfr750/NeuralNetworkApp">GitHub</a></li>
+            <li>{get_text('sponsor.other_ways.report', 'Report bugs and suggest features', self.lang)}</li>
+            <li>{get_text('sponsor.other_ways.share', 'Share with others who might find it useful', self.lang)}</li>
+            <li>{get_text('sponsor.other_ways.patreon', 'Join on', self.lang)} <a href="https://patreon.com/Nsfr750/">Patreon</a></li>
         </ul>
         """)
         other_help.setMaximumHeight(150)
@@ -257,11 +256,11 @@ class SponsorDialog(QDialog):
         button_layout = QHBoxLayout()
         
         # Close button
-        close_btn = QPushButton(self.tr("common.close", "Close"))
+        close_btn = QPushButton(get_text('common.close', 'Close', self.lang))
         close_btn.clicked.connect(self.accept)
         
         # Donate button
-        donate_btn = QPushButton(self.tr("sponsor.buttons.donate_paypal", "Donate with PayPal"))
+        donate_btn = QPushButton(get_text('sponsor.buttons.donate_paypal', 'Donate with PayPal', self.lang))
         donate_btn.setStyleSheet("""
             QPushButton {
                 background-color: #0079C1;
@@ -278,7 +277,7 @@ class SponsorDialog(QDialog):
         donate_btn.clicked.connect(self.open_paypal_link)
         
         # Copy Monero address button
-        self.copy_monero_btn = QPushButton(self.tr("sponsor.buttons.copy_monero", "Copy Monero Address"))
+        self.copy_monero_btn = QPushButton(get_text('sponsor.buttons.copy_monero', 'Copy Monero Address', self.lang))
         self.copy_monero_btn.setStyleSheet("""
             QPushButton {
                 background-color: #F26822;
@@ -317,11 +316,11 @@ class SponsorDialog(QDialog):
         
         # Change button text temporarily
         original_text = self.copy_monero_btn.text()
-        self.copy_monero_btn.setText(self.tr("sponsor.buttons.copied", "Copied!"))
+        self.copy_monero_btn.setText(get_text('sponsor.buttons.copied', 'Copied!', self.lang))
         
         # Reset button text after 2 seconds
         QTimer.singleShot(2000, self.reset_monero_button)
     
     def reset_monero_button(self):
         """Reset the Monero button text and style."""
-        self.copy_monero_btn.setText(self.tr("sponsor.buttons.copy_monero", "Copy Monero Address"))
+        self.copy_monero_btn.setText(get_text('sponsor.buttons.copy_monero', 'Copy Monero Address', self.lang))

@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.5] - 2025-09-15
+
+### Added (0.1.5)
+
+- Complete translation system integration for dashboard module
+- Multilingual support for all dashboard UI components
+- Language parameter propagation through dashboard dialog and functions
+- Centralized translation keys for all dashboard text elements
+- Runtime language switching capability for dashboard interface
+
+### Changed (0.1.5)
+
+- Updated DashboardDialog class to accept language parameter
+- Modified show_dashboard function to support language parameter
+- Replaced all hardcoded UI strings with get_text() calls
+- Enhanced chart titles and labels with translation support
+- Improved export dialogs and file dialogs with multilingual support
+- Updated HTML report generation with translation integration
+
+### Fixed (0.1.5)
+
+- Fixed missing language parameter in dashboard translation calls
+- Enhanced error messages with multilingual support
+- Improved consistency of translation keys across dashboard module
+- Fixed hardcoded strings in chart axis labels and titles
+- Enhanced user feedback messages with proper translation support
+
 ## [0.1.3] - 2025-09-15
 
 ### Added (0.1.3)
