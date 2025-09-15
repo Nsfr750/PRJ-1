@@ -93,7 +93,7 @@ class AdvancedSearchDialog(QDialog):
         name_layout = QVBoxLayout(name_group)
         
         self.name_search = QLineEdit()
-        self.name_search.setPlaceholderText(get_text('advanced_search.basic.name_placeholder', 'Enter project name (supports wildcards: *, ?)'))
+        self.name_search.setPlaceholderText(get_text('advanced_search.basic.name_placeholder', 'Enter project name (supports wildcards: *, ?)', lang=self.lang))
         name_layout.addWidget(self.name_search)
         
         # Name search options
@@ -115,7 +115,7 @@ class AdvancedSearchDialog(QDialog):
         lang_layout = QVBoxLayout(lang_group)
         
         self.language_combo = QComboBox()
-        self.language_combo.addItem(get_text('advanced_search.basic.any_language', 'Any Language'), "")
+        self.language_combo.addItem(get_text('advanced_search.basic.any_language', 'Any Language', lang=self.lang), "")
         lang_layout.addWidget(self.language_combo)
         
         layout.addWidget(lang_group)
@@ -125,7 +125,7 @@ class AdvancedSearchDialog(QDialog):
         category_layout = QVBoxLayout(category_group)
         
         self.category_combo = QComboBox()
-        self.category_combo.addItem(get_text('advanced_search.basic.any_category', 'Any Category'), "")
+        self.category_combo.addItem(get_text('advanced_search.basic.any_category', 'Any Category', lang=self.lang), "")
         category_layout.addWidget(self.category_combo)
         
         layout.addWidget(category_group)
@@ -135,7 +135,7 @@ class AdvancedSearchDialog(QDialog):
         tags_layout = QVBoxLayout(tags_group)
         
         self.tags_search = QLineEdit()
-        self.tags_search.setPlaceholderText(get_text('advanced_search.basic.tags_placeholder', 'Enter tags (comma-separated, supports AND/OR)'))
+        self.tags_search.setPlaceholderText(get_text('advanced_search.basic.tags_placeholder', 'Enter tags (comma-separated, supports AND/OR)', lang=self.lang))
         tags_layout.addWidget(self.tags_search)
         
         # Tags search options
@@ -164,7 +164,7 @@ class AdvancedSearchDialog(QDialog):
         files_layout = QVBoxLayout(files_group)
         
         self.file_types_search = QLineEdit()
-        self.file_types_search.setPlaceholderText(get_text('advanced_search.advanced.file_types_placeholder', 'Enter file extensions (comma-separated, e.g., .py,.js,.cpp)'))
+        self.file_types_search.setPlaceholderText(get_text('advanced_search.advanced.file_types_placeholder', 'Enter file extensions (comma-separated, e.g., .py,.js,.cpp)', lang=self.lang))
         files_layout.addWidget(self.file_types_search)
         
         # File types options
@@ -183,13 +183,13 @@ class AdvancedSearchDialog(QDialog):
         size_group = QGroupBox(get_text('advanced_search.advanced.project_size', 'Project Size'))
         size_layout = QGridLayout(size_group)
         
-        size_layout.addWidget(QLabel(get_text('advanced_search.advanced.min_size', 'Min size (KB):')), 0, 0)
+        size_layout.addWidget(QLabel(get_text('advanced_search.advanced.min_size', 'Min size (KB):', lang=self.lang)), 0, 0)
         self.min_size_spin = QSpinBox()
         self.min_size_spin.setRange(0, 1000000)
         self.min_size_spin.setValue(0)
         size_layout.addWidget(self.min_size_spin, 0, 1)
         
-        size_layout.addWidget(QLabel(get_text('advanced_search.advanced.max_size', 'Max size (KB):')), 1, 0)
+        size_layout.addWidget(QLabel(get_text('advanced_search.advanced.max_size', 'Max size (KB):', lang=self.lang)), 1, 0)
         self.max_size_spin = QSpinBox()
         self.max_size_spin.setRange(0, 1000000)
         self.max_size_spin.setValue(1000000)
@@ -225,13 +225,13 @@ class AdvancedSearchDialog(QDialog):
         modified_group = QGroupBox(get_text('advanced_search.date.last_modified', 'Last Modified'))
         modified_layout = QGridLayout(modified_group)
         
-        modified_layout.addWidget(QLabel(get_text('advanced_search.date.from', 'From:')), 0, 0)
+        modified_layout.addWidget(QLabel(get_text('advanced_search.date.from', 'From:', lang=self.lang)), 0, 0)
         self.modified_from_date = QDateEdit()
         self.modified_from_date.setCalendarPopup(True)
         self.modified_from_date.setDate(QDate.currentDate().addMonths(-1))
         modified_layout.addWidget(self.modified_from_date, 0, 1)
         
-        modified_layout.addWidget(QLabel(get_text('advanced_search.date.to', 'To:')), 1, 0)
+        modified_layout.addWidget(QLabel(get_text('advanced_search.date.to', 'To:', lang=self.lang)), 1, 0)
         self.modified_to_date = QDateEdit()
         self.modified_to_date.setCalendarPopup(True)
         self.modified_to_date.setDate(QDate.currentDate())
@@ -243,13 +243,13 @@ class AdvancedSearchDialog(QDialog):
         created_group = QGroupBox(get_text('advanced_search.date.created_date', 'Created Date'))
         created_layout = QGridLayout(created_group)
         
-        created_layout.addWidget(QLabel(get_text('advanced_search.date.from', 'From:')), 0, 0)
+        created_layout.addWidget(QLabel(get_text('advanced_search.date.from', 'From:', lang=self.lang)), 0, 0)
         self.created_from_date = QDateEdit()
         self.created_from_date.setCalendarPopup(True)
         self.created_from_date.setDate(QDate.currentDate().addYears(-1))
         created_layout.addWidget(self.created_from_date, 0, 1)
         
-        created_layout.addWidget(QLabel(get_text('advanced_search.date.to', 'To:')), 1, 0)
+        created_layout.addWidget(QLabel(get_text('advanced_search.date.to', 'To:', lang=self.lang)), 1, 0)
         self.created_to_date = QDateEdit()
         self.created_to_date.setCalendarPopup(True)
         self.created_to_date.setDate(QDate.currentDate())

@@ -17,9 +17,10 @@ class AppMenuBar(QMenuBar):
     # Signal emitted when language is changed
     language_changed = Signal()
     
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, lang='en'):
         super().__init__(parent)
         self.parent = parent
+        self.lang = lang
         self.lang_manager = get_language_manager()
         self.setup_menus()
     
@@ -94,7 +95,7 @@ class AppMenuBar(QMenuBar):
         self.language_group.setExclusive(True)
         
         # English
-        en_action = QAction(get_text('menu.english', 'English'), self)
+        en_action = QAction(get_text('menu.english', 'English', lang=self.lang), self)
         en_action.setCheckable(True)
         en_action.setChecked(True)  # Default
         en_action.triggered.connect(lambda: self.change_language('en'))
@@ -102,7 +103,7 @@ class AppMenuBar(QMenuBar):
         self.language_group.addAction(en_action)
         
         # Italian
-        it_action = QAction(get_text('menu.italian', 'Italiano'), self)
+        it_action = QAction(get_text('menu.italian', 'Italiano', lang=self.lang), self)
         it_action.setCheckable(True)
         it_action.triggered.connect(lambda: self.change_language('it'))
         language_menu.addAction(it_action)
@@ -182,61 +183,96 @@ class AppMenuBar(QMenuBar):
             if len(menu_actions) > 0:
                 file_menu = menu_actions[0].menu()
                 if file_menu:
-                    file_menu.setTitle(get_text('menu.file', '&File'))
+                    file_menu.setTitle(get_text('menu.file', '&File', lang=self.lang))
                     # Update File menu actions
                     actions = file_menu.actions()
-                    if len(actions) > 0: actions[0].setText(get_text('menu.new', 'New'))
-                    if len(actions) > 1: actions[1].setText(get_text('menu.open', 'Open...'))
-                    if len(actions) > 2: actions[2].setText(get_text('menu.save', 'Save'))
-                    if len(actions) > 3: actions[3].setText(get_text('menu.save_as', 'Save As...'))
-                    if len(actions) > 4: actions[4].setText(get_text('menu.exit', 'Exit'))
+                    action_index = 0
+                    for action in actions:
+                        if not action.isSeparator():
+                            if action_index == 0:
+                                action.setText(get_text('menu.new', 'New', lang=self.lang))
+                            elif action_index == 1:
+                                action.setText(get_text('menu.open', 'Open...', lang=self.lang))
+                            elif action_index == 2:
+                                action.setText(get_text('menu.save', 'Save', lang=self.lang))
+                            elif action_index == 3:
+                                action.setText(get_text('menu.save_as', 'Save As...', lang=self.lang))
+                            elif action_index == 4:
+                                action.setText(get_text('menu.exit', 'Exit', lang=self.lang))
+                            action_index += 1
             
             # Edit menu (index 1)
             if len(menu_actions) > 1:
                 edit_menu = menu_actions[1].menu()
                 if edit_menu:
-                    edit_menu.setTitle(get_text('menu.edit', '&Edit'))
+                    edit_menu.setTitle(get_text('menu.edit', '&Edit', lang=self.lang))
                     # Update Edit menu actions
                     actions = edit_menu.actions()
-                    if len(actions) > 0: actions[0].setText(get_text('menu.undo', 'Undo'))
-                    if len(actions) > 1: actions[1].setText(get_text('menu.redo', 'Redo'))
-                    if len(actions) > 2: actions[2].setText(get_text('menu.cut', 'Cut'))
-                    if len(actions) > 3: actions[3].setText(get_text('menu.copy', 'Copy'))
-                    if len(actions) > 4: actions[4].setText(get_text('menu.paste', 'Paste'))
-                    if len(actions) > 5: actions[5].setText(get_text('menu.delete', 'Delete'))
-                    if len(actions) > 6: actions[6].setText(get_text('menu.select_all', 'Select All'))
+                    action_index = 0
+                    for action in actions:
+                        if not action.isSeparator():
+                            if action_index == 0:
+                                action.setText(get_text('menu.undo', 'Undo', lang=self.lang))
+                            elif action_index == 1:
+                                action.setText(get_text('menu.redo', 'Redo', lang=self.lang))
+                            elif action_index == 2:
+                                action.setText(get_text('menu.cut', 'Cut', lang=self.lang))
+                            elif action_index == 3:
+                                action.setText(get_text('menu.copy', 'Copy', lang=self.lang))
+                            elif action_index == 4:
+                                action.setText(get_text('menu.paste', 'Paste', lang=self.lang))
+                            elif action_index == 5:
+                                action.setText(get_text('menu.delete', 'Delete', lang=self.lang))
+                            elif action_index == 6:
+                                action.setText(get_text('menu.select_all', 'Select All', lang=self.lang))
+                            action_index += 1
             
             # Language menu (index 2)
             if len(menu_actions) > 2:
                 lang_menu = menu_actions[2].menu()
                 if lang_menu:
-                    lang_menu.setTitle(get_text('menu.language', '&Language'))
+                    lang_menu.setTitle(get_text('menu.language', '&Language', lang=self.lang))
                     lang_actions = lang_menu.actions()
-                    if len(lang_actions) > 0: lang_actions[0].setText(get_text('menu.english', 'English'))
-                    if len(lang_actions) > 1: lang_actions[1].setText(get_text('menu.italian', 'Italiano'))
+                    if len(lang_actions) > 0: lang_actions[0].setText(get_text('menu.english', 'English', lang=self.lang))
+                    if len(lang_actions) > 1: lang_actions[1].setText(get_text('menu.italian', 'Italiano', lang=self.lang))
 
             # Tools menu (index 3)
             if len(menu_actions) > 3:
                 tools_menu = menu_actions[3].menu()
                 if tools_menu:
-                    tools_menu.setTitle(get_text('menu.tools', '&Tools'))
+                    tools_menu.setTitle(get_text('menu.tools', '&Tools', lang=self.lang))
                     # Update Tools menu actions
                     actions = tools_menu.actions()
-                    if len(actions) > 0: actions[0].setText(get_text('menu.project_browser', 'Project Browser'))
-                    if len(actions) > 1: actions[1].setText(get_text('menu.view_logs', 'View Logs'))
-                    if len(actions) > 2: actions[2].setText(get_text('menu.check_updates', 'Check for Updates'))
+                    action_index = 0
+                    for action in actions:
+                        if not action.isSeparator():
+                            if action_index == 0:
+                                action.setText(get_text('menu.project_browser', 'Project Browser', lang=self.lang))
+                            elif action_index == 1:
+                                action.setText(get_text('menu.view_logs', 'View Logs', lang=self.lang))
+                            elif action_index == 2:
+                                action.setText(get_text('menu.check_updates', 'Check for Updates', lang=self.lang))
+                            action_index += 1
             
             # Help menu (index 4)
             if len(menu_actions) > 4:
                 help_menu = menu_actions[4].menu()
                 if help_menu:
-                    help_menu.setTitle(get_text('menu.help', '&Help'))
+                    help_menu.setTitle(get_text('menu.help', '&Help', lang=self.lang))
                     # Update Help menu actions
                     actions = help_menu.actions()
-                    if len(actions) > 0: actions[0].setText(get_text('menu.help', 'Help'))
-                    if len(actions) > 1: actions[1].setText(get_text('menu.documentation', 'Documentation (Wiki)'))
-                    if len(actions) > 2: actions[2].setText(get_text('menu.about', 'About'))
-                    if len(actions) > 3: actions[3].setText(get_text('menu.sponsor', 'Sponsor'))
+                    action_index = 0
+                    for action in actions:
+                        if not action.isSeparator():
+                            if action_index == 0:
+                                action.setText(get_text('menu.help', 'Help', lang=self.lang))
+                            elif action_index == 1:
+                                action.setText(get_text('menu.documentation', 'Documentation (Wiki)', lang=self.lang))
+                            elif action_index == 2:
+                                action.setText(get_text('menu.about', 'About', lang=self.lang))
+                            elif action_index == 3:
+                                action.setText(get_text('menu.sponsor', 'Sponsor', lang=self.lang))
+                            action_index += 1
         except Exception as e:
             # Silently handle retranslation errors to avoid crashes
             import logging
@@ -257,15 +293,15 @@ class AppMenuBar(QMenuBar):
     
     def show_about(self):
         """Show the about dialog."""
-        show_about(self.parent)
+        show_about(self.parent, self.lang)
     
     def show_sponsor(self):
         """Show the sponsor dialog."""
-        show_sponsor(self.parent)
+        show_sponsor(self.parent, self.lang)
     
     def show_help(self):
         """Show the help dialog."""
-        show_help(self.parent)
+        show_help(self.parent, self.lang)
     
     def show_project_browser(self):
         """Show the project browser dialog."""

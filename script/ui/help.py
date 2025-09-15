@@ -152,10 +152,10 @@ class HelpDialog(QDialog):
         links_layout = QVBoxLayout()
         
         links = [
-            (get_text('help.nav.github_wiki', 'GitHub Wiki'), "https://github.com/Nsfr750/PRJ-1/wiki"),
-            (get_text('help.nav.report_issue', 'Report Issue'), "https://github.com/Nsfr750/PRJ-1/issues"),
-            (get_text('help.nav.discussions', 'Discussions'), "https://github.com/Nsfr750/PRJ-1/discussions"),
-            (get_text('help.nav.release_notes', 'Release Notes'), "https://github.com/Nsfr750/PRJ-1/releases")
+            (get_text('help.nav.github_wiki', 'GitHub Wiki', lang=self.lang), "https://github.com/Nsfr750/PRJ-1/wiki"),
+            (get_text('help.nav.report_issue', 'Report Issue', lang=self.lang), "https://github.com/Nsfr750/PRJ-1/issues"),
+            (get_text('help.nav.discussions', 'Discussions', lang=self.lang), "https://github.com/Nsfr750/PRJ-1/discussions"),
+            (get_text('help.nav.release_notes', 'Release Notes', lang=self.lang), "https://github.com/Nsfr750/PRJ-1/releases")
         ]
         
         for text, url in links:
@@ -1207,3 +1207,46 @@ __license__ = "MIT"
     </body>
     </html>
     """
+    
+    def retranslate_ui(self):
+        """Update all UI text elements when language changes."""
+        try:
+            # Update window title
+            self.setWindowTitle(get_text('help.title', 'Help Center', lang=self.lang))
+            
+            # Update tab labels
+            self.tabs.setTabText(0, get_text('help.tab_help', 'Help', lang=self.lang))
+            self.tabs.setTabText(1, get_text('help.tab_examples', 'Examples', lang=self.lang))
+            self.tabs.setTabText(2, get_text('help.tab_api', 'API Reference', lang=self.lang))
+            self.tabs.setTabText(3, get_text('help.tab_faq', 'FAQ', lang=self.lang))
+            
+            # Update button texts
+            self.back_btn.setText(get_text('help.back', 'Back', lang=self.lang))
+            self.forward_btn.setText(get_text('help.forward', 'Forward', lang=self.lang))
+            self.home_btn.setText(get_text('help.home', 'Home', lang=self.lang))
+            
+            # Update search box placeholder
+            self.search_box.setPlaceholderText(get_text('help.search_placeholder', 'Search help topics...', lang=self.lang))
+            
+            # Update quick help section header
+            self.quick_help_label.setText(get_text('help.quick_help', 'Quick Help', lang=self.lang))
+            
+            # Update documentation section header
+            self.docs_label.setText(get_text('help.documentation', 'Documentation', lang=self.lang))
+            
+            # Reload content with new language
+            self.load_main_help()
+            self.load_examples()
+            self.load_faq()
+            
+            # Repopulate documentation tree (labels might change)
+            self.populate_docs_tree()
+            
+        except Exception as e:
+            import logging
+            logging.getLogger(__name__).warning(f"Error retranslating HelpDialog: {e}")
+    
+    def set_language(self, lang):
+        """Set the language and trigger UI retranslation."""
+        self.lang = lang
+        self.retranslate_ui()

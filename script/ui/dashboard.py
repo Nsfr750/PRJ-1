@@ -36,7 +36,7 @@ class DashboardDialog(QDialog):
         super().__init__(parent)
         self.scanner = scanner
         self.lang = lang
-        self.setWindowTitle(get_text('dashboard.title', 'Project Statistics Dashboard', self.lang))
+        self.setWindowTitle(get_text('dashboard.title', 'Project Statistics Dashboard', lang=self.lang))
         self.setMinimumSize(1400, 900)
         self.setup_ui()
         self.load_statistics()
@@ -48,18 +48,18 @@ class DashboardDialog(QDialog):
         # Header
         header_layout = QHBoxLayout()
         
-        title_label = QLabel(get_text('dashboard.header_title', 'Project Statistics Dashboard', self.lang))
+        title_label = QLabel(get_text('dashboard.header_title', 'Project Statistics Dashboard', lang=self.lang))
         title_label.setFont(QFont("", 16, QFont.Bold))
         header_layout.addWidget(title_label)
         
         header_layout.addStretch()
         
         # Action buttons
-        self.refresh_button = QPushButton(get_text('dashboard.refresh', 'Refresh', self.lang))
+        self.refresh_button = QPushButton(get_text('dashboard.refresh', 'Refresh', lang=self.lang))
         self.refresh_button.clicked.connect(self.load_statistics)
         header_layout.addWidget(self.refresh_button)
         
-        self.export_button = QPushButton(get_text('dashboard.export_report', 'Export Report', self.lang))
+        self.export_button = QPushButton(get_text('dashboard.export_report', 'Export Report', lang=self.lang))
         self.export_button.clicked.connect(self.export_report)
         header_layout.addWidget(self.export_button)
         
@@ -78,7 +78,7 @@ class DashboardDialog(QDialog):
         self.create_size_tab()
         
         # Status bar
-        self.status_label = QLabel(get_text('dashboard.ready', 'Ready', self.lang))
+        self.status_label = QLabel(get_text('dashboard.ready', 'Ready', lang=self.lang))
         layout.addWidget(self.status_label)
     
     def create_overview_tab(self):
@@ -90,27 +90,27 @@ class DashboardDialog(QDialog):
         cards_layout = QGridLayout()
         
         # Total projects card
-        total_card = self.create_stat_card(get_text('dashboard.total_projects', 'Total Projects', self.lang), "0", get_text('dashboard.projects', 'projects', self.lang))
+        total_card = self.create_stat_card(get_text('dashboard.total_projects', 'Total Projects', lang=self.lang), "0", get_text('dashboard.projects', 'projects', lang=self.lang))
         cards_layout.addWidget(total_card, 0, 0)
         
         # Languages card
-        languages_card = self.create_stat_card(get_text('dashboard.languages', 'Languages', self.lang), "0", get_text('dashboard.languages_count', 'languages', self.lang))
+        languages_card = self.create_stat_card(get_text('dashboard.languages', 'Languages', lang=self.lang), "0", get_text('dashboard.languages_count', 'languages', lang=self.lang))
         cards_layout.addWidget(languages_card, 0, 1)
         
         # Categories card
-        categories_card = self.create_stat_card(get_text('dashboard.categories', 'Categories', self.lang), "0", get_text('dashboard.categories_count', 'categories', self.lang))
+        categories_card = self.create_stat_card(get_text('dashboard.categories', 'Categories', lang=self.lang), "0", get_text('dashboard.categories_count', 'categories', lang=self.lang))
         cards_layout.addWidget(categories_card, 0, 2)
         
         # Favorites card
-        favorites_card = self.create_stat_card(get_text('dashboard.favorites', 'Favorites', self.lang), "0", get_text('dashboard.projects', 'projects', self.lang))
+        favorites_card = self.create_stat_card(get_text('dashboard.favorites', 'Favorites', lang=self.lang), "0", get_text('dashboard.projects', 'projects', lang=self.lang))
         cards_layout.addWidget(favorites_card, 1, 0)
         
         # Recent projects card
-        recent_card = self.create_stat_card(get_text('dashboard.recent_projects', 'Recent Projects', self.lang), "0", get_text('dashboard.projects', 'projects', self.lang))
+        recent_card = self.create_stat_card(get_text('dashboard.recent_projects', 'Recent Projects', lang=self.lang), "0", get_text('dashboard.projects', 'projects', lang=self.lang))
         cards_layout.addWidget(recent_card, 1, 1)
         
         # Total size card
-        size_card = self.create_stat_card(get_text('dashboard.total_size', 'Total Size', self.lang), "0 MB", get_text('dashboard.disk_usage', 'disk usage', self.lang))
+        size_card = self.create_stat_card(get_text('dashboard.total_size', 'Total Size', lang=self.lang), "0 MB", get_text('dashboard.disk_usage', 'disk usage', lang=self.lang))
         cards_layout.addWidget(size_card, 1, 2)
         
         layout.addLayout(cards_layout)
@@ -119,11 +119,11 @@ class DashboardDialog(QDialog):
         charts_splitter = QSplitter(Qt.Horizontal)
         
         # Language distribution chart
-        self.language_chart = self.create_pie_chart(get_text('dashboard.language_distribution', 'Language Distribution', self.lang))
+        self.language_chart = self.create_pie_chart(get_text('dashboard.language_distribution', 'Language Distribution', lang=self.lang))
         charts_splitter.addWidget(self.language_chart)
         
         # Category distribution chart
-        self.category_chart = self.create_pie_chart(get_text('dashboard.category_distribution', 'Category Distribution', self.lang))
+        self.category_chart = self.create_pie_chart(get_text('dashboard.category_distribution', 'Category Distribution', lang=self.lang))
         charts_splitter.addWidget(self.category_chart)
         
         charts_splitter.setSizes([700, 700])
@@ -139,7 +139,7 @@ class DashboardDialog(QDialog):
             'size': size_card
         }
         
-        self.tab_widget.addTab(tab, get_text('dashboard.overview_tab', 'Overview', self.lang))
+        self.tab_widget.addTab(tab, get_text('dashboard.overview_tab', 'Overview', lang=self.lang))
     
     def create_language_tab(self):
         """Create the language statistics tab."""
@@ -150,17 +150,17 @@ class DashboardDialog(QDialog):
         splitter = QSplitter(Qt.Vertical)
         
         # Language chart
-        self.language_bar_chart = self.create_bar_chart(get_text('dashboard.projects_by_language', 'Projects by Language', self.lang))
+        self.language_bar_chart = self.create_bar_chart(get_text('dashboard.projects_by_language', 'Projects by Language', lang=self.lang))
         splitter.addWidget(self.language_bar_chart)
         
         # Language details (will be populated later)
-        self.language_details = self.create_details_table(get_text('dashboard.language_details', 'Language Details', self.lang))
+        self.language_details = self.create_details_table(get_text('dashboard.language_details', 'Language Details', lang=self.lang))
         splitter.addWidget(self.language_details)
         
         splitter.setSizes([400, 300])
         layout.addWidget(splitter)
         
-        self.tab_widget.addTab(tab, get_text('dashboard.languages_tab', 'Languages', self.lang))
+        self.tab_widget.addTab(tab, get_text('dashboard.languages_tab', 'Languages', lang=self.lang))
     
     def create_category_tab(self):
         """Create the category statistics tab."""
@@ -171,17 +171,17 @@ class DashboardDialog(QDialog):
         splitter = QSplitter(Qt.Vertical)
         
         # Category chart
-        self.category_bar_chart = self.create_bar_chart(get_text('dashboard.projects_by_category', 'Projects by Category', self.lang))
+        self.category_bar_chart = self.create_bar_chart(get_text('dashboard.projects_by_category', 'Projects by Category', lang=self.lang))
         splitter.addWidget(self.category_bar_chart)
         
         # Category details (will be populated later)
-        self.category_details = self.create_details_table(get_text('dashboard.category_details', 'Category Details', self.lang))
+        self.category_details = self.create_details_table(get_text('dashboard.category_details', 'Category Details', lang=self.lang))
         splitter.addWidget(self.category_details)
         
         splitter.setSizes([400, 300])
         layout.addWidget(splitter)
         
-        self.tab_widget.addTab(tab, get_text('dashboard.categories_tab', 'Categories', self.lang))
+        self.tab_widget.addTab(tab, get_text('dashboard.categories_tab', 'Categories', lang=self.lang))
     
     def create_tags_tab(self):
         """Create the tags statistics tab."""
@@ -192,17 +192,17 @@ class DashboardDialog(QDialog):
         splitter = QSplitter(Qt.Vertical)
         
         # Tag usage chart
-        self.tags_chart = self.create_bar_chart(get_text('dashboard.most_used_tags', 'Most Used Tags', self.lang))
+        self.tags_chart = self.create_bar_chart(get_text('dashboard.most_used_tags', 'Most Used Tags', lang=self.lang))
         splitter.addWidget(self.tags_chart)
         
         # Tag details (will be populated later)
-        self.tags_details = self.create_details_table(get_text('dashboard.tag_details', 'Tag Details', self.lang))
+        self.tags_details = self.create_details_table(get_text('dashboard.tag_details', 'Tag Details', lang=self.lang))
         splitter.addWidget(self.tags_details)
         
         splitter.setSizes([400, 300])
         layout.addWidget(splitter)
         
-        self.tab_widget.addTab(tab, get_text('dashboard.tags_tab', 'Tags', self.lang))
+        self.tab_widget.addTab(tab, get_text('dashboard.tags_tab', 'Tags', lang=self.lang))
     
     def create_activity_tab(self):
         """Create the activity statistics tab."""
@@ -213,17 +213,17 @@ class DashboardDialog(QDialog):
         splitter = QSplitter(Qt.Horizontal)
         
         # Recent activity chart
-        self.activity_chart = self.create_line_chart(get_text('dashboard.project_activity', 'Project Activity (Last 30 Days)', self.lang))
+        self.activity_chart = self.create_line_chart(get_text('dashboard.project_activity', 'Project Activity (Last 30 Days)', lang=self.lang))
         splitter.addWidget(self.activity_chart)
         
         # Top recent projects
-        self.recent_projects_chart = self.create_bar_chart(get_text('dashboard.most_accessed_projects', 'Most Accessed Projects', self.lang))
+        self.recent_projects_chart = self.create_bar_chart(get_text('dashboard.most_accessed_projects', 'Most Accessed Projects', lang=self.lang))
         splitter.addWidget(self.recent_projects_chart)
         
         splitter.setSizes([700, 700])
         layout.addWidget(splitter)
         
-        self.tab_widget.addTab(tab, get_text('dashboard.activity_tab', 'Activity', self.lang))
+        self.tab_widget.addTab(tab, get_text('dashboard.activity_tab', 'Activity', lang=self.lang))
     
     def create_size_tab(self):
         """Create the size statistics tab."""
@@ -234,17 +234,17 @@ class DashboardDialog(QDialog):
         splitter = QSplitter(Qt.Vertical)
         
         # Size distribution chart
-        self.size_dist_chart = self.create_bar_chart(get_text('dashboard.project_size_distribution', 'Project Size Distribution', self.lang))
+        self.size_dist_chart = self.create_bar_chart(get_text('dashboard.project_size_distribution', 'Project Size Distribution', lang=self.lang))
         splitter.addWidget(self.size_dist_chart)
         
         # Largest projects table
-        self.largest_projects = self.create_details_table(get_text('dashboard.largest_projects', 'Largest Projects', self.lang))
+        self.largest_projects = self.create_details_table(get_text('dashboard.largest_projects', 'Largest Projects', lang=self.lang))
         splitter.addWidget(self.largest_projects)
         
         splitter.setSizes([400, 300])
         layout.addWidget(splitter)
         
-        self.tab_widget.addTab(tab, get_text('dashboard.size_tab', 'Size', self.lang))
+        self.tab_widget.addTab(tab, get_text('dashboard.size_tab', 'Size', lang=self.lang))
     
     def create_stat_card(self, title: str, value: str, subtitle: str) -> QFrame:
         """Create a statistics card widget."""
@@ -315,7 +315,7 @@ class DashboardDialog(QDialog):
         layout.addWidget(title_label)
         
         # Placeholder label - will be replaced with actual table
-        placeholder = QLabel(get_text('dashboard.loading_data', 'Loading data...', self.lang))
+        placeholder = QLabel(get_text('dashboard.loading_data', 'Loading data...', lang=self.lang))
         placeholder.setAlignment(Qt.AlignCenter)
         layout.addWidget(placeholder)
         
@@ -324,7 +324,7 @@ class DashboardDialog(QDialog):
     def load_statistics(self):
         """Load and display all statistics."""
         try:
-            self.status_label.setText(get_text('dashboard.loading_statistics', 'Loading statistics...', self.lang))
+            self.status_label.setText(get_text('dashboard.loading_statistics', 'Loading statistics...', lang=self.lang))
             
             # Get projects data
             projects = self.scanner.get_projects()
@@ -350,11 +350,11 @@ class DashboardDialog(QDialog):
             # Update size statistics
             self.update_size_stats(stats)
             
-            self.status_label.setText(get_text('dashboard.statistics_loaded', 'Statistics loaded - {count} projects analyzed', self.lang).format(count=len(projects)))
+            self.status_label.setText(get_text('dashboard.statistics_loaded', 'Statistics loaded - {count} projects analyzed', lang=self.lang).format(count=len(projects)))
             
         except Exception as e:
-            QMessageBox.warning(self, get_text('dashboard.error', 'Error', self.lang), get_text('dashboard.load_error', 'Could not load statistics: {error}', self.lang).format(error=str(e)))
-            self.status_label.setText(get_text('dashboard.error_loading_statistics', 'Error loading statistics', self.lang))
+            QMessageBox.warning(self, get_text('dashboard.error', 'Error', lang=self.lang), get_text('dashboard.load_error', 'Could not load statistics: {error}', lang=self.lang).format(error=str(e)))
+            self.status_label.setText(get_text('dashboard.error_loading_statistics', 'Error loading statistics', lang=self.lang))
     
     def calculate_statistics(self, projects: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Calculate comprehensive statistics from projects data."""
@@ -489,7 +489,7 @@ class DashboardDialog(QDialog):
         ax.clear()
         
         if not data:
-            ax.text(0.5, 0.5, get_text('dashboard.no_data_available', 'No data available', self.lang), ha='center', va='center', transform=ax.transAxes)
+            ax.text(0.5, 0.5, get_text('dashboard.no_data_available', 'No data available', lang=self.lang), ha='center', va='center', transform=ax.transAxes)
         else:
             # Sort data by value
             sorted_data = dict(sorted(data.items(), key=lambda x: x[1], reverse=True))
@@ -498,7 +498,7 @@ class DashboardDialog(QDialog):
             if len(sorted_data) > 10:
                 top_items = dict(list(sorted_data.items())[:9])
                 other_count = sum(list(sorted_data.values())[9:])
-                top_items[get_text('dashboard.other', 'Other', self.lang)] = other_count
+                top_items[get_text('dashboard.other', 'Other', lang=self.lang)] = other_count
                 sorted_data = top_items
             
             labels = list(sorted_data.keys())
@@ -560,14 +560,14 @@ class DashboardDialog(QDialog):
         ax.clear()
         
         if not data:
-            ax.text(0.5, 0.5, get_text('dashboard.no_data_available', 'No data available', self.lang), ha='center', va='center', transform=ax.transAxes)
+            ax.text(0.5, 0.5, get_text('dashboard.no_data_available', 'No data available', lang=self.lang), ha='center', va='center', transform=ax.transAxes)
         else:
             labels = list(data.keys())
             values = list(data.values())
             
             # Create bar chart
             bars = ax.bar(labels, values)
-            ax.set_ylabel(get_text('dashboard.count', 'Count', self.lang))
+            ax.set_ylabel(get_text('dashboard.count', 'Count', lang=self.lang))
             
             # Rotate x-axis labels for better readability
             plt.setp(ax.get_xticklabels(), rotation=45, ha='right')
@@ -587,7 +587,7 @@ class DashboardDialog(QDialog):
         ax.clear()
         
         if not data or all(v == 0 for v in data.values()):
-            ax.text(0.5, 0.5, get_text('dashboard.no_activity_data_available', 'No activity data available', self.lang), ha='center', va='center', transform=ax.transAxes)
+            ax.text(0.5, 0.5, get_text('dashboard.no_activity_data_available', 'No activity data available', lang=self.lang), ha='center', va='center', transform=ax.transAxes)
         else:
             # Sort by date
             sorted_data = dict(sorted(data.items()))
@@ -597,8 +597,8 @@ class DashboardDialog(QDialog):
             
             # Create line chart
             ax.plot(dates, values, marker='o', linewidth=2, markersize=4)
-            ax.set_ylabel(get_text('dashboard.projects_accessed', 'Projects Accessed', self.lang))
-            ax.set_xlabel(get_text('dashboard.date', 'Date', self.lang))
+            ax.set_ylabel(get_text('dashboard.projects_accessed', 'Projects Accessed', lang=self.lang))
+            ax.set_xlabel(get_text('dashboard.date', 'Date', lang=self.lang))
             
             # Rotate x-axis labels for better readability
             plt.setp(ax.get_xticklabels(), rotation=45, ha='right')
@@ -612,8 +612,8 @@ class DashboardDialog(QDialog):
             # Ask user for export format
             reply = QMessageBox.question(
                 self,
-                get_text('dashboard.export_report', 'Export Report', self.lang),
-                get_text('dashboard.choose_export_format', 'Choose export format:', self.lang),
+                get_text('dashboard.export_report', 'Export Report', lang=self.lang),
+                get_text('dashboard.choose_export_format', 'Choose export format:', lang=self.lang),
                 QMessageBox.StandardButton.Save | QMessageBox.StandardButton.Cancel
             )
             
@@ -623,9 +623,9 @@ class DashboardDialog(QDialog):
             # Ask for save location
             file_path, _ = QFileDialog.getSaveFileName(
                 self,
-                get_text('dashboard.export_report', 'Export Report', self.lang),
+                get_text('dashboard.export_report', 'Export Report', lang=self.lang),
                 "",
-                f"{get_text('dashboard.csv_files', 'CSV Files', self.lang)} (*.csv);;{get_text('dashboard.json_files', 'JSON Files', self.lang)} (*.json);;{get_text('dashboard.all_files', 'All Files', self.lang)} (*.*)"
+                f"{get_text('dashboard.csv_files', 'CSV Files', lang=self.lang)} (*.csv);;{get_text('dashboard.json_files', 'JSON Files', lang=self.lang)} (*.json);;{get_text('dashboard.all_files', 'All Files', lang=self.lang)} (*.*)"
             )
             
             if not file_path:
@@ -641,13 +641,13 @@ class DashboardDialog(QDialog):
                     # Default to CSV
                     self.export_csv_report(file_path)
                 
-                QMessageBox.information(self, get_text('dashboard.export_complete', 'Export Complete', self.lang), get_text('dashboard.export_success', 'Report exported successfully!', self.lang))
+                QMessageBox.information(self, get_text('dashboard.export_complete', 'Export Complete', lang=self.lang), get_text('dashboard.export_success', 'Report exported successfully!', lang=self.lang))
                 
             except Exception as e:
-                QMessageBox.critical(self, get_text('dashboard.export_error', 'Export Error', self.lang), get_text('dashboard.export_error_message', 'Could not export report: {error}', self.lang).format(error=str(e)))
+                QMessageBox.critical(self, get_text('dashboard.export_error', 'Export Error', lang=self.lang), get_text('dashboard.export_error_message', 'Could not export report: {error}', lang=self.lang).format(error=str(e)))
         
         except Exception as e:
-            QMessageBox.warning(self, get_text('dashboard.error', 'Error', self.lang), get_text('dashboard.export_error_message', 'Could not export report: {error}', self.lang).format(error=str(e)))
+            QMessageBox.warning(self, get_text('dashboard.error', 'Error', lang=self.lang), get_text('dashboard.export_error_message', 'Could not export report: {error}', lang=self.lang).format(error=str(e)))
     
     def export_html_report(self, file_path: str):
         """Export statistics report as HTML."""
@@ -660,7 +660,7 @@ class DashboardDialog(QDialog):
         <!DOCTYPE html>
         <html>
         <head>
-            <title>{get_text('dashboard.title', 'Project Statistics Dashboard', self.lang)}</title>
+            <title>{get_text('dashboard.title', 'Project Statistics Dashboard', lang=self.lang)}</title>
             <style>
                 body {{ font-family: Arial, sans-serif; margin: 20px; }}
                 h1 {{ color: #333; }}
@@ -671,13 +671,13 @@ class DashboardDialog(QDialog):
             </style>
         </head>
         <body>
-            <h1>{get_text('dashboard.title', 'Project Statistics Dashboard', self.lang)}</h1>
-            <p>{get_text('dashboard.generated_on', 'Generated on', self.lang)}: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
-            <p>{get_text('dashboard.total_projects', 'Total Projects', self.lang)}: {stats['total_projects']}</p>
+            <h1>{get_text('dashboard.title', 'Project Statistics Dashboard', lang=self.lang)}</h1>
+            <p>{get_text('dashboard.generated_on', 'Generated on', lang=self.lang)}: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
+            <p>{get_text('dashboard.total_projects', 'Total Projects', lang=self.lang)}: {stats['total_projects']}</p>
             
-            <h2>{get_text('dashboard.languages', 'Languages', self.lang)}</h2>
+            <h2>{get_text('dashboard.languages', 'Languages', lang=self.lang)}</h2>
             <table>
-                <tr><th>{get_text('dashboard.language', 'Language', self.lang)}</th><th>{get_text('dashboard.count', 'Count', self.lang)}</th></tr>
+                <tr><th>{get_text('dashboard.language', 'Language', lang=self.lang)}</th><th>{get_text('dashboard.count', 'Count', lang=self.lang)}</th></tr>
         """
         
         for lang, count in sorted(stats['languages'].items(), key=lambda x: x[1], reverse=True):
@@ -686,9 +686,9 @@ class DashboardDialog(QDialog):
         html_content += """
             </table>
             
-            <h2>{get_text('dashboard.categories', 'Categories', self.lang)}</h2>
+            <h2>{get_text('dashboard.categories', 'Categories', lang=self.lang)}</h2>
             <table>
-                <tr><th>{get_text('dashboard.category', 'Category', self.lang)}</th><th>{get_text('dashboard.count', 'Count', self.lang)}</th></tr>
+                <tr><th>{get_text('dashboard.category', 'Category', lang=self.lang)}</th><th>{get_text('dashboard.count', 'Count', lang=self.lang)}</th></tr>
         """
         
         for cat, count in sorted(stats['categories'].items(), key=lambda x: x[1], reverse=True):

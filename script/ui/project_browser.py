@@ -93,7 +93,7 @@ class ProjectBrowserDialog(QDialog):
         self.update_recent_projects_list()
         
         # Don't start scanning automatically - user must click "Start Scan" button
-        self.status_label.setText(get_text("project_browser.ready_scan", "Ready - Click 'Start Scan' to begin scanning projects", self.lang))
+        self.status_label.setText(get_text("project_browser.ready_scan", "Ready - Click 'Start Scan' to begin scanning projects", lang=self.lang))
     
     def closeEvent(self, event):
         """Handle dialog close event to properly clean up threads."""
@@ -500,7 +500,7 @@ class ProjectBrowserDialog(QDialog):
         """
         
         msg = QMessageBox(self)
-        msg.setWindowTitle(get_text("project_browser.keyboard_shortcuts", "Keyboard Shortcuts", self.lang))
+        msg.setWindowTitle(get_text("project_browser.keyboard_shortcuts", "Keyboard Shortcuts", lang=self.lang))
         msg.setTextFormat(Qt.RichText)
         msg.setText(help_text)
         msg.exec_()
@@ -550,7 +550,7 @@ class ProjectBrowserDialog(QDialog):
         
         # Set window flags for custom title bar
         self.setWindowFlags(Qt.Dialog | Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint | Qt.WindowMaximizeButtonHint)
-        self.setWindowTitle(get_text("project_browser.window_title", "PRJ-1 - Project Browser", self.lang))
+        self.setWindowTitle(get_text("project_browser.window_title", "PRJ-1 - Project Browser", lang=self.lang))
     
     def create_title_bar(self) -> QFrame:
         """Create custom title bar with window controls."""
@@ -623,11 +623,11 @@ class ProjectBrowserDialog(QDialog):
         if self.isMaximized():
             self.showNormal()
             self.maximize_button.setText("□")
-            self.maximize_button.setToolTip(get_text("project_browser.maximize", "Maximize", self.lang))
+            self.maximize_button.setToolTip(get_text("project_browser.maximize", "Maximize", lang=self.lang))
         else:
             self.showMaximized()
             self.maximize_button.setText("❐")
-            self.maximize_button.setToolTip(get_text("project_browser.restore", "Restore", self.lang))
+            self.maximize_button.setToolTip(get_text("project_browser.restore", "Restore", lang=self.lang))
     
     def create_left_panel(self) -> QFrame:
         """Create the left panel with project list and controls."""
@@ -635,64 +635,64 @@ class ProjectBrowserDialog(QDialog):
         layout = QVBoxLayout(panel)
         
         # Directory selection controls
-        directory_group = QGroupBox(get_text("project_browser.scan_directory", "Scan Directory", self.lang))
+        directory_group = QGroupBox(get_text("project_browser.scan_directory", "Scan Directory", lang=self.lang))
         directory_layout = QGridLayout(directory_group)
         
         # Current directory display
-        directory_layout.addWidget(QLabel(get_text("project_browser.current_directory", "Current Directory:", self.lang)), 0, 0)
+        directory_layout.addWidget(QLabel(get_text("project_browser.current_directory", "Current Directory:", lang=self.lang)), 0, 0)
         self.directory_label = QLabel(self.scanner.get_scan_directory())
         self.directory_label.setWordWrap(True)
         directory_layout.addWidget(self.directory_label, 0, 1)
         
         # Browse button
-        self.browse_button = QPushButton(get_text("project_browser.browse", "Browse...", self.lang))
+        self.browse_button = QPushButton(get_text("project_browser.browse", "Browse...", lang=self.lang))
         self.browse_button.clicked.connect(self.browse_directory)
         directory_layout.addWidget(self.browse_button, 0, 2)
         
         layout.addWidget(directory_group)
         
         # Search and filter controls
-        controls_group = QGroupBox(get_text("project_browser.search_filter", "Search & Filter", self.lang))
+        controls_group = QGroupBox(get_text("project_browser.search_filter", "Search & Filter", lang=self.lang))
         controls_layout = QGridLayout(controls_group)
         
         # Search box
-        controls_layout.addWidget(QLabel(get_text("project_browser.search", "Search:", self.lang)), 0, 0)
+        controls_layout.addWidget(QLabel(get_text("project_browser.search", "Search:", lang=self.lang)), 0, 0)
         self.search_box = QLineEdit()
-        self.search_box.setPlaceholderText(get_text("project_browser.search_placeholder", "Search projects...", self.lang))
+        self.search_box.setPlaceholderText(get_text("project_browser.search_placeholder", "Search projects...", lang=self.lang))
         self.search_box.textChanged.connect(self.filter_projects)
         controls_layout.addWidget(self.search_box, 0, 1)
         
         # Language filter
-        controls_layout.addWidget(QLabel(get_text("project_browser.language", "Language:", self.lang)), 1, 0)
+        controls_layout.addWidget(QLabel(get_text("project_browser.language", "Language:", lang=self.lang)), 1, 0)
         self.language_combo = QComboBox()
-        self.language_combo.addItem(get_text("project_browser.all", "All", self.lang))
+        self.language_combo.addItem(get_text("project_browser.all", "All", lang=self.lang))
         self.language_combo.currentTextChanged.connect(self.filter_projects)
         controls_layout.addWidget(self.language_combo, 1, 1)
         
         # Category filter
-        controls_layout.addWidget(QLabel(get_text("project_browser.category", "Category:", self.lang)), 2, 0)
+        controls_layout.addWidget(QLabel(get_text("project_browser.category", "Category:", lang=self.lang)), 2, 0)
         self.category_combo = QComboBox()
-        self.category_combo.addItem(get_text("project_browser.all", "All", self.lang))
+        self.category_combo.addItem(get_text("project_browser.all", "All", lang=self.lang))
         controls_layout.addWidget(self.category_combo, 2, 1)
         
         # Tag filter
-        controls_layout.addWidget(QLabel(get_text("project_browser.tags", "Tags:", self.lang)), 3, 0)
+        controls_layout.addWidget(QLabel(get_text("project_browser.tags", "Tags:", lang=self.lang)), 3, 0)
         self.tag_filter_box = QLineEdit()
-        self.tag_filter_box.setPlaceholderText(get_text("project_browser.tags_placeholder", "Filter by tags (comma-separated)...", self.lang))
+        self.tag_filter_box.setPlaceholderText(get_text("project_browser.tags_placeholder", "Filter by tags (comma-separated)...", lang=self.lang))
         self.tag_filter_box.textChanged.connect(self.filter_projects)
         controls_layout.addWidget(self.tag_filter_box, 3, 1)
         
         # Favorite filter
-        controls_layout.addWidget(QLabel(get_text("project_browser.favorites", "Favorites:", self.lang)), 4, 0)
+        controls_layout.addWidget(QLabel(get_text("project_browser.favorites", "Favorites:", lang=self.lang)), 4, 0)
         self.favorite_combo = QComboBox()
-        self.favorite_combo.addItem(get_text("project_browser.all", "All", self.lang))
-        self.favorite_combo.addItem(get_text("project_browser.favorites_only", "Favorites Only", self.lang))
-        self.favorite_combo.addItem(get_text("project_browser.non_favorites_only", "Non-Favorites Only", self.lang))
+        self.favorite_combo.addItem(get_text("project_browser.all", "All", lang=self.lang))
+        self.favorite_combo.addItem(get_text("project_browser.favorites_only", "Favorites Only", lang=self.lang))
+        self.favorite_combo.addItem(get_text("project_browser.non_favorites_only", "Non-Favorites Only", lang=self.lang))
         self.favorite_combo.currentTextChanged.connect(self.filter_projects)
         controls_layout.addWidget(self.favorite_combo, 4, 1)
         
         # Recent projects section
-        recent_group = QGroupBox(get_text("project_browser.recent_projects", "Recent Projects", self.lang))
+        recent_group = QGroupBox(get_text("project_browser.recent_projects", "Recent Projects", lang=self.lang))
         recent_layout = QVBoxLayout(recent_group)
         
         # Recent projects list
@@ -718,31 +718,31 @@ class ProjectBrowserDialog(QDialog):
         # Scan control buttons
         scan_buttons_layout = QHBoxLayout()
         
-        self.start_scan_button = QPushButton(get_text("project_browser.start_scan", "▶ Start Scan", self.lang))
+        self.start_scan_button = QPushButton(get_text("project_browser.start_scan", "▶ Start Scan", lang=self.lang))
         self.start_scan_button.clicked.connect(self.start_scanning)
         self.start_scan_button.setProperty("class", "primary")
         scan_buttons_layout.addWidget(self.start_scan_button)
         
-        self.stop_scan_button = QPushButton(get_text("project_browser.stop_scan", "⏹ Stop Scan", self.lang))
+        self.stop_scan_button = QPushButton(get_text("project_browser.stop_scan", "⏹ Stop Scan", lang=self.lang))
         self.stop_scan_button.clicked.connect(self.stop_scanning)
         self.stop_scan_button.setEnabled(False)  # Disabled initially
         self.stop_scan_button.setProperty("class", "danger")
         scan_buttons_layout.addWidget(self.stop_scan_button)
         
         # Export button
-        self.export_button = QPushButton(get_text("project_browser.export", "📊 Export", self.lang))
+        self.export_button = QPushButton(get_text("project_browser.export", "📊 Export", lang=self.lang))
         self.export_button.clicked.connect(self.export_to_markdown)
         self.export_button.setProperty("class", "info")
         scan_buttons_layout.addWidget(self.export_button)
         
         # Dashboard button
-        self.dashboard_button = QPushButton(get_text("project_browser.dashboard", "📈 Dashboard", self.lang))
+        self.dashboard_button = QPushButton(get_text("project_browser.dashboard", "📈 Dashboard", lang=self.lang))
         self.dashboard_button.clicked.connect(self.show_dashboard)
         self.dashboard_button.setProperty("class", "warning")
         scan_buttons_layout.addWidget(self.dashboard_button)
         
         # Advanced search button
-        self.advanced_search_button = QPushButton(get_text("project_browser.advanced_search", "🔍 Advanced Search", self.lang))
+        self.advanced_search_button = QPushButton(get_text("project_browser.advanced_search", "🔍 Advanced Search", lang=self.lang))
         self.advanced_search_button.clicked.connect(self.show_advanced_search)
         self.advanced_search_button.setProperty("class", "success")
         scan_buttons_layout.addWidget(self.advanced_search_button)
@@ -753,13 +753,13 @@ class ProjectBrowserDialog(QDialog):
         batch_layout = QHBoxLayout()
         
         # Select all/none buttons
-        self.select_all_button = QPushButton(get_text("project_browser.select_all", "☑ Select All", self.lang))
+        self.select_all_button = QPushButton(get_text("project_browser.select_all", "☑ Select All", lang=self.lang))
         self.select_all_button.clicked.connect(self.select_all_projects)
         self.select_all_button.setProperty("class", "info")
         self.select_all_button.setMaximumWidth(120)
         batch_layout.addWidget(self.select_all_button)
         
-        self.select_none_button = QPushButton(get_text("project_browser.select_none", "☐ Select None", self.lang))
+        self.select_none_button = QPushButton(get_text("project_browser.select_none", "☐ Select None", lang=self.lang))
         self.select_none_button.clicked.connect(self.select_none_projects)
         self.select_none_button.setProperty("class", "info")
         self.select_none_button.setMaximumWidth(120)
@@ -768,22 +768,22 @@ class ProjectBrowserDialog(QDialog):
         batch_layout.addWidget(QLabel("|"))
         
         # Batch operation buttons
-        self.batch_open_button = QPushButton(get_text("project_browser.open_selected", "📂 Open Selected", self.lang))
+        self.batch_open_button = QPushButton(get_text("project_browser.open_selected", "📂 Open Selected", lang=self.lang))
         self.batch_open_button.clicked.connect(self.batch_open_projects)
         self.batch_open_button.setProperty("class", "primary")
         batch_layout.addWidget(self.batch_open_button)
         
-        self.batch_favorite_button = QPushButton(get_text("project_browser.toggle_favorite", "⭐ Toggle Favorite", self.lang))
+        self.batch_favorite_button = QPushButton(get_text("project_browser.toggle_favorite", "⭐ Toggle Favorite", lang=self.lang))
         self.batch_favorite_button.clicked.connect(self.batch_toggle_favorite)
         self.batch_favorite_button.setProperty("class", "warning")
         batch_layout.addWidget(self.batch_favorite_button)
         
-        self.batch_tag_button = QPushButton(get_text("project_browser.add_tags", "🏷️ Add Tags", self.lang))
+        self.batch_tag_button = QPushButton(get_text("project_browser.add_tags", "🏷️ Add Tags", lang=self.lang))
         self.batch_tag_button.clicked.connect(self.batch_add_tags)
         self.batch_tag_button.setProperty("class", "success")
         batch_layout.addWidget(self.batch_tag_button)
         
-        self.batch_category_button = QPushButton(get_text("project_browser.set_category", "📁 Set Category", self.lang))
+        self.batch_category_button = QPushButton(get_text("project_browser.set_category", "📁 Set Category", lang=self.lang))
         self.batch_category_button.clicked.connect(self.batch_set_category)
         self.batch_category_button.setProperty("class", "primary")
         batch_layout.addWidget(self.batch_category_button)

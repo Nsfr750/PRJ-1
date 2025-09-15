@@ -6,7 +6,7 @@ from PySide6.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushB
 
 # Local imports
 from script.utils.version import __version__
-from script.lang.translations import get_translation
+from script.lang.lang_mgr import get_text
 
 class AboutDialog(QDialog):
     """Custom about dialog with close button."""
@@ -14,9 +14,9 @@ class AboutDialog(QDialog):
     def __init__(self, parent=None, lang='en'):
         super().__init__(parent)
         self.lang = lang
-        self.setWindowTitle(get_translation(lang, 'about.title', 'About'))
-        self.setMinimumSize(400, 300)
+        self.text_browser = None  # Will be set in setup_ui
         self.setup_ui()
+        self.retranslate_ui()
     
     def setup_ui(self):
         layout = QVBoxLayout(self)
@@ -32,23 +32,10 @@ class AboutDialog(QDialog):
             logo_label.setPixmap(pixmap.scaled(96, 96, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
         
         # Create text browser for the about content
-        app_title = get_translation(self.lang, 'app.title', 'Application List')
-        version_text = get_translation(self.lang, 'about.version', 'Version: {version}').format(version=__version__)
-        author_text = get_translation(self.lang, 'about.author', '© {year} Nsfr750 - All rights reserved').format(year=2025)
-        description_text = get_translation(self.lang, 'about.description', 'A comprehensive project management tool helps you discover, organize, and manage your development projects with ease.')
-        github_text = get_translation(self.lang, 'about.github', 'GitHub Repository')
+        self.text_browser = QTextBrowser()
+        self.text_browser.setOpenExternalLinks(True)
+        self.text_browser.setReadOnly(True)
         
-        about_text = f"""
-        <h2 style='text-align: center;'>{app_title}</h2>
-        <p style='text-align: center;'>{version_text}</p>
-        <p style='text-align: center;'>{author_text}</p>
-        <p style='text-align: justify;'>{description_text}</p>
-        """
-        
-        text_browser = QTextBrowser()
-        text_browser.setOpenExternalLinks(True)
-        text_browser.setHtml(about_text)
-        text_browser.setReadOnly(True)
         
         # Add close button with blue background and white text
         button_box = QDialogButtonBox(QDialogButtonBox.StandardButton.Close)
@@ -59,7 +46,7 @@ class AboutDialog(QDialog):
         
         # Add widgets to header layout
         header_layout.addWidget(logo_label)
-        header_layout.addWidget(text_browser, 1)  # 1 = stretch factor
+        header_layout.addWidget(self.text_browser, 1)  # 1 = stretch factor
         
         # Add layouts to main layout
         layout.addLayout(header_layout)
@@ -67,6 +54,32 @@ class AboutDialog(QDialog):
         
         # Set layout
         self.setLayout(layout)
+    
+    def retranslate_ui(self):
+        """Update the UI translations when language changes."""
+        self.setWindowTitle(get_text('about.title', 'About', lang=self.lang))
+        
+        # Create text browser for the about content
+        app_title = get_text('app.title', 'Application List', lang=self.lang)
+        version_text = get_text('about.version', 'Version: {version}', lang=self.lang, version=__version__)
+        author_text = get_text('about.author', '© {year} Nsfr750 - All rights reserved', lang=self.lang, year=2025)
+        description_text = get_text('about.description', 'A comprehensive project management tool helps you discover, organize, and manage your development projects with ease.', lang=self.lang)
+        github_text = get_text('about.github', 'GitHub Repository', lang=self.lang)
+        
+        about_text = f"""
+        <h2 style='text-align: center;'>{app_title}</h2>
+        <p style='text-align: center;'>{version_text}</p>
+        <p style='text-align: center;'>{author_text}</p>
+        <p style='text-align: justify;'>{description_text}</p>
+        """
+        
+        if self.text_browser:
+            self.text_browser.setHtml(about_text)
+    
+    def set_language(self, lang):
+        """Set the language and update translations."""
+        self.lang = lang
+        self.retranslate_ui()
 
 
 def show_about(parent=None, lang='en'):

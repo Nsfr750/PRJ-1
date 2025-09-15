@@ -34,3 +34,79 @@
 2025-09-15 21:14:24 - prj1 - INFO - Starting application event loop
 2025-09-15 21:15:50 - prj1 - INFO - Main window closing
 2025-09-15 21:15:50 - prj1 - INFO - Application exited with code: 0
+2025-09-15 22:07:44 - prj1 - INFO - Starting PRJ-1 application
+2025-09-15 22:07:44 - prj1 - INFO - Initializing application
+2025-09-15 22:07:44 - prj1 - INFO - Application info: Project Browser v0.1.5
+2025-09-15 22:07:44 - prj1 - INFO - Creating main window
+2025-09-15 22:07:44 - prj1 - INFO - Application icon loaded from: X:\GitHub\PRJ-1\assets\logo.png
+2025-09-15 22:07:44 - prj1 - INFO - Background image loaded from: X:\GitHub\PRJ-1\assets\background.png
+2025-09-15 22:07:44 - prj1 - INFO - Starting application event loop
+2025-09-15 22:17:30 - prj1 - INFO - Main window closing
+2025-09-15 22:17:30 - prj1 - INFO - Application exited with code: 0
+2025-09-15 22:17:34 - prj1 - INFO - Starting PRJ-1 application
+2025-09-15 22:17:34 - prj1 - INFO - Initializing application
+2025-09-15 22:17:34 - prj1 - INFO - Application info: Project Browser v0.1.5
+2025-09-15 22:17:34 - prj1 - INFO - Creating main window
+2025-09-15 22:17:34 - prj1 - INFO - Application icon loaded from: X:\GitHub\PRJ-1\assets\logo.png
+2025-09-15 22:17:34 - prj1 - INFO - Background image loaded from: X:\GitHub\PRJ-1\assets\background.png
+2025-09-15 22:17:34 - prj1 - ERROR - Application crashed: 'AppMenuBar' object has no attribute 'lang'
+Traceback (most recent call last):
+  File "X:\GitHub\PRJ-1\main.py", line 152, in main
+    window = MainWindow(lang='en')  # Default to English, can be changed
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "X:\GitHub\PRJ-1\main.py", line 40, in __init__
+    self.init_ui()
+  File "X:\GitHub\PRJ-1\main.py", line 60, in init_ui
+    self.menu_bar = AppMenuBar(self)
+                    ^^^^^^^^^^^^^^^^
+  File "X:\GitHub\PRJ-1\script\ui\menu.py", line 24, in __init__
+    self.setup_menus()
+  File "X:\GitHub\PRJ-1\script\ui\menu.py", line 97, in setup_menus
+    en_action = QAction(get_text('menu.english', 'English', lang=self.lang), self)
+                                                                 ^^^^^^^^^
+AttributeError: 'AppMenuBar' object has no attribute 'lang'
+2025-09-15 22:18:30 - prj1 - INFO - Starting PRJ-1 application
+2025-09-15 22:18:30 - prj1 - INFO - Initializing application
+2025-09-15 22:18:30 - prj1 - INFO - Application info: Project Browser v0.1.5
+2025-09-15 22:18:30 - prj1 - INFO - Creating main window
+2025-09-15 22:18:30 - prj1 - INFO - Application icon loaded from: X:\GitHub\PRJ-1\assets\logo.png
+2025-09-15 22:18:30 - prj1 - INFO - Background image loaded from: X:\GitHub\PRJ-1\assets\background.png
+2025-09-15 22:18:30 - prj1 - INFO - Starting application event loop
+2025-09-15 22:20:19 - prj1 - INFO - Main window closing
+2025-09-15 22:20:19 - prj1 - INFO - Application exited with code: 0
+2025-09-15 22:24:04 - prj1 - INFO - Starting PRJ-1 application
+2025-09-15 22:24:04 - prj1 - INFO - Initializing application
+2025-09-15 22:24:04 - prj1 - INFO - Application info: Project Browser v0.1.5
+2025-09-15 22:24:04 - prj1 - INFO - Creating main window
+2025-09-15 22:24:04 - prj1 - INFO - Application icon loaded from: X:\GitHub\PRJ-1\assets\logo.png
+2025-09-15 22:24:04 - prj1 - INFO - Background image loaded from: X:\GitHub\PRJ-1\assets\background.png
+2025-09-15 22:24:04 - prj1 - INFO - Starting application event loop
+2025-09-15 22:26:30 - prj1 - INFO - Main window closing
+2025-09-15 22:26:30 - prj1 - INFO - Application exited with code: 0
+2025-09-15 22:26:33 - prj1 - INFO - Starting PRJ-1 application
+2025-09-15 22:26:33 - prj1 - INFO - Initializing application
+2025-09-15 22:26:33 - prj1 - INFO - Application info: Project Browser v0.1.5
+2025-09-15 22:26:33 - prj1 - INFO - Creating main window
+2025-09-15 22:26:33 - prj1 - INFO - Application icon loaded from: X:\GitHub\PRJ-1\assets\logo.png
+2025-09-15 22:26:33 - prj1 - INFO - Background image loaded from: X:\GitHub\PRJ-1\assets\background.png
+2025-09-15 22:26:33 - prj1 - INFO - Starting application event loop
+2025-09-15 22:32:33 - prj1 - INFO - Main window closing
+2025-09-15 22:32:33 - prj1 - INFO - Application exited with code: 0
+2025-09-15 22:36:43 - prj1 - INFO - Starting PRJ-1 application
+2025-09-15 22:36:43 - prj1 - INFO - Initializing application
+2025-09-15 22:36:43 - prj1 - INFO - Application info: Project Browser v0.1.5
+2025-09-15 22:36:43 - prj1 - INFO - Creating main window
+2025-09-15 22:36:43 - prj1 - INFO - Application icon loaded from: X:\GitHub\PRJ-1\assets\logo.png
+2025-09-15 22:36:43 - prj1 - INFO - Background image loaded from: X:\GitHub\PRJ-1\assets\background.png
+2025-09-15 22:36:43 - prj1 - INFO - Starting application event loop
+2025-09-15 22:37:28 - prj1 - INFO - Main window closing
+2025-09-15 22:37:28 - prj1 - INFO - Application exited with code: 0
+2025-09-15 22:38:09 - prj1 - INFO - Starting PRJ-1 application
+2025-09-15 22:38:09 - prj1 - INFO - Initializing application
+2025-09-15 22:38:09 - prj1 - INFO - Application info: Project Browser v0.1.5
+2025-09-15 22:38:09 - prj1 - INFO - Creating main window
+2025-09-15 22:38:09 - prj1 - INFO - Application icon loaded from: X:\GitHub\PRJ-1\assets\logo.png
+2025-09-15 22:38:09 - prj1 - INFO - Background image loaded from: X:\GitHub\PRJ-1\assets\background.png
+2025-09-15 22:38:09 - prj1 - INFO - Starting application event loop
+2025-09-15 22:38:28 - prj1 - INFO - Main window closing
+2025-09-15 22:38:28 - prj1 - INFO - Application exited with code: 0

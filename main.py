@@ -57,7 +57,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(central_widget)
         
         # Create menu bar using AppMenuBar
-        self.menu_bar = AppMenuBar(self)
+        self.menu_bar = AppMenuBar(self, lang=self.lang)
         self.setMenuBar(self.menu_bar)
         
         # Connect language change signal

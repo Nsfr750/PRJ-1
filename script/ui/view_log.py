@@ -32,7 +32,7 @@ class LogViewer(QDialog):
     def __init__(self, parent=None, lang='en'):
         super().__init__(parent)
         self.lang = lang
-        self.setWindowTitle(get_text("log_viewer.title", "Log Viewer", lang))
+        self.setWindowTitle(get_text("log_viewer.title", "Log Viewer", lang=self.lang))
         self.setMinimumSize(1000, 700)
         
         # Use absolute path for the logs directory
@@ -118,7 +118,7 @@ class LogViewer(QDialog):
         file_layout = QHBoxLayout()
         
         # Log file selection
-        file_layout.addWidget(QLabel(get_text("log_viewer.select_file", "Select Log File:", self.lang)))
+        file_layout.addWidget(QLabel(get_text("log_viewer.select_file", "Select Log File:", lang=self.lang)))
         
         # Log file dropdown
         self.log_combo = QComboBox()
@@ -127,7 +127,7 @@ class LogViewer(QDialog):
         file_layout.addWidget(self.log_combo, 1)  # Add stretch
         
         # Refresh button
-        self.refresh_btn = QPushButton(get_text("log_viewer.refresh", "&Refresh", self.lang))
+        self.refresh_btn = QPushButton(get_text("log_viewer.refresh", "&Refresh", lang=self.lang))
         self.refresh_btn.setFixedWidth(100)
         self.refresh_btn.clicked.connect(self.refresh_log_list)
         file_layout.addWidget(self.refresh_btn)
@@ -138,7 +138,7 @@ class LogViewer(QDialog):
         filter_layout = QHBoxLayout()
         
         # Log type filter dropdown
-        filter_layout.addWidget(QLabel(get_text("log_viewer.filter_by_type", "Filter by Type:", self.lang)))
+        filter_layout.addWidget(QLabel(get_text("log_viewer.filter_by_type", "Filter by Type:", lang=self.lang)))
         self.type_combo = QComboBox()
         self.type_combo.setMinimumWidth(120)
         self.type_combo.addItems(["ALL", "MAIN", "ERROR", "JSON"])
@@ -146,7 +146,7 @@ class LogViewer(QDialog):
         filter_layout.addWidget(self.type_combo)
         
         # Log level filter dropdown
-        filter_layout.addWidget(QLabel(get_text("log_viewer.filter_by_level", "Filter by Level:", self.lang)))
+        filter_layout.addWidget(QLabel(get_text("log_viewer.filter_by_level", "Filter by Level:", lang=self.lang)))
         self.level_combo = QComboBox()
         self.level_combo.setMinimumWidth(150)
         self.level_combo.addItems(["ALL", "TRACE", "DEBUG", "INFO", "SUCCESS", "WARNING", "ERROR", "CRITICAL"])
@@ -154,9 +154,9 @@ class LogViewer(QDialog):
         filter_layout.addWidget(self.level_combo)
         
         # Search filter
-        filter_layout.addWidget(QLabel(get_text("log_viewer.search", "Search:", self.lang)))
+        filter_layout.addWidget(QLabel(get_text("log_viewer.search", "Search:", lang=self.lang)))
         self.search_input = QLineEdit()
-        self.search_input.setPlaceholderText(get_text("log_viewer.search_placeholder", "Search in logs...", self.lang))
+        self.search_input.setPlaceholderText(get_text("log_viewer.search_placeholder", "Search in logs...", lang=self.lang))
         self.search_input.textChanged.connect(self.apply_filters)
         filter_layout.addWidget(self.search_input, 1)  # Add stretch
         
@@ -174,15 +174,15 @@ class LogViewer(QDialog):
         button_layout = QHBoxLayout()
         
         # Left-aligned action buttons
-        self.clear_btn = QPushButton(get_text("log_viewer.clear", "&Clear Log", self.lang))
+        self.clear_btn = QPushButton(get_text("log_viewer.clear", "&Clear Log", lang=self.lang))
         self.clear_btn.clicked.connect(self.clear_logs)
         button_layout.addWidget(self.clear_btn)
         
-        self.delete_btn = QPushButton(get_text("log_viewer.delete", "&Delete Log", self.lang))
+        self.delete_btn = QPushButton(get_text("log_viewer.delete", "&Delete Log", lang=self.lang))
         self.delete_btn.clicked.connect(self.delete_log)
         button_layout.addWidget(self.delete_btn)
         
-        self.export_btn = QPushButton(get_text("log_viewer.export", "&Export Log", self.lang))
+        self.export_btn = QPushButton(get_text("log_viewer.export", "&Export Log", lang=self.lang))
         self.export_btn.clicked.connect(self.export_log)
         button_layout.addWidget(self.export_btn)
         
@@ -190,7 +190,7 @@ class LogViewer(QDialog):
         button_layout.addStretch()
         
         # Close button on the right
-        self.close_btn = QPushButton(get_text("log_viewer.close", "&Close", self.lang))
+        self.close_btn = QPushButton(get_text("log_viewer.close", "&Close", lang=self.lang))
         self.close_btn.clicked.connect(self.accept)
         button_layout.addWidget(self.close_btn)
         
@@ -242,7 +242,7 @@ class LogViewer(QDialog):
             log.error(f"Error loading log file {log_file_name}: {e}")
             QMessageBox.critical(
                 self,
-                get_text("log_viewer.error", "Error", self.lang),
+                get_text("log_viewer.error", "Error", lang=self.lang),
                 f"Failed to load log file: {str(e)}"
             )
     
@@ -257,16 +257,16 @@ class LogViewer(QDialog):
         
         # Update window title if we have a current log file
         if has_selection and hasattr(self, 'current_log_file') and self.current_log_file:
-            self.setWindowTitle(f"{get_text('log_viewer.title', 'Log Viewer', self.lang)} - {os.path.basename(self.current_log_file)}")
+            self.setWindowTitle(f"{get_text('log_viewer.title', 'Log Viewer', lang=self.lang)} - {os.path.basename(self.current_log_file)}")
         else:
-            self.setWindowTitle(get_text("log_viewer.title", "Log Viewer", self.lang))
+            self.setWindowTitle(get_text("log_viewer.title", "Log Viewer", lang=self.lang))
     
     def clear_logs(self):
         """Clear all log files after confirmation."""
         reply = QMessageBox.question(
             self,
-            get_text("log_viewer.confirm_clear", "Confirm Clear", self.lang),
-            get_text("log_viewer.clear_confirm", "Are you sure you want to clear all log files? This cannot be undone.", self.lang),
+            get_text("log_viewer.confirm_clear", "Confirm Clear", lang=self.lang),
+            get_text("log_viewer.clear_confirm", "Are you sure you want to clear all log files? This cannot be undone.", lang=self.lang),
             QMessageBox.Yes | QMessageBox.No,
             QMessageBox.No
         )
@@ -283,14 +283,14 @@ class LogViewer(QDialog):
                 self.refresh_log_list()
                 QMessageBox.information(
                     self,
-                    get_text("log_viewer.success", "Success", self.lang),
-                    get_text("log_viewer.clear_success", "All log files have been cleared.", self.lang)
+                    get_text("log_viewer.success", "Success", lang=self.lang),
+                    get_text("log_viewer.clear_success", "All log files have been cleared.", lang=self.lang)
                 )
             except Exception as e:
                 log.error(f"Error clearing log files: {e}")
                 QMessageBox.critical(
                     self,
-                    get_text("log_viewer.error", "Error", self.lang),
+                    get_text("log_viewer.error", "Error", lang=self.lang),
                     f"Failed to clear log files: {str(e)}"
                 )
     
@@ -303,8 +303,8 @@ class LogViewer(QDialog):
             if os.path.exists(self.current_log_file):
                 reply = QMessageBox.question(
                     self, 
-                    get_text("log_viewer.confirm_delete", "Confirm Delete", self.lang),
-                    get_text("log_viewer.delete_confirm", f"Are you sure you want to delete {os.path.basename(self.current_log_file)}?", self.lang),
+                    get_text("log_viewer.confirm_delete", "Confirm Delete", lang=self.lang),
+                    get_text("log_viewer.delete_confirm", f"Are you sure you want to delete {os.path.basename(self.current_log_file)}?", lang=self.lang),
                     QMessageBox.Yes | QMessageBox.No,
                     QMessageBox.No
                 )
@@ -315,14 +315,14 @@ class LogViewer(QDialog):
                     self.log_display.clear()
                     QMessageBox.information(
                         self,
-                        get_text("log_viewer.success", "Success", self.lang),
-                        get_text("log_viewer.delete_success", "The log file has been deleted.", self.lang)
+                        get_text("log_viewer.success", "Success", lang=self.lang),
+                        get_text("log_viewer.delete_success", "The log file has been deleted.", lang=self.lang)
                     )
         except Exception as e:
             log.error(f"Error deleting log file: {e}")
             QMessageBox.critical(
                 self,
-                get_text("log_viewer.error", "Error", self.lang),
+                get_text("log_viewer.error", "Error", lang=self.lang),
                 f"Failed to delete log file: {str(e)}"
             )
     
@@ -334,7 +334,7 @@ class LogViewer(QDialog):
         try:
             file_name, _ = QFileDialog.getSaveFileName(
                 self,
-                get_text("log_viewer.export_log", "Export Log", self.lang),
+                get_text("log_viewer.export_log", "Export Log", lang=self.lang),
                 os.path.expanduser(f'~/{os.path.basename(self.current_log_file)}'),
                 'Log Files (*.log);;All Files (*)'
             )
