@@ -1,0 +1,117 @@
+{
+  "version_info": {
+    "version": "0.1.5",
+    "full_version": "0.1.5",
+    "version_info": [
+      0,
+      1,
+      5
+    ],
+    "major": 0,
+    "minor": 1,
+    "patch": 5,
+    "suffix": "",
+    "metadata": ""
+  },
+  "app_info": {
+    "app_name": "PRJ-1",
+    "app_title": "Project Browser",
+    "author": "Nsfr750",
+    "copyright": " 2025 Nsfr750 - All rights reserved",
+    "license": "GPLv3",
+    "organization": "Tuxxle",
+    "description": "A comprehensive project browser and management tool"
+  },
+  "version_history": {
+    "file_path": "x:\\GitHub\\PRJ-1\\data\\version_history.json",
+    "json_file_path": "x:\\GitHub\\PRJ-1\\config\\version.json",
+    "history": [
+      {
+        "version": "0.1.5",
+        "date": "2025-09-16",
+        "changes": [
+          "Refactored update dialog to separate UI component",
+          "Added version history tracking",
+          "Improved translation system for update checker"
+        ],
+        "type": "patch"
+      },
+      {
+        "version": "0.1.4",
+        "date": "2025-09-12",
+        "changes": [
+          "Added multi-language support",
+          "Implemented translation system",
+          "Added Italian language support"
+        ],
+        "type": "minor"
+      },
+      {
+        "version": "0.1.3",
+        "date": "2025-09-10",
+        "changes": [
+          "Added build system integration",
+          "Improved error handling",
+          "Added project statistics"
+        ],
+        "type": "minor"
+      },
+      {
+        "version": "0.1.2",
+        "date": "2025-09-08",
+        "changes": [
+          "Added project categorization",
+          "Implemented favorites system",
+          "Added project tags support"
+        ],
+        "type": "minor"
+      },
+      {
+        "version": "0.1.1",
+        "date": "2025-09-05",
+        "changes": [
+          "Added project search functionality",
+          "Improved UI responsiveness",
+          "Fixed memory leaks"
+        ],
+        "type": "patch"
+      },
+      {
+        "version": "0.1.0",
+        "date": "2025-09-01",
+        "changes": [
+          "Initial release",
+          "Basic project browsing functionality",
+          "Simple UI with project list"
+        ],
+        "type": "initial"
+      }
+    ]
+  },
+  "statistics": {
+    "total_versions": 6,
+    "major_versions": 0,
+    "minor_versions": 3,
+    "patch_versions": 2,
+    "initial_versions": 1,
+    "all_versions": [
+      "0.1.0",
+      "0.1.1",
+      "0.1.2",
+      "0.1.3",
+      "0.1.4",
+      "0.1.5"
+    ]
+  },
+  "latest_version": {
+    "version": "0.1.5",
+    "date": "2025-09-16",
+    "changes": [
+      "Refactored update dialog to separate UI component",
+      "Added version history tracking",
+      "Improved translation system for update checker"
+    ],
+    "type": "patch"
+  },
+  "timestamp": "2025-09-16T13:57:04.281095"
+}

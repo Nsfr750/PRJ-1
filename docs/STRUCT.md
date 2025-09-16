@@ -18,17 +18,38 @@ PRJ-1/
 ├── requirements.txt            # Python dependencies
 ├── README.md                   # Project documentation
 ├── CHANGELOG.md                # Version history
+├── TO_DO.md                    # Task management
 ├── LICENSE                     # GPL v3.0 license
+├── INFO.txt                    # Project information
 ├── nuitka_compiler.py          # Standalone executable compiler
+├── main.spec                   # Nuitka build specification
+├── .gitattributes              # Git configuration
+├── .gitignore                  # Git ignore rules
 ├── data/                       # Persistent data storage
 │   ├── projects.json           # Scanned project data
 │   ├── categories.json         # Project categories
 │   ├── favorites.json          # Favorite projects
 │   ├── notes.json              # Project notes
 │   ├── tags.json               # Project tags
-│   └── recent.json             # Recent projects
+│   ├── recent.json             # Recent projects
+│   ├── dependency_cache.json   # Dependency cache
+│   ├── dependency_stats.json   # Dependency statistics
+│   ├── settings.json           # Application settings
+│   └── updates.json            # Update information
+├── config/                     # Configuration files
+│   ├── settings.json           # User settings
+│   ├── updates.json            # Update configuration
+│   └── version.json            # Version tracking
 ├── script/                     # Application modules
 │   ├── __init__.py             # Package initialization
+│   ├── project_scanner.py      # Project scanning logic
+│   ├── menu.py                 # Application menu
+│   ├── help.py                 # Help system
+│   ├── sponsor.py              # Sponsor dialog
+│   ├── view_log.py             # Log viewer
+│   ├── update.py               # Update system
+│   ├── logger.py               # Logging system
+│   ├── settings.py             # Settings management
 │   ├── ui/                     # User interface components
 │   │   ├── __init__.py         # UI package initialization
 │   │   ├── menu.py             # Application menu
@@ -46,17 +67,34 @@ PRJ-1/
 │   └── utils/                  # Utility modules
 │       ├── __init__.py         # Utils package initialization
 │       ├── logger.py           # Logging configuration
+│       ├── settings.py         # Settings management
 │       ├── updates.py          # Update checking
 │       └── version.py          # Version information
 ├── assets/                     # Application assets
 │   ├── icon.ico                # Application icon
 │   ├── logo.png                # Application logo
+│   ├── main.png                # Main application image
 │   └── background.png          # Background images
 ├── docs/                       # Documentation
+│   ├── User_Guide.md           # User guide
+│   ├── API.md                  # API documentation
+│   ├── CONTRIBUTING.md         # Contributing guide
+│   ├── CODE_OF_CONDUCT.md      # Code of conduct
+│   ├── PREREQUISITES.md        # Prerequisites
+│   ├── INDEX.md                # Documentation index
+│   ├── STRUCT.md               # This structure documentation
 │   ├── ROADMAP.md              # Development roadmap
 │   ├── SECURITY.md             # Security policy
-│   └── STRUCT.md               # This file
+│   └── app_list.md             # Application list
 ├── logs/                       # Application logs
+│   ├── prj_2025-09-15.log      # Application log
+│   ├── prj_2025-09-16.log      # Application log
+│   ├── prj_errors_2025-09-15.log # Error log
+│   └── prj_errors_2025-09-16.log # Error log
+├── backups/                    # Backup files
+│   └── backup_config.json      # Configuration backup
+├── dist/                       # Distribution files
+├── venv/                       # Virtual environment
 └── .github/                    # GitHub configuration
     ├── CODEOWNERS              # Code ownership rules
     └── FUNDING.yml             # Funding configuration
@@ -329,35 +367,79 @@ config/
 
 ```text
 docs/
-├── ROADMAP.md             # Development roadmap
-└── STRUCT.md              # This structure documentation
+├── User_Guide.md           # User guide and manual
+├── API.md                  # API documentation
+├── CONTRIBUTING.md         # Contributing guidelines
+├── CODE_OF_CONDUCT.md      # Code of conduct
+├── PREREQUISITES.md        # System prerequisites
+├── INDEX.md                # Documentation index
+├── STRUCT.md               # This structure documentation
+├── ROADMAP.md              # Development roadmap
+├── SECURITY.md             # Security policy
+└── app_list.md             # Application list
 ```
 
 #### Documentation Files
 
-**`ROADMAP.md`**
+**`User_Guide.md`**
 
-- **Purpose**: Development roadmap and future plans
-- **Contents**: Planned features, release timeline, and vision
+- **Purpose**: Complete user manual and usage instructions
+- **Contents**: Installation guide, feature overview, tutorials, troubleshooting
+- **Audience**: End users and new contributors
+
+**`API.md`**
+
+- **Purpose**: Technical API reference for developers
+- **Contents**: Core classes, UI components, utility modules, data structures
+- **Audience**: Developers and contributors
+
+**`CONTRIBUTING.md`**
+
+- **Purpose**: Contribution guidelines and development workflow
+- **Contents**: Development setup, code standards, pull request process, testing
+- **Audience**: Contributors and developers
+
+**`CODE_OF_CONDUCT.md`**
+
+- **Purpose**: Community guidelines and code of conduct
+- **Contents**: Community pledge, standards of behavior, enforcement guidelines
+- **Audience**: All community members
+
+**`PREREQUISITES.md`**
+
+- **Purpose**: System requirements and setup instructions
+- **Contents**: System requirements, software dependencies, installation steps
+- **Audience**: Users and developers setting up the environment
+
+**`INDEX.md`**
+
+- **Purpose**: Documentation hub and navigation guide
+- **Contents**: Overview of all documentation, quick navigation by role
+- **Audience**: All users seeking documentation
 
 **`STRUCT.md`**
 
 - **Purpose**: Project structure documentation
 - **Contents**: Detailed explanation of project organization and file purposes
+- **Audience**: Developers and maintainers
 
-### `logs/` - Application Logs
+**`ROADMAP.md`**
 
-```text
-logs/
-```
+- **Purpose**: Development roadmap and future plans
+- **Contents**: Planned features, release timeline, project vision
+- **Audience**: Contributors and stakeholders
 
-#### Logging Purpose
+**`SECURITY.md`**
 
-- **Storage**: Application log files
-- **Contents**: Runtime logs, error logs, and debug information
-- **Management**: Automatic log rotation and cleanup
+- **Purpose**: Security policy and vulnerability reporting
+- **Contents**: Security guidelines, vulnerability reporting process
+- **Audience**: Security researchers and contributors
 
-- **Format**: Text files with timestamp entries
+**`app_list.md`**
+
+- **Purpose**: List of applications and tools
+- **Contents**: Application inventory with descriptions
+- **Audience**: Users and developers
 
 ## Data Flow Architecture
 

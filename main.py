@@ -24,8 +24,10 @@ except ImportError:
 
 # Import application modules
 from script.ui.menu import AppMenuBar
-from script.utils.version import __version__
+from script.ui.main_dialog import MainDialog
+from script.utils.version import __version__, save_version_data_to_json
 from script.utils.logger import setup_logger, get_logger
+from script.utils.settings import load_settings, save_settings, get_language, get_window_geometry, set_window_geometry
 
 # Setup logging
 logger = setup_logger('prj1', logging.INFO)
@@ -38,6 +40,73 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.lang = lang
         self.init_ui()
+        self.load_and_apply_settings()
+    
+    def load_and_apply_settings(self):
+        """Load and apply settings to the main window."""
+        try:
+            # Load window geometry settings
+            geometry = get_window_geometry()
+            
+            # Apply window geometry
+            self.setGeometry(geometry['x'], geometry['y'], geometry['width'], geometry['height'])
+            
+            # Apply window state
+            if geometry.get('maximized', False):
+                self.showMaximized()
+            elif geometry.get('fullscreen', False):
+                self.showFullScreen()
+            else:
+                self.showNormal()
+            
+            logger.info(f"Applied window geometry: {geometry['width']}x{geometry['height']} at ({geometry['x']}, {geometry['y']})")
+            
+        except Exception as e:
+            logger.error(f"Error applying settings: {e}")
+            # Use default geometry if settings fail
+            self.setGeometry(100, 100, 1200, 800)
+    
+    def save_window_settings(self):
+        """Save current window settings."""
+        try:
+            # Get current window geometry
+            if self.isMaximized():
+                # If maximized, save the normal geometry (before maximization)
+                geometry = self.normalGeometry()
+                x, y, width, height = geometry.x(), geometry.y(), geometry.width(), geometry.height()
+                maximized = True
+                fullscreen = False
+            elif self.isFullScreen():
+                geometry = self.normalGeometry()
+                x, y, width, height = geometry.x(), geometry.y(), geometry.width(), geometry.height()
+                maximized = False
+                fullscreen = True
+            else:
+                geometry = self.geometry()
+                x, y, width, height = geometry.x(), geometry.y(), geometry.width(), geometry.height()
+                maximized = False
+                fullscreen = False
+            
+            # Save window geometry
+            set_window_geometry(x, y, width, height, maximized, fullscreen)
+            
+            # Save all settings
+            save_settings()
+            
+            logger.info(f"Saved window settings: {width}x{height} at ({x}, {y})")
+            
+        except Exception as e:
+            logger.error(f"Error saving window settings: {e}")
+    
+    def closeEvent(self, event):
+        """Handle window close event."""
+        logger.info("Main window closing")
+        
+        # Save window settings
+        self.save_window_settings()
+        
+        # Accept the close event
+        event.accept()
     
     def init_ui(self):
         """Initialize the user interface."""
@@ -65,10 +134,28 @@ class MainWindow(QMainWindow):
         
         # Create status bar
         self.statusBar().showMessage("Ready")
+        
+        # Show MainDialog centered over background
+        self.show_main_dialog()
+    
+    def show_main_dialog(self):
+        """Show MainDialog centered over the main window background."""
+        try:
+            # Create and show MainDialog with self as parent
+            self.main_dialog = MainDialog(self)
+            self.main_dialog.show()
+            logger.info("MainDialog displayed centered over background")
+        except Exception as e:
+            logger.error(f"Error showing MainDialog: {e}")
     
     def closeEvent(self, event):
         """Handle the close event."""
         logger.info("Main window closing")
+        
+        # Close MainDialog if it exists
+        if hasattr(self, 'main_dialog') and self.main_dialog:
+            self.main_dialog.close()
+        
         event.accept()
     
     def on_language_changed(self):
@@ -80,6 +167,7 @@ class MainWindow(QMainWindow):
         # Update status bar
         self.statusBar().showMessage(get_text('app.ready', 'Ready'))
     
+    # background image
     def set_background_image(self):
         """Set the background image for the main window."""
         try:
@@ -144,12 +232,25 @@ def main():
         
         logger.info(f"Application info: {app.applicationName()} v{app.applicationVersion()}")
         
+        # Save version data to config/version.json
+        logger.info("Saving version data to config/version.json")
+        save_version_data_to_json()
+        
+        # Save settings to config/settings.json
+        logger.info("Saving settings to config/settings.json")
+        save_settings()
+        
         # Set application style
         app.setStyle('Fusion')
         
         # Create and show main window
         logger.info("Creating main window")
-        window = MainWindow(lang='en')  # Default to English, can be changed
+        
+        # Get language from settings
+        app_language = get_language()
+        logger.info(f"Using language from settings: {app_language}")
+        
+        window = MainWindow(lang=app_language)
         window.show()
         
         logger.info("Starting application event loop")

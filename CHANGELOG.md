@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.1.5] - 2025-09-15
+## [0.1.5] - 2025-09-16
 
 ### Added (0.1.5)
 
@@ -14,6 +14,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Language parameter propagation through dashboard dialog and functions
 - Centralized translation keys for all dashboard text elements
 - Runtime language switching capability for dashboard interface
+- Complete documentation system with comprehensive guides:
+  - User Guide (docs/User_Guide.md): Installation, usage, and troubleshooting
+  - API Documentation (docs/API.md): Technical reference for developers
+  - Contributing Guide (docs/CONTRIBUTING.md): Development workflow and guidelines
+  - Code of Conduct (docs/CODE_OF_CONDUCT.md): Community guidelines
+  - Prerequisites (docs/PREREQUISITES.md): System requirements and setup
+  - Documentation Index (docs/INDEX.md): Centralized documentation hub
+  - Project Structure (docs/STRUCT.md): Detailed project organization
+- Enhanced security documentation with updated security features
+- Updated roadmap with current status and future plans
 
 ### Changed (0.1.5)
 
@@ -23,6 +33,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced chart titles and labels with translation support
 - Improved export dialogs and file dialogs with multilingual support
 - Updated HTML report generation with translation integration
+- Updated all documentation files to reflect current project state
+- Enhanced security policy with latest security features
+- Fixed heading level issues in roadmap documentation
+- Updated version information across all documentation files
 
 ### Fixed (0.1.5)
 
@@ -31,6 +45,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved consistency of translation keys across dashboard module
 - Fixed hardcoded strings in chart axis labels and titles
 - Enhanced user feedback messages with proper translation support
+- Fixed KeyError in AboutDialog retranslate_ui method with proper parameter passing
+- Fixed translation parameter handling in HelpDialog for dynamic language changes
+- Enhanced documentation consistency and accuracy across all files
 
 ## [0.1.3] - 2025-09-15
 

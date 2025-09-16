@@ -41,7 +41,7 @@ class AboutDialog(QDialog):
         button_box = QDialogButtonBox(QDialogButtonBox.StandardButton.Close)
         close_button = button_box.button(QDialogButtonBox.StandardButton.Close)
         if close_button:
-            close_button.setStyleSheet("background-color: #0078d4; color: white; padding: 5px 15px; border: none; border-radius: 3px;")
+            close_button.setStyleSheet("background-color: red; color: white; padding: 5px 15px; border: none; border-radius: 3px;")
         button_box.rejected.connect(self.close)
         
         # Add widgets to header layout

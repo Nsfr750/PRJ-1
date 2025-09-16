@@ -1,4 +1,4 @@
-# CODEOWNERS file
+# CODEOWNERS file for PRJ-1 Project Browser
 # This file defines ownership rules for the repository
 # See https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners for details
 
@@ -7,17 +7,33 @@
 
 # Core application files
 main.py @Nsfr750
+nuitka_compiler.py @Nsfr750
+requirements.txt @Nsfr750
+LICENSE @Nsfr750
 
 # Documentation
-docs/ @Nsfr750
 README.md @Nsfr750
+CHANGELOG.md @Nsfr750
+TO_DO.md @Nsfr750
+INFO.txt @Nsfr750
+docs/ @Nsfr750
 
 # Assets and resources
 assets/ @Nsfr750
 
+# Data and configuration
+data/ @Nsfr750
+config/ @Nsfr750
+backups/ @Nsfr750
+
 # Scripts and utilities
 script/ @Nsfr750
 script/ui/ @Nsfr750
+script/lang/ @Nsfr750
+script/utils/ @Nsfr750
+
+# Application logs
+logs/ @Nsfr750
 
 # CI/CD and configuration files
 .github/ @Nsfr750

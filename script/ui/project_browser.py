@@ -92,8 +92,15 @@ class ProjectBrowserDialog(QDialog):
         # Initialize recent projects list
         self.update_recent_projects_list()
         
-        # Don't start scanning automatically - user must click "Start Scan" button
-        self.status_label.setText(get_text("project_browser.ready_scan", "Ready - Click 'Start Scan' to begin scanning projects", lang=self.lang))
+        # Load projects from scanner's cached data
+        self.projects = self.scanner.projects
+        self.filtered_projects = self.projects.copy()
+        self.populate_project_table()
+        
+        if self.projects:
+            self.status_label.setText(get_text("project_browser.projects_loaded", f"Loaded {len(self.projects)} projects from cache", lang=self.lang))
+        else:
+            self.status_label.setText(get_text("project_browser.ready_scan", "Ready - Click 'Start Scan' to begin scanning projects", lang=self.lang))
     
     def closeEvent(self, event):
         """Handle dialog close event to properly clean up threads."""
@@ -539,7 +546,7 @@ class ProjectBrowserDialog(QDialog):
         splitter.addWidget(right_panel)
         
         # Set splitter sizes
-        splitter.setSizes([600, 600])
+        splitter.setSizes([800, 400])
         
         # Bottom buttons
         button_box = self.create_button_box()
@@ -1004,10 +1011,10 @@ class ProjectBrowserDialog(QDialog):
         self.build_system_button.setEnabled(False)
         actions_layout.addWidget(self.build_system_button)
         
-        self.favorite_button = QPushButton("Add to Favorites")
-        self.favorite_button.clicked.connect(self.toggle_favorite)
-        self.favorite_button.setEnabled(False)
-        actions_layout.addWidget(self.favorite_button)
+        #self.favorite_button = QPushButton("Add to Favorites")
+        #self.favorite_button.clicked.connect(self.toggle_favorite)
+        #self.favorite_button.setEnabled(False)
+        #actions_layout.addWidget(self.favorite_button)
         
         layout.addWidget(actions_group)
         
@@ -1233,7 +1240,7 @@ class ProjectBrowserDialog(QDialog):
         if size_bytes == 0:
             return "0 B"
         
-        size_names = ["B", "KB", "MB", "GB", "TB"]
+        size_names = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
         i = 0
         while size_bytes >= 1024 and i < len(size_names) - 1:
             size_bytes /= 1024
@@ -1716,7 +1723,16 @@ class ProjectBrowserDialog(QDialog):
         # Get the selected row
         row = selected_items[0].row()
         name_item = self.project_table.item(row, 1)  # Name is now in column 1
-        self.current_project = name_item.data(Qt.UserRole) if name_item else None
+        minimal_data = name_item.data(Qt.UserRole) if name_item else None
+        
+        # Find the full project data from the projects list using the path
+        self.current_project = None
+        if minimal_data and 'path' in minimal_data:
+            project_path = minimal_data['path']
+            for project in self.projects:
+                if project.get('path') == project_path:
+                    self.current_project = project
+                    break
         
         # Track project access for recent projects
         if self.current_project and self.current_project.get('path'):
@@ -1726,7 +1742,6 @@ class ProjectBrowserDialog(QDialog):
         # Update UI
         self.update_project_details()
         self.enable_project_controls(True)
-        self.update_favorite_button()
     
     def on_project_selection_changed(self):
         """Handle project selection changes in the table."""
@@ -1821,7 +1836,6 @@ class ProjectBrowserDialog(QDialog):
         self.build_system_button.setEnabled(enabled)
         self.edit_notes_button.setEnabled(enabled)
         self.clear_notes_button.setEnabled(enabled)
-        self.favorite_button.setEnabled(enabled)
     
     def open_project_folder(self):
         """Open the selected project folder in file explorer."""
@@ -1851,10 +1865,31 @@ class ProjectBrowserDialog(QDialog):
             elif system == 'windows':
                 # Try Windows Terminal first
                 try:
+                    # Check if wt is available in PATH
+                    subprocess.run(['wt', '--help'], capture_output=True, timeout=2, check=True)
                     subprocess.Popen(['wt', '-d', project_path], shell=True)
+                    return
+                except (subprocess.CalledProcessError, subprocess.TimeoutExpired, FileNotFoundError):
+                    pass
+                
+                # Try Windows Terminal from C:\Windows_Terminal
+                try:
+                    wt_path = r'C:\Windows_Terminal\wt.exe'
+                    if os.path.exists(wt_path):
+                        subprocess.Popen([wt_path, '-d', project_path], shell=True)
+                        return
                 except Exception:
-                    # Fallback to Command Prompt
-                    subprocess.Popen(['cmd', '/k', 'cd', '/d', project_path], shell=True)
+                    pass
+                
+                # Try PowerShell
+                try:
+                    subprocess.Popen(['powershell', '-NoExit', '-Command', f'Set-Location "{project_path}"'], shell=True)
+                    return
+                except Exception:
+                    pass
+                
+                # Fallback to Command Prompt
+                subprocess.Popen(['cmd', '/k', 'cd', '/d', project_path], shell=True)
             else:
                 # Fallback for other systems
                 subprocess.Popen(['cmd', '/k', 'cd', '/d', project_path], shell=True)
@@ -2279,18 +2314,7 @@ class ProjectBrowserDialog(QDialog):
             return
         
         is_favorite = self.scanner.tag_manager.is_favorite_project(project_path)
-        
-        # Handle None case gracefully
-        if is_favorite is None:
-            is_favorite = False
-        
-        if is_favorite:
-            self.favorite_button.setText("Remove from Favorites")
-            self.favorite_button.setStyleSheet("background-color: #ff9800; color: white; font-weight: bold; padding: 5px 15px; border: none; border-radius: 3px;")
-        else:
-            self.favorite_button.setText("Add to Favorites")
-            self.favorite_button.setStyleSheet("")
-    
+            
     def update_recent_projects_list(self):
         """Update the recent projects list widget."""
         self.recent_projects_list.clear()
@@ -2597,7 +2621,7 @@ class ProjectBrowserDialog(QDialog):
         
         try:
             from script.ui.build_system_dialog import BuildSystemDialog
-            dialog = BuildSystemDialog(self.current_project.get('path'), self.current_project, self)
+            dialog = BuildSystemDialog(self.current_project.get('path'), self.current_project, self, lang=self.lang)
             dialog.exec()
         except Exception as e:
             QMessageBox.warning(self, "Error", f"Could not open build system dialog: {str(e)}")

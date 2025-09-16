@@ -11,7 +11,7 @@ This document outlines the security policy and reporting procedures for PRJ-1 - 
 | 0.1.x   | ✅ Yes             |
 | < 0.1.0 | ❌ No              |
 
-## Security Features (v0.1.3)
+## Security Features (v0.1.5)
 
 ### 🔒 Data Protection
 
@@ -19,6 +19,8 @@ This document outlines the security policy and reporting procedures for PRJ-1 - 
 - **No Remote Data Transmission**: No data is sent to external servers without explicit user consent
 - **File Access Control**: Application only accesses files in user-specified directories
 - **Configuration Security**: Sensitive configuration data is stored securely
+- **Automated Backups**: Secure backup of project data and configurations
+- **Data Validation**: Enhanced input validation and sanitization
 
 ### 🛡️ Application Security
 
@@ -27,6 +29,8 @@ This document outlines the security policy and reporting procedures for PRJ-1 - 
 - **Safe File Operations**: All file operations include proper error checking
 - **Memory Management**: Enhanced memory management prevents buffer overflow issues
 - **Null Safety**: Robust null checking prevents crashes and security vulnerabilities
+- **Translation Security**: Secure handling of translation parameters and string formatting
+- **Parameter Validation**: Enhanced validation for function parameters to prevent injection attacks
 
 ### 🔐 Dependency Security
 
@@ -34,6 +38,7 @@ This document outlines the security policy and reporting procedures for PRJ-1 - 
 - **Vulnerability Scanning**: Automated scanning for known vulnerabilities
 - **Minimal Dependencies**: Only essential dependencies are included
 - **Source Verification**: All dependencies are from trusted sources
+- **Security Audits**: Regular security audits of third-party packages
 
 ## Reporting a Vulnerability
 
@@ -252,7 +257,7 @@ We would like to thank all security researchers and users who contribute to the 
 
 ---
 
-**Last Updated**: September 14, 2025  
-**Version**: 0.1.2  
+**Last Updated**: September 16, 2025  
+**Version**: 0.1.5  
 
 © Copyright 2025 Nsfr750 - All rights reserved

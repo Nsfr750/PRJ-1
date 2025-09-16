@@ -175,7 +175,8 @@ TRANSLATIONS = {
                 "paypal": "Donate with PayPal",
                 "donate_paypal": "Donate with PayPal",
                 "copy_monero": "Copy Monero Address",
-                "copied": "Copied!"
+                "copied": "Copied!",
+                "close": "Close"
             },
             "monero": {
                 "label": "Monero:"
@@ -243,6 +244,36 @@ TRANSLATIONS = {
             "toggle_favorite": "⭐ Toggle Favorite",
             "add_tags": "🏷️ Add Tags",
             "set_category": "📁 Set Category"
+        },
+        "update_checker": {
+            "window_title": "Update Checker",
+            "title": "Update Checker",
+            "current_version": "Current Version:",
+            "status": "Status:",
+            "checking": "Checking for updates...",
+            "release_notes": "Release Notes:",
+            "download_update": "Download Update",
+            "check_again": "Check Again",
+            "close": "Close",
+            "failed_to_check": "Failed to check for updates",
+            "connection_error": "Unable to connect to the update server.\nPlease check your internet connection and try again.",
+            "update_available": "Update available: {version}",
+            "latest_version": "You're using the latest version: {version}",
+            "version_info": "Version {version} - {name}",
+            "no_release_notes": "No release notes available.",
+            "already_latest": "You're already using the latest version ({version}).",
+            "latest_release_notes": "Latest release notes:",
+            "console_title": "PRJ-1 Project Browser Update Checker",
+            "console_current_version": "Current Version: {version}",
+            "console_checking": "Checking for updates...",
+            "console_failed": "Failed to check for updates. Please check your internet connection.",
+            "console_latest_version": "Latest Version: {version}",
+            "console_update_available": "✓ Update available! Version {version} is ready to download.",
+            "console_release_notes": "Release Notes:",
+            "console_no_release_notes": "No release notes available.",
+            "console_download": "Download: {url}",
+            "console_latest": "✓ You're using the latest version.",
+            "console_press_enter": "Press Enter to continue..."
         }
     },
     'it': {
@@ -416,7 +447,8 @@ TRANSLATIONS = {
                 "paypal": "Dona con PayPal",
                 "donate_paypal": "Dona con PayPal",
                 "copy_monero": "Copia Indirizzo Monero",
-                "copied": "Copiato!"
+                "copied": "Copiato!",
+                "close": "Chiudi"
             },
             "monero": {
                 "label": "Monero:"
@@ -484,6 +516,36 @@ TRANSLATIONS = {
             "toggle_favorite": "⭐ Toggle Preferito",
             "add_tags": "🏷️ Aggiungi Tag",
             "set_category": "📁 Imposta Categoria"
+        },
+        "update_checker": {
+            "window_title": "Controllo Aggiornamenti",
+            "title": "Controllo Aggiornamenti",
+            "current_version": "Versione Corrente:",
+            "status": "Stato:",
+            "checking": "Controllo aggiornamenti in corso...",
+            "release_notes": "Note di Rilascio:",
+            "download_update": "Scarica Aggiornamento",
+            "check_again": "Controlla Ancora",
+            "close": "Chiudi",
+            "failed_to_check": "Impossibile controllare gli aggiornamenti",
+            "connection_error": "Impossibile connettersi al server degli aggiornamenti.\nControlla la tua connessione internet e riprova.",
+            "update_available": "Aggiornamento disponibile: {version}",
+            "latest_version": "Stai usando l'ultima versione: {version}",
+            "version_info": "Versione {version} - {name}",
+            "no_release_notes": "Nessuna nota di rilascio disponibile.",
+            "already_latest": "Stai già usando l'ultima versione ({version}).",
+            "latest_release_notes": "Ultime note di rilascio:",
+            "console_title": "Controllo Aggiornamenti PRJ-1 Project Browser",
+            "console_current_version": "Versione Corrente: {version}",
+            "console_checking": "Controllo aggiornamenti in corso...",
+            "console_failed": "Impossibile controllare gli aggiornamenti. Controlla la tua connessione internet.",
+            "console_latest_version": "Ultima Versione: {version}",
+            "console_update_available": "✓ Aggiornamento disponibile! La versione {version} è pronta per il download.",
+            "console_release_notes": "Note di Rilascio:",
+            "console_no_release_notes": "Nessuna nota di rilascio disponibile.",
+            "console_download": "Download: {url}",
+            "console_latest": "✓ Stai usando l'ultima versione.",
+            "console_press_enter": "Premi Invio per continuare..."
         }
     }
 }

@@ -1,10 +1,10 @@
 {
-  "last_analysis": "2025-09-15T21:14:55.869783",
-  "total_projects_analyzed": 1,
-  "total_dependencies": 14,
-  "total_outdated": 0,
+  "last_analysis": "2025-09-16T13:11:37.867857",
+  "total_projects_analyzed": 5,
+  "total_dependencies": 68,
+  "total_outdated": 5,
   "total_vulnerabilities": 0,
   "package_managers": {
-    "pip": 1
+    "pip": 5
   }
 }

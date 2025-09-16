@@ -1,24 +1,6 @@
 {
   "projects": [
     {
-      "name": "OpenPGP",
-      "path": "X:\\GitHub\\OpenPGP",
-      "size": 419970,
-      "modified": "2025-08-23T16:40:39.430000",
-      "has_git": true,
-      "has_readme": true,
-      "has_requirements": true,
-      "has_setup": false,
-      "main_file": "main.py",
-      "description": "OpenPGP GUI App",
-      "language": "Python",
-      "version": "2.0.0",
-      "tags": [],
-      "category": "security",
-      "note": "",
-      "is_favorite": false
-    },
-    {
       "name": "PySnoop",
       "path": "X:\\GitHub\\PySnoop",
       "size": 459282,
@@ -34,118 +16,304 @@
       "tags": [],
       "category": "security",
       "note": "",
-      "is_favorite": false
+      "is_favorite": true,
+      "build_system": {
+        "type": "pip",
+        "description": "Python pip build system",
+        "files": [
+          "requirements.txt",
+          "setup.py"
+        ],
+        "patterns_matched": [
+          "dependencies",
+          "install_requires",
+          "dependencies"
+        ],
+        "dependencies": [
+          {
+            "name": "pyserial",
+            "version_spec": ">=3.5",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "lxml",
+            "version_spec": ">=4.6.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "hidapi",
+            "version_spec": ">=0.11.0  # Required for MSR605 USB HID support",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pyusb",
+            "version_spec": ">=1.2.0    # Required for USB device access",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "cryptography",
+            "version_spec": ">=36.0.0  # For secure storage and encryption",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "appdirs",
+            "version_spec": ">=1.4.4  # For cross-platform application directories",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "ttkthemes",
+            "version_spec": ">=3.2.2  # For modern UI theming",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "Pillow",
+            "version_spec": ">=9.0.0  # For image processing (icons, etc.)",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest",
+            "version_spec": ">=6.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest-cov",
+            "version_spec": ">=2.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "mypy",
+            "version_spec": ">=0.910",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "flake8",
+            "version_spec": ">=3.9.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "cryptography",
+            "version_spec": ">=41.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pycryptodome",
+            "version_spec": ">=3.18.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "bcrypt",
+            "version_spec": ">=4.0.1",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "python-dotenv",
+            "version_spec": ">=1.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest",
+            "version_spec": ">=7.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest-cov",
+            "version_spec": ">=3.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest-mock",
+            "version_spec": ">=3.10.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "black",
+            "version_spec": ">=22.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "flake8",
+            "version_spec": ">=4.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "mypy",
+            "version_spec": ">=0.900",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "sphinx",
+            "version_spec": ">=4.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "sphinx-rtd-theme",
+            "version_spec": ">=1.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "hidapi",
+            "version_spec": ">=0.11.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "hid",
+            "version_spec": ">=0.11.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pyserial",
+            "version_spec": ">=3.5",
+            "type": "python",
+            "source": "setup.py"
+          }
+        ],
+        "build_commands": [
+          "pip install -r requirements.txt",
+          "pip install -e .",
+          "python setup.py build"
+        ],
+        "detected_at": "2025-09-16T13:25:55.690424"
+      }
     },
     {
-      "name": "Nidec_CommanderCDE",
-      "path": "X:\\GitHub\\Nidec_CommanderCDE",
-      "size": 26251600,
-      "modified": "2025-07-02T10:51:44.070000",
+      "name": "OpenPGP",
+      "path": "X:\\GitHub\\OpenPGP",
+      "size": 419970,
+      "modified": "2025-08-23T16:40:39.430000",
       "has_git": true,
       "has_readme": true,
       "has_requirements": true,
       "has_setup": false,
       "main_file": "main.py",
-      "description": "Nidec CommanderCDE",
+      "description": "OpenPGP GUI App",
       "language": "Python",
       "version": "2.0.0",
       "tags": [],
-      "category": "tool",
-      "note": "",
-      "is_favorite": false
-    },
-    {
-      "name": "weather",
-      "path": "X:\\GitHub\\weather",
-      "size": 1320417,
-      "modified": "2025-05-26T12:21:20",
-      "has_git": true,
-      "has_readme": true,
-      "has_requirements": true,
-      "has_setup": true,
-      "main_file": "main.py",
-      "description": "🌦️ Weather App",
-      "language": "Python",
-      "version": "1.6.0",
-      "tags": [],
-      "category": "tool",
-      "note": "",
-      "is_favorite": false
-    },
-    {
-      "name": "CDE550-sim",
-      "path": "X:\\GitHub\\CDE550-sim",
-      "size": 100731,
-      "modified": "2025-07-08T11:24:37.190000",
-      "has_git": true,
-      "has_readme": true,
-      "has_requirements": true,
-      "has_setup": false,
-      "main_file": "main.py",
-      "description": "Simulatore Nidec Commander CDE 550",
-      "language": "Python",
-      "version": "2.0.0",
-      "tags": [],
-      "category": "tool",
-      "note": "",
-      "is_favorite": false
-    },
-    {
-      "name": "3D_Filament_Manager",
-      "path": "X:\\GitHub\\3D_Filament_Manager",
-      "size": 1647382,
-      "modified": "2025-06-13T19:22:01.130000",
-      "has_git": true,
-      "has_readme": true,
-      "has_requirements": true,
-      "has_setup": false,
-      "main_file": "main.py",
-      "description": "3D Filament Manager",
-      "language": "Python",
-      "version": "1.0.5",
-      "tags": [],
-      "category": "tool",
-      "note": "",
-      "is_favorite": false
-    },
-    {
-      "name": "MSR605",
-      "path": "X:\\GitHub\\MSR605",
-      "size": 1374422,
-      "modified": "2025-08-23T16:40:39.450000",
-      "has_git": true,
-      "has_readme": true,
-      "has_requirements": true,
-      "has_setup": true,
-      "main_file": "main.py",
-      "description": "MSR605 Card Reader/Writer",
-      "language": "Python",
-      "version": "2.4.1",
-      "tags": [
-        "carding",
-        "encoder"
-      ],
       "category": "security",
       "note": "",
-      "is_favorite": true
-    },
-    {
-      "name": "raspy_utility",
-      "path": "X:\\GitHub\\raspy_utility",
-      "size": 1837635,
-      "modified": "2025-08-23T16:40:39.440000",
-      "has_git": true,
-      "has_readme": true,
-      "has_requirements": true,
-      "has_setup": false,
-      "main_file": "main.py",
-      "description": "Raspberry Pi GPIO Control Center",
-      "language": "Python",
-      "version": "2.0.0",
-      "tags": [],
-      "category": "tool",
-      "note": "",
-      "is_favorite": false
+      "is_favorite": true,
+      "build_system": {
+        "type": "pip",
+        "description": "Python pip build system",
+        "files": [
+          "requirements.txt"
+        ],
+        "patterns_matched": [
+          "dependencies"
+        ],
+        "dependencies": [
+          {
+            "name": "PySide6",
+            "version_spec": ">=6.9.1",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "PySide6-Addons",
+            "version_spec": ">=6.9.1",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "PySide6-Essentials",
+            "version_spec": ">=6.9.1",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "shiboken6",
+            "version_spec": ">=6.9.1",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pgpy",
+            "version_spec": ">=0.5.3",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "cryptography",
+            "version_spec": ">=42.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pyperclip",
+            "version_spec": ">=1.9.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "black",
+            "version_spec": ">=24.3.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest",
+            "version_spec": ">=8.1.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest-qt",
+            "version_spec": ">=4.2.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "wand",
+            "version_spec": ">=0.6.11",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest-cov",
+            "version_spec": ">=4.1.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest-mock",
+            "version_spec": ">=3.12.0",
+            "type": "python",
+            "source": "requirements.txt"
+          }
+        ],
+        "build_commands": [
+          "pip install -r requirements.txt",
+          "pip install -e .",
+          "python setup.py build"
+        ],
+        "detected_at": "2025-09-16T13:25:55.691424"
+      }
     },
     {
       "name": "Images-Deduplicator",
@@ -163,7 +331,976 @@
       "tags": [],
       "category": "tool",
       "note": "",
-      "is_favorite": false
+      "is_favorite": false,
+      "build_system": {
+        "type": "pip",
+        "description": "Python pip build system",
+        "files": [
+          "requirements.txt",
+          "setup.py"
+        ],
+        "patterns_matched": [
+          "dependencies",
+          "install_requires",
+          "dependencies"
+        ],
+        "dependencies": [
+          {
+            "name": "Wand",
+            "version_spec": ">=0.6.11                    # Image processing (requires ImageMagick)",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "ImageHash",
+            "version_spec": ">=4.3.1                # Perceptual hashing",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "PyQt6",
+            "version_spec": ">=6.4.0                    # GUI framework",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "requests",
+            "version_spec": ">=2.31.0                # HTTP requests",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "qrcode",
+            "version_spec": ">=7.4.2                   # QR code generation for sponsor links",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "psutil",
+            "version_spec": ">=5.9.0                   # System information",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "send2trash",
+            "version_spec": ">=1.8.0               # Safe file operations",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pywin32",
+            "version_spec": ">=306; sys_platform == 'win32'  # Windows API integration",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest",
+            "version_spec": ">=7.4.0                   # Testing framework",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest-qt",
+            "version_spec": ">=4.2.0                # Qt testing",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest-cov",
+            "version_spec": ">=4.1.0               # Test coverage",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "black",
+            "version_spec": ">=23.7.0                   # Code formatting",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "mypy",
+            "version_spec": ">=1.5.0                     # Static type checking",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "flake8",
+            "version_spec": ">=6.1.0                   # Linting",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "isort",
+            "version_spec": ">=5.12.0                   # Import sorting",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "Sphinx",
+            "version_spec": ">=7.0.0                   # Documentation generator",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "sphinx-rtd-theme",
+            "version_spec": ">=1.3.0         # Documentation theme",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "sphinx-autodoc-typehints",
+            "version_spec": ">=1.24.0  # Type hints support",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "myst-parser",
+            "version_spec": ">=1.0.0             # Markdown support",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pyinstaller",
+            "version_spec": ">=5.12.0             # Creating standalone executables",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "setuptools",
+            "version_spec": ">=68.0.0              # Package building",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "wheel",
+            "version_spec": ">=0.41.0                   # Built-package format",
+            "type": "python",
+            "source": "requirements.txt"
+          }
+        ],
+        "build_commands": [
+          "pip install -r requirements.txt",
+          "pip install -e .",
+          "python setup.py build"
+        ],
+        "detected_at": "2025-09-16T13:25:55.692425"
+      }
+    },
+    {
+      "name": "MSR605",
+      "path": "X:\\GitHub\\MSR605",
+      "size": 1374422,
+      "modified": "2025-08-23T16:40:39.450000",
+      "has_git": true,
+      "has_readme": true,
+      "has_requirements": true,
+      "has_setup": true,
+      "main_file": "main.py",
+      "description": "MSR605 Card Reader/Writer",
+      "language": "Python",
+      "version": "2.4.1",
+      "tags": [
+        "security",
+        "carding",
+        "encoder"
+      ],
+      "category": "security",
+      "note": "",
+      "is_favorite": true,
+      "build_system": {
+        "type": "pip",
+        "description": "Python pip build system",
+        "files": [
+          "requirements.txt",
+          "setup.py",
+          "pyproject.toml"
+        ],
+        "patterns_matched": [
+          "dependencies",
+          "\\[build-system\\]"
+        ],
+        "dependencies": [
+          {
+            "name": "pyserial",
+            "version_spec": ">=3.5,<4.0  # For MSR605 communication",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "cryptography",
+            "version_spec": ">=45.0.0,<46.0.0  # For encryption/decryption (AES, DES, 3DES)",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "wand",
+            "version_spec": ">=0.6.13,<0.7.0  # For image processing (Pillow alternative)",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pywin32",
+            "version_spec": ">=306,<308; sys_platform == 'win32'  # For Windows-specific functionality",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "qrcode",
+            "version_spec": ">=7.4.0,<8.0.0  # For QR code generation",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "requests",
+            "version_spec": ">=2.32.4,<3.0.0  # For HTTP requests",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "psutil",
+            "version_spec": ">=5.9.0,<6.0.0  # For system monitoring",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "python-dotenv",
+            "version_spec": ">=1.0.0,<2.0.0  # Environment variable management",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "send2trash",
+            "version_spec": ">=1.8.0,<2.0.0  # For safe file deletion",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "PyQt6",
+            "version_spec": ">=6.7.0,<6.8.0  # Core GUI framework (includes PyQt6-sip)",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "PyQt6-Qt6",
+            "version_spec": ">=6.7.0,<6.8.0  # Qt6 runtime",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "PyQt6-WebEngine",
+            "version_spec": ">=6.7.0,<6.8.0  # Web engine for PyQt6 (includes WebEngineWidgets)",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "SpeechRecognition",
+            "version_spec": ">=3.10.0,<4.0.0  # For voice command functionality",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "PyAudio",
+            "version_spec": ">=0.2.13,<0.3.0; sys_platform != 'linux'  # Required for microphone access",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest",
+            "version_spec": ">=8.2.0,<9.0.0  # For running tests",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest-qt",
+            "version_spec": ">=4.4.0,<5.0.0  # Qt testing support",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest-cov",
+            "version_spec": ">=5.0.0,<6.0.0  # Test coverage reporting",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest-xdist",
+            "version_spec": ">=3.6.0,<4.0.0  # Parallel test execution",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "black",
+            "version_spec": ">=24.4.0,<25.0.0  # Code formatting",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "flake8",
+            "version_spec": ">=7.1.0,<8.0.0  # Linting",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "mypy",
+            "version_spec": ">=1.10.0,<2.0.0  # Static type checking",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pre-commit",
+            "version_spec": ">=3.7.0,<4.0.0  # Git hooks for code quality",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "matplotlib",
+            "version_spec": ">=3.8.0,<4.0.0  # For creating static, animated, and interactive visualizations",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "seaborn",
+            "version_spec": ">=0.13.0,<0.14.0  # Statistical data visualization",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "plotly",
+            "version_spec": ">=5.18.0,<6.0.0  # Interactive visualizations for the web",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "setuptools",
+            "version_spec": ">=70.0.0,<71.0.0  # Package building",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "twine",
+            "version_spec": ">=5.0.0,<6.0.0  # Package publishing",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "wheel",
+            "version_spec": ">=0.43.0,<0.44.0  # Built-package format",
+            "type": "python",
+            "source": "requirements.txt"
+          }
+        ],
+        "build_commands": [
+          "pip install -r requirements.txt",
+          "pip install -e .",
+          "python setup.py build"
+        ],
+        "detected_at": "2025-09-16T13:25:55.694426"
+      }
+    },
+    {
+      "name": "weather",
+      "path": "X:\\GitHub\\weather",
+      "size": 1320417,
+      "modified": "2025-05-26T12:21:20",
+      "has_git": true,
+      "has_readme": true,
+      "has_requirements": true,
+      "has_setup": true,
+      "main_file": "main.py",
+      "description": "🌦️ Weather App",
+      "language": "Python",
+      "version": "1.6.0",
+      "tags": [],
+      "category": "tool",
+      "note": "",
+      "is_favorite": false,
+      "build_system": {
+        "type": "pip",
+        "description": "Python pip build system",
+        "files": [
+          "requirements.txt",
+          "setup.py",
+          "pyproject.toml"
+        ],
+        "patterns_matched": [
+          "install_requires",
+          "dependencies",
+          "dependencies",
+          "\\[build-system\\]"
+        ],
+        "dependencies": [
+          {
+            "name": "requests",
+            "version_spec": ">=2.31.0,<3.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "wand",
+            "version_spec": ">=0.6.11,<1.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "qrcode",
+            "version_spec": ">=7.4.2,<8.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pyperclip",
+            "version_spec": ">=1.8.2,<2.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pywin32",
+            "version_spec": ">=306,<308; sys_platform == 'win32'",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "psutil",
+            "version_spec": ">=5.9.5,<6.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "PyQt6",
+            "version_spec": ">=6.5.0,<7.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "PyQt6-Qt6",
+            "version_spec": ">=6.5.0,<7.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "PyQt6-sip",
+            "version_spec": ">=13.5.0,<14.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "PyQt6-WebEngine",
+            "version_spec": ">=6.5.0,<7.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "python-dotenv",
+            "version_spec": ">=1.0.0,<2.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytz",
+            "version_spec": ">=2023.3,<2024.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "python-dateutil",
+            "version_spec": ">=2.8.2,<3.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "send2trash",
+            "version_spec": ">=1.8.3,<2.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "aiohttp",
+            "version_spec": ">=3.12.15,<4.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "nest_asyncio",
+            "version_spec": ">=1.6.0,<2.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "markdown",
+            "version_spec": ">=3.4.0,<4.0.0  # For documentation viewer",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "folium",
+            "version_spec": ">=0.15.0,<1.0.0  # For interactive maps",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "PyQtWebEngine",
+            "version_spec": ">=6.5.0,<7.0.0  # For web view in maps dialog",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "geopy",
+            "version_spec": ">=2.4.1,<3.0.0  # For geocoding in maps dialog",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "tzlocal",
+            "version_spec": ">=5.3.1,<6.0.0  # For geocoding in maps dialog",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pyowm",
+            "version_spec": ">=3.3.0,<4.0.0  # For weather data in maps dialog",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pyowm-stations",
+            "version_spec": ">=3.3.0,<4.0.0  # For weather data in maps dialog",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "timezonefinder",
+            "version_spec": ">=7.0.1,<8.0.0  # For geocoding in maps dialog",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest",
+            "version_spec": ">=7.4.0,<8.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest-cov",
+            "version_spec": ">=4.1.0,<5.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest-mock",
+            "version_spec": ">=3.11.1,<4.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest-qt",
+            "version_spec": ">=4.2.0,<5.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest-xdist",
+            "version_spec": ">=3.3.0,<4.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest-asyncio",
+            "version_spec": ">=1.1.0,<2.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "black",
+            "version_spec": ">=23.7.0,<24.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "isort",
+            "version_spec": ">=5.12.0,<6.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "flake8",
+            "version_spec": ">=6.1.0,<7.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "mypy",
+            "version_spec": ">=1.5.0,<2.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "types-requests",
+            "version_spec": ">=2.31.0.1,<3.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pre-commit",
+            "version_spec": ">=3.3.3,<4.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "mkdocs",
+            "version_spec": ">=1.5.2,<2.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "mkdocs-material",
+            "version_spec": ">=9.1.21,<10.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "sphinx",
+            "version_spec": ">=7.1.2,<8.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "sphinx-rtd-theme",
+            "version_spec": ">=1.3.0,<2.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "sphinx-autodoc-typehints",
+            "version_spec": ">=1.24.0,<2.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "docker",
+            "version_spec": ">=6.1.3,<7.0.0  # For containerization",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pandas",
+            "version_spec": ">=2.0.0,<3.0.0  # For data analysis and export",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "matplotlib",
+            "version_spec": ">=3.7.0,<4.0.0  # For data visualization",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "setuptools",
+            "version_spec": ">=67.0.0,<68.0.0 # Setup package",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "wheel",
+            "version_spec": ">=0.42.0,<0.43.0 # Build package",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "nuitka",
+            "version_spec": ">=0.7.0,<0.8.0 # Nuitka",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "build",
+            "version_spec": ">=0.7.0,<0.8.0 # Build package",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "twine",
+            "version_spec": ">=4.0.0,<5.0.0 # PyPI",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "keyring",
+            "version_spec": ">=23.7.0,<24.0.0 #PyPI",
+            "type": "python",
+            "source": "requirements.txt"
+          }
+        ],
+        "build_commands": [
+          "pip install -r requirements.txt",
+          "pip install -e .",
+          "python setup.py build"
+        ],
+        "detected_at": "2025-09-16T13:25:55.707016"
+      }
+    },
+    {
+      "name": "CDE550-sim",
+      "path": "X:\\GitHub\\CDE550-sim",
+      "size": 100731,
+      "modified": "2025-07-08T11:24:37.190000",
+      "has_git": true,
+      "has_readme": true,
+      "has_requirements": true,
+      "has_setup": false,
+      "main_file": "main.py",
+      "description": "Simulatore Nidec Commander CDE 550",
+      "language": "Python",
+      "version": "2.0.0",
+      "tags": [],
+      "category": "tool",
+      "note": "",
+      "is_favorite": false,
+      "build_system": {
+        "type": "pip",
+        "description": "Python pip build system",
+        "files": [
+          "requirements.txt"
+        ],
+        "patterns_matched": [],
+        "dependencies": [
+          {
+            "name": "PyQt6",
+            "version_spec": ">=6.4.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pyserial",
+            "version_spec": ">=3.5",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "setuptools",
+            "version_spec": ">=65.5.0",
+            "type": "python",
+            "source": "requirements.txt"
+          }
+        ],
+        "build_commands": [
+          "pip install -r requirements.txt",
+          "pip install -e .",
+          "python setup.py build"
+        ],
+        "detected_at": "2025-09-16T13:25:55.716726"
+      }
+    },
+    {
+      "name": "Nidec_CommanderCDE",
+      "path": "X:\\GitHub\\Nidec_CommanderCDE",
+      "size": 26251600,
+      "modified": "2025-07-02T10:51:44.070000",
+      "has_git": true,
+      "has_readme": true,
+      "has_requirements": true,
+      "has_setup": false,
+      "main_file": "main.py",
+      "description": "Nidec CommanderCDE",
+      "language": "Python",
+      "version": "2.0.0",
+      "tags": [],
+      "category": "tool",
+      "note": "",
+      "is_favorite": false,
+      "build_system": {
+        "type": "pip",
+        "description": "Python pip build system",
+        "files": [
+          "requirements.txt"
+        ],
+        "patterns_matched": [],
+        "dependencies": [
+          {
+            "name": "PyQt6",
+            "version_spec": ">=6.6.1",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "PyQt6-QScintilla",
+            "version_spec": ">=2.14.1  # QScintilla for PyQt6",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pyserial",
+            "version_spec": ">=3.5",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pymodbus",
+            "version_spec": ">=3.5.4",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "python-dotenv",
+            "version_spec": ">=1.0.0  # For environment variables",
+            "type": "python",
+            "source": "requirements.txt"
+          }
+        ],
+        "build_commands": [
+          "pip install -r requirements.txt",
+          "pip install -e .",
+          "python setup.py build"
+        ],
+        "detected_at": "2025-09-16T13:25:55.720729"
+      }
+    },
+    {
+      "name": "raspy_utility",
+      "path": "X:\\GitHub\\raspy_utility",
+      "size": 1837635,
+      "modified": "2025-08-23T16:40:39.440000",
+      "has_git": true,
+      "has_readme": true,
+      "has_requirements": true,
+      "has_setup": false,
+      "main_file": "main.py",
+      "description": "Raspberry Pi GPIO Control Center",
+      "language": "Python",
+      "version": "2.0.0",
+      "tags": [],
+      "category": "tool",
+      "note": "",
+      "is_favorite": false,
+      "build_system": {
+        "type": "pip",
+        "description": "Python pip build system",
+        "files": [
+          "requirements.txt"
+        ],
+        "patterns_matched": [],
+        "dependencies": [
+          {
+            "name": "PySide6",
+            "version_spec": ">=6.5.0       # Modern Qt-based GUI framework",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "Wand",
+            "version_spec": ">=0.6.11         # Image processing based on ImageMagick",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "Flask",
+            "version_spec": "==2.0.1         # Web framework for the REST API",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "Werkzeug",
+            "version_spec": "==2.0.3      # WSGI utility library for Flask",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "Flask-CORS",
+            "version_spec": ">=3.0.10   # Cross-Origin Resource Sharing support",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "requests",
+            "version_spec": ">=2.27.1     # HTTP client for API communication",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "RPi.GPIO",
+            "version_spec": ">=0.7.0      # Raspberry Pi GPIO access (optional, for hardware)",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "urllib3",
+            "version_spec": ">=1.26.0      # URL handling",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest",
+            "version_spec": ">=6.2.5         # Testing framework",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest-cov",
+            "version_spec": ">=2.12.1   # Coverage reporting",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "black",
+            "version_spec": ">=21.12b0       # Code formatter",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "flake8",
+            "version_spec": ">=4.0.1        # Linter",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "isort",
+            "version_spec": ">=5.10.1        # Import sorter",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "sphinx",
+            "version_spec": ">=4.3.2         # Documentation generator",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "sphinx-rtd-theme",
+            "version_spec": ">=1.0.0  # ReadTheDocs theme",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "python-dotenv",
+            "version_spec": ">=0.19.2  # Load environment variables from .env file",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest-mock",
+            "version_spec": ">=3.10.0   # Mocking for tests",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pyyaml",
+            "version_spec": ">=6.0          # YAML parser and emitter",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "click",
+            "version_spec": ">=8.0.3         # Command line interface creation kit",
+            "type": "python",
+            "source": "requirements.txt"
+          }
+        ],
+        "build_commands": [
+          "pip install -r requirements.txt",
+          "pip install -e .",
+          "python setup.py build"
+        ],
+        "detected_at": "2025-09-16T13:25:55.732431"
+      }
     },
     {
       "name": "PDF_finder",
@@ -181,43 +1318,223 @@
       "tags": [],
       "category": "tool",
       "note": "",
-      "is_favorite": false
-    },
-    {
-      "name": "benchmark",
-      "path": "X:\\GitHub\\benchmark",
-      "size": 561384,
-      "modified": "2025-08-28T07:45:59.280000",
-      "has_git": true,
-      "has_readme": true,
-      "has_requirements": true,
-      "has_setup": true,
-      "main_file": "main.py",
-      "description": "![Logo](assets/logo.png) PyBench",
-      "language": "Python",
-      "version": "1.3.0",
-      "tags": [],
-      "category": "tool",
-      "note": "",
-      "is_favorite": false
-    },
-    {
-      "name": "Onvif",
-      "path": "X:\\GitHub\\Onvif",
-      "size": 62015,
-      "modified": "2025-05-26T12:20:50",
-      "has_git": false,
-      "has_readme": true,
-      "has_requirements": true,
-      "has_setup": false,
-      "main_file": "main.py",
-      "description": "ONVIF Camera GUI",
-      "language": "Python",
-      "version": "2.0.0",
-      "tags": [],
-      "category": "tool",
-      "note": "",
-      "is_favorite": false
+      "is_favorite": false,
+      "build_system": {
+        "type": "pip",
+        "description": "Python pip build system",
+        "files": [
+          "requirements.txt",
+          "setup.py",
+          "pyproject.toml"
+        ],
+        "patterns_matched": [
+          "dependencies",
+          "install_requires",
+          "dependencies",
+          "dependencies",
+          "\\[build-system\\]"
+        ],
+        "dependencies": [
+          {
+            "name": "PyPDF2",
+            "version_spec": ">=3.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "imagehash",
+            "version_spec": ">=4.3.1",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "requests",
+            "version_spec": ">=2.31.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "PyMuPDF",
+            "version_spec": ">=1.21.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "numpy",
+            "version_spec": ">=1.21.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "qrcode",
+            "version_spec": ">=7.3.1",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "wand",
+            "version_spec": ">=0.6.10",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "markdown",
+            "version_spec": ">=3.8.2",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pyyaml",
+            "version_spec": ">=6.0.2",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pymdown-extensions",
+            "version_spec": ">=9.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "opencv-python-headless",
+            "version_spec": ">=4.8.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "PyQt6",
+            "version_spec": ">=6.4.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "PyQt6-Qt6",
+            "version_spec": ">=6.4.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "PyQt6-sip",
+            "version_spec": ">=13.4.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "PyQt6-WebEngine",
+            "version_spec": ">=6.4.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "ttkthemes",
+            "version_spec": ">=3.2.2",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "send2trash",
+            "version_spec": ">=1.8.2",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "python-dotenv",
+            "version_spec": ">=0.19.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "tqdm",
+            "version_spec": ">=4.67.1",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pywin32",
+            "version_spec": ">=303; sys_platform == 'win32'",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pyobjc",
+            "version_spec": ">=8.0; sys_platform == 'darwin'",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pycairo",
+            "version_spec": ">=1.20.0; sys_platform == 'linux'",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "psutil",
+            "version_spec": ">=5.9.8",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest",
+            "version_spec": ">=8.1.1",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest-qt",
+            "version_spec": ">=4.2.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest-cov",
+            "version_spec": ">=4.1.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "black",
+            "version_spec": ">=24.4.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "flake8",
+            "version_spec": ">=7.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "mypy",
+            "version_spec": ">=1.9.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pre-commit",
+            "version_spec": ">=3.7.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "types-PyYAML",
+            "version_spec": ">=6.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "types-requests",
+            "version_spec": ">=2.31.0",
+            "type": "python",
+            "source": "requirements.txt"
+          }
+        ],
+        "build_commands": [
+          "pip install -r requirements.txt",
+          "pip install -e .",
+          "python setup.py build"
+        ],
+        "detected_at": "2025-09-16T13:25:55.739438"
+      }
     },
     {
       "name": "NFC",
@@ -235,7 +1552,647 @@
       "tags": [],
       "category": "security",
       "note": "",
-      "is_favorite": true
+      "is_favorite": true,
+      "build_system": {
+        "type": "pip",
+        "description": "Python pip build system",
+        "files": [
+          "requirements.txt",
+          "setup.py",
+          "pyproject.toml"
+        ],
+        "patterns_matched": [
+          "install_requires",
+          "dependencies",
+          "\\[build-system\\]"
+        ],
+        "dependencies": [
+          {
+            "name": "PySide6",
+            "version_spec": ">=6.4.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "nfcpy",
+            "version_spec": ">=1.0.4",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "ndeflib",
+            "version_spec": ">=0.3.1",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pyserial",
+            "version_spec": ">=3.5",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pyudev",
+            "version_spec": ">=0.22",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pyusb",
+            "version_spec": ">=1.2.1",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pywinusb",
+            "version_spec": ">=0.4.2; sys_platform == 'win32'",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pywin32",
+            "version_spec": ">=306; sys_platform == 'win32'",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "Wand",
+            "version_spec": ">=0.6.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "libusb",
+            "version_spec": ">=1.0.27.post4",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "sqlalchemy",
+            "version_spec": ">=2.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest",
+            "version_spec": ">=7.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest-qt",
+            "version_spec": ">=4.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "black",
+            "version_spec": ">=23.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "flake8",
+            "version_spec": ">=6.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "isort",
+            "version_spec": ">=5.12.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "mypy",
+            "version_spec": ">=1.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pyinstaller",
+            "version_spec": ">=5.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pyinstaller-hooks-contrib",
+            "version_spec": ">=2023.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "PySide6",
+            "version_spec": ">=6.4.0",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "nfcpy",
+            "version_spec": ">=1.0.4",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "ndeflib",
+            "version_spec": ">=0.3.1",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "pyserial",
+            "version_spec": ">=3.5",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "pyudev",
+            "version_spec": ">=0.22",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "pyusb",
+            "version_spec": ">=1.2.1",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "pywinusb",
+            "version_spec": ">=0.4.2; sys_platform ==",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "pywin32",
+            "version_spec": ">=306; sys_platform ==",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "Wand",
+            "version_spec": ">=0.6.0",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "libusb",
+            "version_spec": ">=1.0.27.post4",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "sqlalchemy",
+            "version_spec": ">=2.0.0",
+            "type": "python",
+            "source": "setup.py"
+          }
+        ],
+        "build_commands": [
+          "pip install -r requirements.txt",
+          "pip install -e .",
+          "python setup.py build"
+        ],
+        "detected_at": "2025-09-16T13:25:55.762541"
+      }
+    },
+    {
+      "name": "benchmark",
+      "path": "X:\\GitHub\\benchmark",
+      "size": 561384,
+      "modified": "2025-08-28T07:45:59.280000",
+      "has_git": true,
+      "has_readme": true,
+      "has_requirements": true,
+      "has_setup": true,
+      "main_file": "main.py",
+      "description": "![Logo](assets/logo.png) PyBench",
+      "language": "Python",
+      "version": "1.3.0",
+      "tags": [],
+      "category": "tool",
+      "note": "",
+      "is_favorite": true,
+      "build_system": {
+        "type": "pip",
+        "description": "Python pip build system",
+        "files": [
+          "requirements.txt",
+          "setup.py"
+        ],
+        "patterns_matched": [
+          "install_requires",
+          "dependencies"
+        ],
+        "dependencies": [
+          {
+            "name": "PySide6",
+            "version_spec": ">=6.5.0,<7.0.0  # GUI Framework",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "wand",
+            "version_spec": ">=0.6.10,<0.7.0    # Image processing (replaces PIL)",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pywin32",
+            "version_spec": ">=306,<308; platform_system == \"Windows\"",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "psutil",
+            "version_spec": ">=5.9.5,<6.0.0   # System monitoring",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "py-cpuinfo",
+            "version_spec": ">=9.0.0,<10.0.0  # CPU information",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "wmi",
+            "version_spec": ">=1.5.1,<2.0.0; platform_system == \"Windows\"",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "numpy",
+            "version_spec": ">=2.0.2,<3.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pandas",
+            "version_spec": ">=2.0.0,<3.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "matplotlib",
+            "version_spec": ">=3.7.0,<4.0.0  # Data visualization",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest",
+            "version_spec": ">=7.0.0,<8.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest-cov",
+            "version_spec": ">=4.0.0,<5.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "black",
+            "version_spec": ">=23.0.0,<24.0.0  # Code formatting",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "flake8",
+            "version_spec": ">=6.0.0,<7.0.0   # Linting",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "mypy",
+            "version_spec": ">=1.0.0,<2.0.0     # Type checking",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "black",
+            "version_spec": ">=23.3.0,<24.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "flake8",
+            "version_spec": ">=6.0.0,<7.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "mypy",
+            "version_spec": ">=1.0.0,<2.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "isort",
+            "version_spec": ">=5.12.0,<6.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "requests",
+            "version_spec": ">=2.31.0,<3.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "python-dateutil",
+            "version_spec": ">=2.8.2,<3.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "PySide6",
+            "version_spec": ">=6.5.0,<7.0.0",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "wand",
+            "version_spec": ">=0.6.10,<0.7.0",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "pywin32",
+            "version_spec": ">=306,<308; platform_system ==",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "psutil",
+            "version_spec": ">=5.9.5,<6.0.0",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "py-cpuinfo",
+            "version_spec": ">=9.0.0,<10.0.0",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "wmi",
+            "version_spec": ">=1.5.1,<2.0.0; platform_system ==",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "numpy",
+            "version_spec": ">=2.0.2,<3.0.0",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "pandas",
+            "version_spec": ">=2.0.0,<3.0.0",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "matplotlib",
+            "version_spec": ">=3.7.0,<4.0.0",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "requests",
+            "version_spec": ">=2.31.0,<3.0.0",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "python-dateutil",
+            "version_spec": ">=2.8.2,<3.0.0",
+            "type": "python",
+            "source": "setup.py"
+          }
+        ],
+        "build_commands": [
+          "pip install -r requirements.txt",
+          "pip install -e .",
+          "python setup.py build"
+        ],
+        "detected_at": "2025-09-16T13:25:55.769577"
+      }
+    },
+    {
+      "name": "Onvif",
+      "path": "X:\\GitHub\\Onvif",
+      "size": 62015,
+      "modified": "2025-05-26T12:20:50",
+      "has_git": false,
+      "has_readme": true,
+      "has_requirements": true,
+      "has_setup": false,
+      "main_file": "main.py",
+      "description": "ONVIF Camera GUI",
+      "language": "Python",
+      "version": "2.0.0",
+      "tags": [],
+      "category": "tool",
+      "note": "",
+      "is_favorite": false,
+      "build_system": {
+        "type": "pip",
+        "description": "Python pip build system",
+        "files": [
+          "requirements.txt"
+        ],
+        "patterns_matched": [],
+        "dependencies": [
+          {
+            "name": "onvif-zeep",
+            "version_spec": "",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "Pillow",
+            "version_spec": "",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "opencv-python",
+            "version_spec": "",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "requests",
+            "version_spec": "",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "numpy",
+            "version_spec": "",
+            "type": "python",
+            "source": "requirements.txt"
+          }
+        ],
+        "build_commands": [
+          "pip install -r requirements.txt",
+          "pip install -e .",
+          "python setup.py build"
+        ],
+        "detected_at": "2025-09-16T13:25:55.780734"
+      }
+    },
+    {
+      "name": "3D_Filament_Manager",
+      "path": "X:\\GitHub\\3D_Filament_Manager",
+      "size": 1647382,
+      "modified": "2025-06-13T19:22:01.130000",
+      "has_git": true,
+      "has_readme": true,
+      "has_requirements": true,
+      "has_setup": false,
+      "main_file": "main.py",
+      "description": "3D Filament Manager",
+      "language": "Python",
+      "version": "1.0.5",
+      "tags": [],
+      "category": "tool",
+      "note": "",
+      "is_favorite": false,
+      "build_system": {
+        "type": "pip",
+        "description": "Python pip build system",
+        "files": [
+          "requirements.txt"
+        ],
+        "patterns_matched": [
+          "dependencies"
+        ],
+        "dependencies": [
+          {
+            "name": "lxml",
+            "version_spec": ">=4.9.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pyinstaller",
+            "version_spec": "==6.3.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "Pillow",
+            "version_spec": "==10.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "Wand",
+            "version_spec": "==0.6.11",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pandas",
+            "version_spec": ">=2.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "matplotlib",
+            "version_spec": ">=3.7.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "numpy",
+            "version_spec": ">=1.24.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "python-barcode",
+            "version_spec": ">=0.15.1",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pyzbar",
+            "version_spec": ">=0.1.8",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "qrcode",
+            "version_spec": ">=7.4.2",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "colorlog",
+            "version_spec": ">=6.7.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "python-dateutil",
+            "version_spec": ">=2.8.2",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest",
+            "version_spec": ">=7.4.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest-cov",
+            "version_spec": ">=4.1.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest-mock",
+            "version_spec": ">=3.10.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "black",
+            "version_spec": ">=23.7.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "isort",
+            "version_spec": ">=5.12.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "flake8",
+            "version_spec": ">=6.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "mypy",
+            "version_spec": ">=1.3.0",
+            "type": "python",
+            "source": "requirements.txt"
+          }
+        ],
+        "build_commands": [
+          "pip install -r requirements.txt",
+          "pip install -e .",
+          "python setup.py build"
+        ],
+        "detected_at": "2025-09-16T13:25:55.782735"
+      }
     },
     {
       "name": "NeuralNetworkApp",
@@ -253,25 +2210,288 @@
       "tags": [],
       "category": "tool",
       "note": "",
-      "is_favorite": false
-    },
-    {
-      "name": "PRJ-1",
-      "path": "X:\\GitHub\\PRJ-1",
-      "size": 1113228,
-      "modified": "2025-09-14T13:32:51.550000",
-      "has_git": true,
-      "has_readme": true,
-      "has_requirements": true,
-      "has_setup": false,
-      "main_file": "main.py",
-      "description": "Project Browser",
-      "language": "Python",
-      "version": "0.1.3",
-      "tags": [],
-      "category": "devops",
-      "note": "",
-      "is_favorite": false
+      "is_favorite": false,
+      "build_system": {
+        "type": "pip",
+        "description": "Python pip build system",
+        "files": [
+          "requirements.txt",
+          "setup.py",
+          "pyproject.toml"
+        ],
+        "patterns_matched": [
+          "dependencies",
+          "install_requires",
+          "dependencies",
+          "\\[build-system\\]"
+        ],
+        "dependencies": [
+          {
+            "name": "numpy",
+            "version_spec": ">=1.24.0,<2.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "matplotlib",
+            "version_spec": ">=3.7.0,<4.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pandas",
+            "version_spec": ">=2.0.0,<3.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "scikit-learn",
+            "version_spec": ">=1.2.0,<2.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "scipy",
+            "version_spec": ">=1.10.0,<2.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "wand",
+            "version_spec": ">=0.6.13,<1.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "opencv-python-headless",
+            "version_spec": ">=4.5.0,<5.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "Pillow",
+            "version_spec": ">=8.0.0  # Required for some torchvision transforms",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "torch",
+            "version_spec": ">=2.0.0,<3.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "torchvision",
+            "version_spec": ">=0.15.0,<1.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "torchaudio",
+            "version_spec": ">=2.0.0,<3.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytorch-lightning",
+            "version_spec": ">=1.12.0,<3.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "torch-optimizer",
+            "version_spec": ">=0.3.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "torch-lr-finder",
+            "version_spec": ">=0.2.1",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "torch-amp",
+            "version_spec": ">=0.1.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "PySide6",
+            "version_spec": ">=6.8.3,<7.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "PySide6-Qt6",
+            "version_spec": ">=6.8.3,<7.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pyyaml",
+            "version_spec": ">=6.0.2,<7.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pydantic",
+            "version_spec": ">=2.5.2,<3.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "tqdm",
+            "version_spec": ">=4.65.0,<5.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest",
+            "version_spec": ">=7.0.0,<8.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest-cov",
+            "version_spec": ">=4.0.0,<5.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "black",
+            "version_spec": ">=23.0.0,<24.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "isort",
+            "version_spec": ">=5.12.0,<6.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "flake8",
+            "version_spec": ">=6.0.0,<7.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "mypy",
+            "version_spec": ">=1.0.0,<2.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "seaborn",
+            "version_spec": ">=0.12.0,<1.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "plotly",
+            "version_spec": ">=5.0.0,<6.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "captum",
+            "version_spec": ">=0.6.0,<1.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "tensorboard",
+            "version_spec": ">=2.11.0,<3.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "onnx",
+            "version_spec": ">=1.13.0,<2.0.0  # Check Python version compatibility",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "requests",
+            "version_spec": ">=2.25.0,<3.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "packaging",
+            "version_spec": ">=21.0,<25.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "torch",
+            "version_spec": ">=1.9.0",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "torchvision",
+            "version_spec": ">=0.10.0",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "numpy",
+            "version_spec": ">=1.19.5",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "matplotlib",
+            "version_spec": ">=3.4.0",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "seaborn",
+            "version_spec": ">=0.11.0",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "tqdm",
+            "version_spec": ">=4.62.0",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "Pillow",
+            "version_spec": ">=8.3.0",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "scikit-learn",
+            "version_spec": ">=0.24.2",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "pandas",
+            "version_spec": ">=1.3.0",
+            "type": "python",
+            "source": "setup.py"
+          },
+          {
+            "name": "opencv-python",
+            "version_spec": ">=4.5.0",
+            "type": "python",
+            "source": "setup.py"
+          }
+        ],
+        "build_commands": [
+          "pip install -r requirements.txt",
+          "pip install -e .",
+          "python setup.py build"
+        ],
+        "detected_at": "2025-09-16T13:25:55.800751"
+      }
     },
     {
       "name": "credit_card_stripe_parser",
@@ -289,25 +2509,50 @@
       "tags": [],
       "category": "security",
       "note": "",
-      "is_favorite": false
-    },
-    {
-      "name": "EmailDuplicateCleaner",
-      "path": "X:\\GitHub\\EmailDuplicateCleaner",
-      "size": 33706448,
-      "modified": "2025-08-23T16:40:39.440000",
-      "has_git": true,
-      "has_readme": true,
-      "has_requirements": true,
-      "has_setup": false,
-      "main_file": null,
-      "description": "📧 Email Duplicate Cleaner",
-      "language": "Python",
-      "version": "2.1.0",
-      "tags": [],
-      "category": "tool",
-      "note": "",
-      "is_favorite": false
+      "is_favorite": true,
+      "build_system": {
+        "type": "pip",
+        "description": "Python pip build system",
+        "files": [
+          "requirements.txt",
+          "setup.py"
+        ],
+        "patterns_matched": [
+          "install_requires"
+        ],
+        "dependencies": [
+          {
+            "name": "sphinx",
+            "version_spec": ">=7.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "sphinx-rtd-theme",
+            "version_spec": ">=1.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "sphinx-autoapi",
+            "version_spec": ">=2.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "myst-parser",
+            "version_spec": ">=1.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          }
+        ],
+        "build_commands": [
+          "pip install -r requirements.txt",
+          "pip install -e .",
+          "python setup.py build"
+        ],
+        "detected_at": "2025-09-16T13:25:55.819827"
+      }
     },
     {
       "name": "nsfr750.github.io",
@@ -325,25 +2570,135 @@
       "tags": [],
       "category": "web",
       "note": "",
-      "is_favorite": false
+      "is_favorite": false,
+      "build_system": {
+        "type": "unknown",
+        "description": "No build system detected",
+        "files": [],
+        "dependencies": [],
+        "build_commands": [],
+        "detected_at": "2025-09-16T13:25:55.828375"
+      }
     },
     {
-      "name": "3DViewer",
-      "path": "X:\\GitHub\\3DViewer",
-      "size": 42141305,
-      "modified": "2025-08-11T12:15:42",
-      "has_git": false,
+      "name": "PRJ-1",
+      "path": "X:\\GitHub\\PRJ-1",
+      "size": 1464359,
+      "modified": "2025-09-14T13:32:51.550000",
+      "has_git": true,
       "has_readme": true,
-      "has_requirements": false,
+      "has_requirements": true,
       "has_setup": false,
-      "main_file": null,
-      "description": "Online 3D Viewer",
-      "language": "JSON",
-      "version": "0.16.0",
+      "main_file": "main.py",
+      "description": "Project Browser",
+      "language": "Python",
+      "version": "0.1.5",
       "tags": [],
-      "category": "tool",
+      "category": "devops",
       "note": "",
-      "is_favorite": false
+      "is_favorite": false,
+      "build_system": {
+        "type": "pip",
+        "description": "Python pip build system",
+        "files": [
+          "requirements.txt"
+        ],
+        "patterns_matched": [
+          "dependencies"
+        ],
+        "dependencies": [
+          {
+            "name": "PySide6",
+            "version_spec": ">=6.5.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "requests",
+            "version_spec": ">=2.28.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "packaging",
+            "version_spec": ">=21.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "qrcode",
+            "version_spec": ">=7.3.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "Wand",
+            "version_spec": ">=0.6.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "watchdog",
+            "version_spec": ">=3.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "matplotlib",
+            "version_spec": ">=3.5.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "Nuitka",
+            "version_spec": ">=2.7.14",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "ordered-set",
+            "version_spec": ">=4.1.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "zstandard",
+            "version_spec": ">=0.15.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest",
+            "version_spec": ">=7.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest-cov",
+            "version_spec": ">=4.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "black",
+            "version_spec": ">=22.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "flake8",
+            "version_spec": ">=5.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          }
+        ],
+        "build_commands": [
+          "pip install -r requirements.txt",
+          "pip install -e .",
+          "python setup.py build"
+        ],
+        "detected_at": "2025-09-16T13:25:55.853931"
+      }
     },
     {
       "name": "pass_mgr",
@@ -361,9 +2716,588 @@
       "tags": [],
       "category": "security",
       "note": "",
-      "is_favorite": false
+      "is_favorite": true,
+      "build_system": {
+        "type": "pip",
+        "description": "Python pip build system",
+        "files": [
+          "requirements.txt"
+        ],
+        "patterns_matched": [],
+        "dependencies": [
+          {
+            "name": "PySide6",
+            "version_spec": ">=6.6.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "cryptography",
+            "version_spec": ">=42.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pywin32",
+            "version_spec": ">=308; sys_platform == 'win32'",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pycryptodome",
+            "version_spec": ">=3.19.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "keyring",
+            "version_spec": ">=24.2.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "python-dotenv",
+            "version_spec": ">=1.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "fastapi",
+            "version_spec": ">=0.95.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "uvicorn",
+            "version_spec": ">=0.21.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "python-multipart",
+            "version_spec": ">=0.0.6",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "python-dateutil",
+            "version_spec": ">=2.8.2",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest",
+            "version_spec": ">=8.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest-qt",
+            "version_spec": ">=4.2.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest-cov",
+            "version_spec": ">=4.1.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "zxcvbn",
+            "version_spec": ">=4.5.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "black",
+            "version_spec": ">=24.1.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "isort",
+            "version_spec": ">=5.13.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "mypy",
+            "version_spec": ">=1.7.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "send2trash",
+            "version_spec": ">=1.8.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "qrcode",
+            "version_spec": ">=7.4.2",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "wand",
+            "version_spec": ">=0.6.11",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "requests",
+            "version_spec": ">=2.31.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "python-json-logger",
+            "version_spec": ">=2.0.7",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pycryptodomex",
+            "version_spec": ">=3.19.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pynacl",
+            "version_spec": ">=1.5.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "flask",
+            "version_spec": ">=3.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "flask-cors",
+            "version_spec": ">=4.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pyjwt",
+            "version_spec": ">=2.8.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "python-socketio",
+            "version_spec": ">=5.10.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "websockets",
+            "version_spec": ">=12.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "bcrypt",
+            "version_spec": ">=4.0.1",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "argon2-cffi",
+            "version_spec": ">=23.1.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "sqlalchemy",
+            "version_spec": ">=2.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "alembic",
+            "version_spec": ">=1.13.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "structlog",
+            "version_spec": ">=23.1.0",
+            "type": "python",
+            "source": "requirements.txt"
+          }
+        ],
+        "build_commands": [
+          "pip install -r requirements.txt",
+          "pip install -e .",
+          "python setup.py build"
+        ],
+        "detected_at": "2025-09-16T13:25:55.869969"
+      }
+    },
+    {
+      "name": "3DViewer",
+      "path": "X:\\GitHub\\3DViewer",
+      "size": 42141305,
+      "modified": "2025-08-11T12:15:42",
+      "has_git": false,
+      "has_readme": true,
+      "has_requirements": false,
+      "has_setup": false,
+      "main_file": null,
+      "description": "Online 3D Viewer",
+      "language": "JSON",
+      "version": "0.16.0",
+      "tags": [],
+      "category": "tool",
+      "note": "",
+      "is_favorite": false,
+      "build_system": {
+        "type": "npm",
+        "description": "NPM/Node.js build system",
+        "files": [
+          "package.json",
+          "package-lock.json"
+        ],
+        "patterns_matched": [
+          "\"name\":",
+          "\"dependencies\":",
+          "\"scripts\":",
+          "\"name\":",
+          "\"dependencies\":"
+        ],
+        "dependencies": [
+          {
+            "name": "@simonwep/pickr",
+            "version_spec": "1.9.0",
+            "type": "npm",
+            "source": "package.json"
+          },
+          {
+            "name": "fflate",
+            "version_spec": "0.8.2",
+            "type": "npm",
+            "source": "package.json"
+          },
+          {
+            "name": "react",
+            "version_spec": "^19.1.1",
+            "type": "npm",
+            "source": "package.json"
+          },
+          {
+            "name": "react-dom",
+            "version_spec": "^19.1.1",
+            "type": "npm",
+            "source": "package.json"
+          },
+          {
+            "name": "three",
+            "version_spec": "0.176.0",
+            "type": "npm",
+            "source": "package.json"
+          },
+          {
+            "name": "@types/node",
+            "version_spec": "^22.15.0",
+            "type": "npm-dev",
+            "source": "package.json"
+          },
+          {
+            "name": "esbuild",
+            "version_spec": "0.25.8",
+            "type": "npm-dev",
+            "source": "package.json"
+          },
+          {
+            "name": "eslint",
+            "version_spec": "^8.57.0",
+            "type": "npm-dev",
+            "source": "package.json"
+          },
+          {
+            "name": "eslint-plugin-unused-imports",
+            "version_spec": "^4.1.0",
+            "type": "npm-dev",
+            "source": "package.json"
+          },
+          {
+            "name": "fantasticon",
+            "version_spec": "^1.2.2",
+            "type": "npm-dev",
+            "source": "package.json"
+          },
+          {
+            "name": "http-server",
+            "version_spec": "^14.0.0",
+            "type": "npm-dev",
+            "source": "package.json"
+          },
+          {
+            "name": "jsdoc",
+            "version_spec": "^4.0.4",
+            "type": "npm-dev",
+            "source": "package.json"
+          },
+          {
+            "name": "mocha",
+            "version_spec": "^11.5.0",
+            "type": "npm-dev",
+            "source": "package.json"
+          },
+          {
+            "name": "oslllo-svg-fixer",
+            "version_spec": "^3.0.0",
+            "type": "npm-dev",
+            "source": "package.json"
+          },
+          {
+            "name": "rollup",
+            "version_spec": "^4.41.0",
+            "type": "npm-dev",
+            "source": "package.json"
+          },
+          {
+            "name": "run-python3",
+            "version_spec": "^0.0.5",
+            "type": "npm-dev",
+            "source": "package.json"
+          },
+          {
+            "name": "svgo",
+            "version_spec": "^3.3.2",
+            "type": "npm-dev",
+            "source": "package.json"
+          },
+          {
+            "name": "typescript",
+            "version_spec": "^5.0.4",
+            "type": "npm-dev",
+            "source": "package.json"
+          }
+        ],
+        "build_commands": [
+          "npm install",
+          "npm run build",
+          "npm test"
+        ],
+        "detected_at": "2025-09-16T13:25:55.885878"
+      }
+    },
+    {
+      "name": "EmailDuplicateCleaner",
+      "path": "X:\\GitHub\\EmailDuplicateCleaner",
+      "size": 33706448,
+      "modified": "2025-08-23T16:40:39.440000",
+      "has_git": true,
+      "has_readme": true,
+      "has_requirements": true,
+      "has_setup": false,
+      "main_file": null,
+      "description": "📧 Email Duplicate Cleaner",
+      "language": "Python",
+      "version": "2.1.0",
+      "tags": [],
+      "category": "tool",
+      "note": "",
+      "is_favorite": false,
+      "build_system": {
+        "type": "pip",
+        "description": "Python pip build system",
+        "files": [
+          "requirements.txt"
+        ],
+        "patterns_matched": [
+          "dependencies"
+        ],
+        "dependencies": [
+          {
+            "name": "pandas",
+            "version_spec": ">=2.2.0,<3.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "python-dateutil",
+            "version_spec": ">=2.9.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "tqdm",
+            "version_spec": ">=4.66.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "PySide6",
+            "version_spec": ">=6.5.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "Wand",
+            "version_spec": ">=0.6.11",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "flask",
+            "version_spec": ">=3.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "flask-cors",
+            "version_spec": ">=4.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "flask-sqlalchemy",
+            "version_spec": ">=3.1.1",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "sqlalchemy",
+            "version_spec": ">=2.0.23",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "werkzeug",
+            "version_spec": ">=3.0.1",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "requests",
+            "version_spec": ">=2.31.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "beautifulsoup4",
+            "version_spec": ">=4.12.2",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "pytest",
+            "version_spec": ">=7.4.3",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "mypy",
+            "version_spec": ">=1.7.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "black",
+            "version_spec": ">=23.11.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "flake8",
+            "version_spec": ">=6.1.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "isort",
+            "version_spec": ">=5.12.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "coverage",
+            "version_spec": ">=7.3.2",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "semver",
+            "version_spec": ">=3.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "python-dotenv",
+            "version_spec": ">=1.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "sphinx",
+            "version_spec": ">=7.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "sphinx_rtd_theme",
+            "version_spec": ">=1.3.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "myst-parser",
+            "version_spec": ">=2.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "rich",
+            "version_spec": ">=10.0.0          # Enhanced console output",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "tqdm",
+            "version_spec": ">=4.60.0        # Progress bars (alternative to rich)",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "psutil",
+            "version_spec": ">=5.8.0       # System resource monitoring",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "aiofiles",
+            "version_spec": ">=0.7.0     # Async file I/O (for future async implementation)",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "twine",
+            "version_spec": ">=3.0.0",
+            "type": "python",
+            "source": "requirements.txt"
+          },
+          {
+            "name": "wheel",
+            "version_spec": ">=0.36.2",
+            "type": "python",
+            "source": "requirements.txt"
+          }
+        ],
+        "build_commands": [
+          "pip install -r requirements.txt",
+          "pip install -e .",
+          "python setup.py build"
+        ],
+        "detected_at": "2025-09-16T13:25:55.888880"
+      }
     }
   ],
-  "last_scan": "2025-09-15T20:36:42.405555",
+  "last_scan": "2025-09-16T13:25:55.889881",
   "scan_directory": "X:\\GitHub"
 }

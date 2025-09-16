@@ -64,7 +64,13 @@ class LanguageManager:
         Returns:
             Formatted translated text
         """
-        return translations.get_translation(self.current_lang, key, default or key).format(**kwargs)
+        text = translations.get_translation(self.current_lang, key, default or key)
+        try:
+            return text.format(**kwargs)
+        except (KeyError, ValueError) as e:
+            # If formatting fails, return the unformatted text
+            print(f"Warning: Translation formatting failed for key '{key}': {e}")
+            return text
     
     def get_language_name(self, lang_code: str) -> str:
         """Get the display name of a language.

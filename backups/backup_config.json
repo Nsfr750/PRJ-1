@@ -1,0 +1,12 @@
+{
+  "auto_backup": true,
+  "backup_interval_hours": 24,
+  "max_backups": 10,
+  "compress_backups": true,
+  "include_project_data": true,
+  "include_config_files": true,
+  "include_logs": false,
+  "backup_on_scan": true,
+  "backup_on_exit": false,
+  "notification_enabled": true
+}

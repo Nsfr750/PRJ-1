@@ -331,5 +331,1347 @@
     },
     "analysis_time": "2025-09-15T21:14:55.867781",
     "cached_at": "2025-09-15T21:14:55.867781"
+  },
+  "95b51f9aefaeda6aaf047c8cf6758a8a": {
+    "project_path": "X:\\GitHub\\raspy_utility",
+    "package_managers": [
+      "pip"
+    ],
+    "dependencies": {
+      "pip": [
+        {
+          "name": "PySide6",
+          "version_spec": ">=6.5.0       # Modern Qt-based GUI framework",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 7
+        },
+        {
+          "name": "Wand",
+          "version_spec": ">=0.6.11         # Image processing based on ImageMagick",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 8
+        },
+        {
+          "name": "Flask",
+          "version_spec": "==2.0.1         # Web framework for the REST API",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 12
+        },
+        {
+          "name": "Werkzeug",
+          "version_spec": "==2.0.3      # WSGI utility library for Flask",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 13
+        },
+        {
+          "name": "Flask-CORS",
+          "version_spec": ">=3.0.10   # Cross-Origin Resource Sharing support",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 14
+        },
+        {
+          "name": "requests",
+          "version_spec": ">=2.27.1     # HTTP client for API communication",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 15
+        },
+        {
+          "name": "RPi.GPIO",
+          "version_spec": ">=0.7.0      # Raspberry Pi GPIO access (optional, for hardware)",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 19
+        },
+        {
+          "name": "urllib3",
+          "version_spec": ">=1.26.0      # URL handling",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 23
+        },
+        {
+          "name": "pytest",
+          "version_spec": ">=6.2.5         # Testing framework",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 27
+        },
+        {
+          "name": "pytest-cov",
+          "version_spec": ">=2.12.1   # Coverage reporting",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 28
+        },
+        {
+          "name": "black",
+          "version_spec": ">=21.12b0       # Code formatter",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 29
+        },
+        {
+          "name": "flake8",
+          "version_spec": ">=4.0.1        # Linter",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 30
+        },
+        {
+          "name": "isort",
+          "version_spec": ">=5.10.1        # Import sorter",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 31
+        },
+        {
+          "name": "sphinx",
+          "version_spec": ">=4.3.2         # Documentation generator",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 35
+        },
+        {
+          "name": "sphinx-rtd-theme",
+          "version_spec": ">=1.0.0  # ReadTheDocs theme",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 36
+        },
+        {
+          "name": "python-dotenv",
+          "version_spec": ">=0.19.2  # Load environment variables from .env file",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 45
+        },
+        {
+          "name": "pytest-mock",
+          "version_spec": ">=3.10.0   # Mocking for tests",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 49
+        },
+        {
+          "name": "pyyaml",
+          "version_spec": ">=6.0          # YAML parser and emitter",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 53
+        },
+        {
+          "name": "click",
+          "version_spec": ">=8.0.3         # Command line interface creation kit",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 54
+        }
+      ]
+    },
+    "total_dependencies": 19,
+    "outdated_dependencies": [],
+    "vulnerabilities": [],
+    "dependency_tree": {
+      "pip": {
+        "dependencies": [
+          {
+            "name": "PySide6",
+            "version_spec": ">=6.5.0       # Modern Qt-based GUI framework",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 7
+          },
+          {
+            "name": "Wand",
+            "version_spec": ">=0.6.11         # Image processing based on ImageMagick",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 8
+          },
+          {
+            "name": "Flask",
+            "version_spec": "==2.0.1         # Web framework for the REST API",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 12
+          },
+          {
+            "name": "Werkzeug",
+            "version_spec": "==2.0.3      # WSGI utility library for Flask",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 13
+          },
+          {
+            "name": "Flask-CORS",
+            "version_spec": ">=3.0.10   # Cross-Origin Resource Sharing support",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 14
+          },
+          {
+            "name": "requests",
+            "version_spec": ">=2.27.1     # HTTP client for API communication",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 15
+          },
+          {
+            "name": "RPi.GPIO",
+            "version_spec": ">=0.7.0      # Raspberry Pi GPIO access (optional, for hardware)",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 19
+          },
+          {
+            "name": "urllib3",
+            "version_spec": ">=1.26.0      # URL handling",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 23
+          },
+          {
+            "name": "pytest",
+            "version_spec": ">=6.2.5         # Testing framework",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 27
+          },
+          {
+            "name": "pytest-cov",
+            "version_spec": ">=2.12.1   # Coverage reporting",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 28
+          },
+          {
+            "name": "black",
+            "version_spec": ">=21.12b0       # Code formatter",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 29
+          },
+          {
+            "name": "flake8",
+            "version_spec": ">=4.0.1        # Linter",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 30
+          },
+          {
+            "name": "isort",
+            "version_spec": ">=5.10.1        # Import sorter",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 31
+          },
+          {
+            "name": "sphinx",
+            "version_spec": ">=4.3.2         # Documentation generator",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 35
+          },
+          {
+            "name": "sphinx-rtd-theme",
+            "version_spec": ">=1.0.0  # ReadTheDocs theme",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 36
+          },
+          {
+            "name": "python-dotenv",
+            "version_spec": ">=0.19.2  # Load environment variables from .env file",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 45
+          },
+          {
+            "name": "pytest-mock",
+            "version_spec": ">=3.10.0   # Mocking for tests",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 49
+          },
+          {
+            "name": "pyyaml",
+            "version_spec": ">=6.0          # YAML parser and emitter",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 53
+          },
+          {
+            "name": "click",
+            "version_spec": ">=8.0.3         # Command line interface creation kit",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 54
+          }
+        ],
+        "count": 19,
+        "types": [
+          "python"
+        ]
+      }
+    },
+    "analysis_time": "2025-09-16T12:35:24.422879",
+    "cached_at": "2025-09-16T12:35:24.422879"
+  },
+  "a070349613a1a88faa95135bf6b5e834": {
+    "project_path": "X:\\GitHub\\PySnoop",
+    "package_managers": [
+      "pip"
+    ],
+    "dependencies": {
+      "pip": [
+        {
+          "name": "pyserial",
+          "version_spec": ">=3.5",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 2
+        },
+        {
+          "name": "lxml",
+          "version_spec": ">=4.6.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 3
+        },
+        {
+          "name": "hidapi",
+          "version_spec": ">=0.11.0  # Required for MSR605 USB HID support",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 4
+        },
+        {
+          "name": "pyusb",
+          "version_spec": ">=1.2.0    # Required for USB device access",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 5
+        },
+        {
+          "name": "cryptography",
+          "version_spec": ">=36.0.0  # For secure storage and encryption",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 6
+        },
+        {
+          "name": "appdirs",
+          "version_spec": ">=1.4.4  # For cross-platform application directories",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 7
+        },
+        {
+          "name": "ttkthemes",
+          "version_spec": ">=3.2.2  # For modern UI theming",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 10
+        },
+        {
+          "name": "Pillow",
+          "version_spec": ">=9.0.0  # For image processing (icons, etc.)",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 11
+        },
+        {
+          "name": "pytest",
+          "version_spec": ">=6.0.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 17
+        },
+        {
+          "name": "pytest-cov",
+          "version_spec": ">=2.0.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 18
+        },
+        {
+          "name": "mypy",
+          "version_spec": ">=0.910",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 19
+        },
+        {
+          "name": "flake8",
+          "version_spec": ">=3.9.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 20
+        },
+        {
+          "name": "cryptography",
+          "version_spec": ">=41.0.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 23
+        },
+        {
+          "name": "pycryptodome",
+          "version_spec": ">=3.18.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 24
+        },
+        {
+          "name": "bcrypt",
+          "version_spec": ">=4.0.1",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 25
+        },
+        {
+          "name": "python-dotenv",
+          "version_spec": ">=1.0.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 26
+        },
+        {
+          "name": "pytest",
+          "version_spec": ">=7.0.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 29
+        },
+        {
+          "name": "pytest-cov",
+          "version_spec": ">=3.0.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 30
+        },
+        {
+          "name": "pytest-mock",
+          "version_spec": ">=3.10.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 31
+        },
+        {
+          "name": "black",
+          "version_spec": ">=22.0.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 34
+        },
+        {
+          "name": "flake8",
+          "version_spec": ">=4.0.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 35
+        },
+        {
+          "name": "mypy",
+          "version_spec": ">=0.900",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 36
+        },
+        {
+          "name": "sphinx",
+          "version_spec": ">=4.0.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 39
+        },
+        {
+          "name": "sphinx-rtd-theme",
+          "version_spec": ">=1.0.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 40
+        },
+        {
+          "name": "hidapi",
+          "version_spec": ">=0.11.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 43
+        },
+        {
+          "name": "hid",
+          "version_spec": ">=0.11.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 44
+        },
+        {
+          "name": "pyserial",
+          "version_spec": ">=3.5",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "setup.py"
+        }
+      ]
+    },
+    "total_dependencies": 27,
+    "outdated_dependencies": [],
+    "vulnerabilities": [],
+    "dependency_tree": {
+      "pip": {
+        "dependencies": [
+          {
+            "name": "pyserial",
+            "version_spec": ">=3.5",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 2
+          },
+          {
+            "name": "lxml",
+            "version_spec": ">=4.6.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 3
+          },
+          {
+            "name": "hidapi",
+            "version_spec": ">=0.11.0  # Required for MSR605 USB HID support",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 4
+          },
+          {
+            "name": "pyusb",
+            "version_spec": ">=1.2.0    # Required for USB device access",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 5
+          },
+          {
+            "name": "cryptography",
+            "version_spec": ">=36.0.0  # For secure storage and encryption",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 6
+          },
+          {
+            "name": "appdirs",
+            "version_spec": ">=1.4.4  # For cross-platform application directories",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 7
+          },
+          {
+            "name": "ttkthemes",
+            "version_spec": ">=3.2.2  # For modern UI theming",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 10
+          },
+          {
+            "name": "Pillow",
+            "version_spec": ">=9.0.0  # For image processing (icons, etc.)",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 11
+          },
+          {
+            "name": "pytest",
+            "version_spec": ">=6.0.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 17
+          },
+          {
+            "name": "pytest-cov",
+            "version_spec": ">=2.0.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 18
+          },
+          {
+            "name": "mypy",
+            "version_spec": ">=0.910",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 19
+          },
+          {
+            "name": "flake8",
+            "version_spec": ">=3.9.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 20
+          },
+          {
+            "name": "cryptography",
+            "version_spec": ">=41.0.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 23
+          },
+          {
+            "name": "pycryptodome",
+            "version_spec": ">=3.18.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 24
+          },
+          {
+            "name": "bcrypt",
+            "version_spec": ">=4.0.1",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 25
+          },
+          {
+            "name": "python-dotenv",
+            "version_spec": ">=1.0.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 26
+          },
+          {
+            "name": "pytest",
+            "version_spec": ">=7.0.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 29
+          },
+          {
+            "name": "pytest-cov",
+            "version_spec": ">=3.0.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 30
+          },
+          {
+            "name": "pytest-mock",
+            "version_spec": ">=3.10.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 31
+          },
+          {
+            "name": "black",
+            "version_spec": ">=22.0.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 34
+          },
+          {
+            "name": "flake8",
+            "version_spec": ">=4.0.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 35
+          },
+          {
+            "name": "mypy",
+            "version_spec": ">=0.900",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 36
+          },
+          {
+            "name": "sphinx",
+            "version_spec": ">=4.0.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 39
+          },
+          {
+            "name": "sphinx-rtd-theme",
+            "version_spec": ">=1.0.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 40
+          },
+          {
+            "name": "hidapi",
+            "version_spec": ">=0.11.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 43
+          },
+          {
+            "name": "hid",
+            "version_spec": ">=0.11.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 44
+          },
+          {
+            "name": "pyserial",
+            "version_spec": ">=3.5",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "setup.py"
+          }
+        ],
+        "count": 27,
+        "types": [
+          "python"
+        ]
+      }
+    },
+    "analysis_time": "2025-09-16T13:06:19.093386",
+    "cached_at": "2025-09-16T13:06:19.093386"
+  },
+  "8bd17d667e0d40a69edb4195563da4a7": {
+    "project_path": "X:\\GitHub\\CDE550-sim",
+    "package_managers": [
+      "pip"
+    ],
+    "dependencies": {
+      "pip": [
+        {
+          "name": "PyQt6",
+          "version_spec": ">=6.4.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 1
+        },
+        {
+          "name": "pyserial",
+          "version_spec": ">=3.5",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 2
+        },
+        {
+          "name": "setuptools",
+          "version_spec": ">=65.5.0",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": false,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 3
+        }
+      ]
+    },
+    "total_dependencies": 3,
+    "outdated_dependencies": [],
+    "vulnerabilities": [],
+    "dependency_tree": {
+      "pip": {
+        "dependencies": [
+          {
+            "name": "PyQt6",
+            "version_spec": ">=6.4.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 1
+          },
+          {
+            "name": "pyserial",
+            "version_spec": ">=3.5",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 2
+          },
+          {
+            "name": "setuptools",
+            "version_spec": ">=65.5.0",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": false,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 3
+          }
+        ],
+        "count": 3,
+        "types": [
+          "python"
+        ]
+      }
+    },
+    "analysis_time": "2025-09-16T13:11:11.498744",
+    "cached_at": "2025-09-16T13:11:11.498744"
+  },
+  "5aed4a3209819ac32a731791052d2f8c": {
+    "project_path": "X:\\GitHub\\Onvif",
+    "package_managers": [
+      "pip"
+    ],
+    "dependencies": {
+      "pip": [
+        {
+          "name": "onvif-zeep",
+          "version_spec": "",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": true,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 1
+        },
+        {
+          "name": "Pillow",
+          "version_spec": "",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": true,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 2
+        },
+        {
+          "name": "opencv-python",
+          "version_spec": "",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": true,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 3
+        },
+        {
+          "name": "requests",
+          "version_spec": "",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": true,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 4
+        },
+        {
+          "name": "numpy",
+          "version_spec": "",
+          "current_version": "",
+          "latest_version": "",
+          "is_outdated": true,
+          "type": "python",
+          "package_manager": "pip",
+          "source_file": "requirements.txt",
+          "source_line": 5
+        }
+      ]
+    },
+    "total_dependencies": 5,
+    "outdated_dependencies": [
+      {
+        "name": "onvif-zeep",
+        "version_spec": "",
+        "current_version": "",
+        "latest_version": "",
+        "is_outdated": true,
+        "type": "python",
+        "package_manager": "pip",
+        "source_file": "requirements.txt",
+        "source_line": 1
+      },
+      {
+        "name": "Pillow",
+        "version_spec": "",
+        "current_version": "",
+        "latest_version": "",
+        "is_outdated": true,
+        "type": "python",
+        "package_manager": "pip",
+        "source_file": "requirements.txt",
+        "source_line": 2
+      },
+      {
+        "name": "opencv-python",
+        "version_spec": "",
+        "current_version": "",
+        "latest_version": "",
+        "is_outdated": true,
+        "type": "python",
+        "package_manager": "pip",
+        "source_file": "requirements.txt",
+        "source_line": 3
+      },
+      {
+        "name": "requests",
+        "version_spec": "",
+        "current_version": "",
+        "latest_version": "",
+        "is_outdated": true,
+        "type": "python",
+        "package_manager": "pip",
+        "source_file": "requirements.txt",
+        "source_line": 4
+      },
+      {
+        "name": "numpy",
+        "version_spec": "",
+        "current_version": "",
+        "latest_version": "",
+        "is_outdated": true,
+        "type": "python",
+        "package_manager": "pip",
+        "source_file": "requirements.txt",
+        "source_line": 5
+      }
+    ],
+    "vulnerabilities": [],
+    "dependency_tree": {
+      "pip": {
+        "dependencies": [
+          {
+            "name": "onvif-zeep",
+            "version_spec": "",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": true,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 1
+          },
+          {
+            "name": "Pillow",
+            "version_spec": "",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": true,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 2
+          },
+          {
+            "name": "opencv-python",
+            "version_spec": "",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": true,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 3
+          },
+          {
+            "name": "requests",
+            "version_spec": "",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": true,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 4
+          },
+          {
+            "name": "numpy",
+            "version_spec": "",
+            "current_version": "",
+            "latest_version": "",
+            "is_outdated": true,
+            "type": "python",
+            "package_manager": "pip",
+            "source_file": "requirements.txt",
+            "source_line": 5
+          }
+        ],
+        "count": 5,
+        "types": [
+          "python"
+        ]
+      }
+    },
+    "analysis_time": "2025-09-16T13:11:37.863353",
+    "cached_at": "2025-09-16T13:11:37.863353"
   }
 }
