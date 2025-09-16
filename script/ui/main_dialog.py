@@ -10,7 +10,6 @@ from PySide6.QtWidgets import QDialog, QVBoxLayout, QLabel, QApplication
 from PySide6.QtGui import QPixmap, QPainter, QBrush, QColor
 from PySide6.QtCore import Qt, QSize, QPoint, QEvent
 
-
 class MainDialog(QDialog):
     """Transparent dialog displaying main.png centered over background."""
     
@@ -23,7 +22,7 @@ class MainDialog(QDialog):
         
         # Make dialog transparent
         self.setAttribute(Qt.WA_TranslucentBackground)
-        self.setWindowFlags(Qt.FramelessWindowHint | Qt.Dialog | Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(Qt.FramelessWindowHint | Qt.Dialog)
         
         # Set up UI
         self.setup_ui()

@@ -1,0 +1,53 @@
+{
+  "language": "it",
+  "window": {
+    "x": 100,
+    "y": 100,
+    "width": 1200,
+    "height": 800,
+    "maximized": false,
+    "fullscreen": false
+  },
+  "ui": {
+    "theme": "default",
+    "font_size": 10,
+    "font_family": "Segoe UI",
+    "show_toolbar": true,
+    "show_statusbar": true,
+    "sidebar_width": 250,
+    "project_table_column_widths": {},
+    "project_table_column_order": [],
+    "project_table_column_visibility": {}
+  },
+  "project_browser": {
+    "scan_on_startup": true,
+    "scan_recursive": true,
+    "show_hidden_files": false,
+    "cache_enabled": true,
+    "cache_duration": 3600,
+    "last_directory": "",
+    "recent_directories": [],
+    "max_recent_directories": 10
+  },
+  "updates": {
+    "check_on_startup": true,
+    "auto_check": true,
+    "check_frequency": 86400,
+    "last_check": null,
+    "beta_updates": false
+  },
+  "logging": {
+    "level": "INFO",
+    "file_logging": true,
+    "console_logging": true,
+    "max_log_size": 10485760,
+    "backup_count": 5
+  },
+  "advanced": {
+    "debug_mode": false,
+    "developer_mode": false,
+    "performance_mode": false,
+    "memory_limit": 512,
+    "thread_pool_size": 4
+  }
+}

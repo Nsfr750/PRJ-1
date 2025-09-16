@@ -293,3 +293,17 @@ NameError: name 'save_settings_data_to_json' is not defined. Did you mean: 'save
 2025-09-16 13:57:04 - prj1 - INFO - Starting application event loop
 2025-09-16 13:57:14 - prj1 - INFO - Main window closing
 2025-09-16 13:57:14 - prj1 - INFO - Application exited with code: 0
+2025-09-16 16:36:07 - prj1 - INFO - Starting PRJ-1 application
+2025-09-16 16:36:07 - prj1 - INFO - Initializing application
+2025-09-16 16:36:07 - prj1 - INFO - Application info: Project Browser v0.1.5
+2025-09-16 16:36:07 - prj1 - INFO - Saving version data to config/version.json
+2025-09-16 16:36:07 - prj1 - INFO - Saving settings to config/settings.json
+2025-09-16 16:36:07 - prj1 - INFO - Creating main window
+2025-09-16 16:36:07 - prj1 - INFO - Using language from settings: it
+2025-09-16 16:36:07 - prj1 - INFO - Application icon loaded from: x:\GitHub\PRJ-1\assets\logo.png
+2025-09-16 16:36:07 - prj1 - INFO - Background image loaded from: x:\GitHub\PRJ-1\assets\background.png
+2025-09-16 16:36:07 - prj1 - INFO - MainDialog displayed centered over background
+2025-09-16 16:36:07 - prj1 - INFO - Applied window geometry: 1200x800 at (100, 100)
+2025-09-16 16:36:07 - prj1 - INFO - Starting application event loop
+2025-09-16 16:36:17 - prj1 - INFO - Main window closing
+2025-09-16 16:36:17 - prj1 - INFO - Application exited with code: 0
