@@ -1,27 +1,9 @@
 {
   "recent_projects": [
     {
-      "path": "X:\\GitHub\\PRJ-1",
-      "name": "PRJ-1",
-      "accessed_at": "2025-09-21T20:42:17.075589",
-      "project_data": {}
-    },
-    {
-      "path": "X:\\GitHub\\nsfr750.github.io",
-      "name": "nsfr750.github.io",
-      "accessed_at": "2025-09-21T20:42:15.827309",
-      "project_data": {}
-    },
-    {
-      "path": "X:\\GitHub\\Images-Deduplicator",
-      "name": "Images-Deduplicator",
-      "accessed_at": "2025-09-21T20:41:19.203500",
-      "project_data": {}
-    },
-    {
-      "path": "X:\\GitHub\\weather",
-      "name": "weather",
-      "accessed_at": "2025-09-21T20:31:56.355249",
+      "path": "X:\\GitHub\\NFC",
+      "name": "NFC",
+      "accessed_at": "2025-09-21T17:53:48.707236",
       "project_data": {}
     },
     {
@@ -61,6 +43,12 @@
       "project_data": {}
     },
     {
+      "path": "X:\\GitHub\\Images-Deduplicator",
+      "name": "Images-Deduplicator",
+      "accessed_at": "2025-09-16T13:25:58.571023",
+      "project_data": {}
+    },
+    {
       "path": "X:\\GitHub\\PySnoop",
       "name": "PySnoop",
       "accessed_at": "2025-09-16T13:12:36.531382",
@@ -85,9 +73,9 @@
       "project_data": {}
     },
     {
-      "path": "X:\\GitHub\\NFC",
-      "name": "NFC",
-      "accessed_at": "2025-09-16T12:29:52.934892",
+      "path": "X:\\GitHub\\PRJ-1",
+      "name": "PRJ-1",
+      "accessed_at": "2025-09-15T21:14:51.601641",
       "project_data": {}
     },
     {
@@ -100,6 +88,18 @@
       "path": "X:\\GitHub\\3D_Filament_Manager",
       "name": "3D_Filament_Manager",
       "accessed_at": "2025-09-15T21:10:47.610452",
+      "project_data": {}
+    },
+    {
+      "path": "X:\\GitHub\\weather",
+      "name": "weather",
+      "accessed_at": "2025-09-15T21:10:43.962246",
+      "project_data": {}
+    },
+    {
+      "path": "X:\\GitHub\\nsfr750.github.io",
+      "name": "nsfr750.github.io",
+      "accessed_at": "2025-09-15T21:09:17.938584",
       "project_data": {}
     },
     {
@@ -121,5 +121,5 @@
       "project_data": {}
     }
   ],
-  "last_updated": "2025-09-21T20:42:17.075589"
+  "last_updated": "2025-09-21T17:53:48.707236"
 }

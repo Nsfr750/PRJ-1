@@ -23,8 +23,8 @@
     "description": "A comprehensive project browser and management tool"
   },
   "version_history": {
-    "file_path": "x:\\GitHub\\PRJ-1\\data\\version_history.json",
-    "json_file_path": "x:\\GitHub\\PRJ-1\\config\\version.json",
+    "file_path": "X:\\GitHub\\PRJ-1\\data\\version_history.json",
+    "json_file_path": "X:\\GitHub\\PRJ-1\\config\\version.json",
     "history": [
       {
         "version": "0.1.5",
@@ -113,5 +113,5 @@
     ],
     "type": "patch"
   },
-  "timestamp": "2025-09-16T16:36:07.615584"
+  "timestamp": "2025-09-21T20:40:55.772086"
 }

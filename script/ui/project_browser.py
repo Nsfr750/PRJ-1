@@ -524,8 +524,8 @@ class ProjectBrowserDialog(QDialog):
         layout.setSpacing(0)
         
         # Create custom title bar with window controls
-        title_bar = self.create_title_bar()
-        layout.addWidget(title_bar)
+        #title_bar = self.create_title_bar()
+        #layout.addWidget(title_bar)
         
         # Create content widget with margins
         content_widget = QWidget()
@@ -1024,8 +1024,18 @@ class ProjectBrowserDialog(QDialog):
     
     def create_button_box(self) -> QDialogButtonBox:
         """Create the button box with dialog buttons."""
-        button_box = QDialogButtonBox(QDialogButtonBox.Close)
-        button_box.rejected.connect(self.close)
+        button_box = QDialogButtonBox()
+        
+        # Add Help button
+        help_button = QPushButton(get_text("project_browser.help", "Help", lang=self.lang))
+        help_button.setToolTip(get_text("project_browser.help_tooltip", "Show keyboard shortcuts and help", lang=self.lang))
+        help_button.clicked.connect(self.show_help)
+        button_box.addButton(help_button, QDialogButtonBox.ActionRole)
+        
+        # Add Close button
+        close_button = button_box.addButton(QDialogButtonBox.Close)
+        close_button.clicked.connect(self.close)
+        
         return button_box
     
     def browse_directory(self):

@@ -177,10 +177,12 @@ class PRJLogger:
             error_log_file,
             'error',
             RotatingFileHandler,
+            level=logging.ERROR,
             maxBytes=self.config['max_file_size'],
             backupCount=10
         )
-        error_handler.setLevel(logging.ERROR)
+        if error_handler:
+            self.logger.addHandler(error_handler)
         
         # JSON log file if enabled
         if self.config['json_logging']:
@@ -193,8 +195,9 @@ class PRJLogger:
                 interval=1,
                 backupCount=self.config['backup_count']
             )
-            json_handler.setFormatter(JSONFormatter(datefmt='%Y-%m-%d %H:%M:%S'))
-            self.logger.addHandler(json_handler)
+            if json_handler:
+                json_handler.setFormatter(JSONFormatter(datefmt='%Y-%m-%d %H:%M:%S'))
+                self.logger.addHandler(json_handler)
     
     def _create_file_handler(self, log_file: Path, handler_type: str, handler_class, **kwargs):
         """Create a file handler with error handling."""
@@ -210,7 +213,6 @@ class PRJLogger:
                 )
             
             handler.setFormatter(formatter)
-            self.logger.addHandler(handler)
             return handler
             
         except Exception as e:
