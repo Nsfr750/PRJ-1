@@ -243,7 +243,7 @@ class SponsorDialog(QDialog):
         other_help.setHtml(f"""
         <h3>{get_text('sponsor.other_ways.title', 'Other Ways to Help:', lang=self.lang)}</h3>
         <ul>
-            <li>{get_text('sponsor.other_ways.star', 'Star the project on', lang=self.lang)} <a href="https://github.com/Nsfr750/NeuralNetworkApp">GitHub</a></li>
+            <li>{get_text('sponsor.other_ways.star', 'Star the project on', lang=self.lang)} <a href="https://github.com/Nsfr750/">GitHub</a></li>
             <li>{get_text('sponsor.other_ways.report', 'Report bugs and suggest features', lang=self.lang)}</li>
             <li>{get_text('sponsor.other_ways.share', 'Share with others who might find it useful', lang=self.lang)}</li>
             <li>{get_text('sponsor.other_ways.patreon', 'Join on', lang=self.lang)} <a href="https://patreon.com/Nsfr750/">Patreon</a></li>
